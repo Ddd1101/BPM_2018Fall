@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pnml>
+    <net>
+        <token id="Default" red="0" green="0" blue="0"/>
+        <place id="articles to be reviewed">
+            <graphics>
+                <position x="567.0" y="406.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="63.0" y="39.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,1</value>
+            </initialMarking>
+        </place>
+        <place id="editor A ">
+            <graphics>
+                <position x="853.0" y="414.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="14.0" y="-3.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value></value>
+            </initialMarking>
+        </place>
+        <place id="author">
+            <graphics>
+                <position x="393.0" y="394.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="30.0" y="42.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>Default,2</value>
+            </initialMarking>
+        </place>
+        <place id="editor B">
+            <graphics>
+                <position x="898.0" y="460.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="33.0" y="37.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value></value>
+            </initialMarking>
+        </place>
+        <place id="passed articles">
+            <graphics>
+                <position x="694.0" y="248.0"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="50.0" y="-6.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value></value>
+            </initialMarking>
+        </place>
+        <place id="articles to be final reviewed">
+            <graphics>
+                <position x="784.0" y="333.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="81.0" y="38.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value></value>
+            </initialMarking>
+        </place>
+        <place id="chief editor">
+            <graphics>
+                <position x="715.0" y="404.0"/>
+            </graphics>
+            <name>
+                <value>P0</value>
+                <graphics>
+                    <offset x="38.0" y="39.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value></value>
+            </initialMarking>
+        </place>
+        <transition id="review articles">
+            <graphics>
+                <position x="875.0" y="343.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="92.0" y="26.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="show to chief editor">
+            <graphics>
+                <position x="655.0" y="394.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="80.0" y="-8.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="check articles">
+            <graphics>
+                <position x="543.0" y="350.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="19.0" y="-4.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="refuse">
+            <graphics>
+                <position x="678.0" y="317.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="23.0" y="-8.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="assign editors">
+            <graphics>
+                <position x="784.0" y="418.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="45.0" y="42.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="pass">
+            <graphics>
+                <position x="780.0" y="269.0"/>
+            </graphics>
+            <name>
+                <value>T1</value>
+                <graphics>
+                    <offset x="20.0" y="-6.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="submit an article">
+            <graphics>
+                <position x="480.0" y="395.0"/>
+            </graphics>
+            <name>
+                <value>T0</value>
+                <graphics>
+                    <offset x="38.0" y="41.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <transition id="edit articles">
+            <graphics>
+                <position x="592.0" y="340.0"/>
+            </graphics>
+            <name>
+                <value>T1</value>
+                <graphics>
+                    <offset x="40.0" y="-5.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        <arc id="assign editors TO P0" source="assign editors" target="editor A ">
+            <arcpath id="" x="794.0" y="433.0" curvePoint="false"/>
+            <arcpath id="" x="853.0" y="430.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="T1 TO P1" source="pass" target="passed articles">
+            <arcpath id="" x="780.0" y="284.0" curvePoint="false"/>
+            <arcpath id="" x="723.0" y="267.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="submit an article TO P0" source="submit an article" target="articles to be reviewed">
+            <arcpath id="" x="490.0" y="410.0" curvePoint="false"/>
+            <arcpath id="" x="567.0" y="419.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="review articles TO P0" source="review articles" target="articles to be final reviewed">
+            <arcpath id="" x="875.0" y="358.0" curvePoint="false"/>
+            <arcpath id="" x="814.0" y="350.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="T0 TO articles to be reviewed" source="check articles" target="articles to be reviewed">
+            <arcpath id="" x="548.0" y="380.0" curvePoint="false"/>
+            <arcpath id="" x="574.0" y="408.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="T1 TO articles to be reviewed" source="edit articles" target="articles to be reviewed">
+            <arcpath id="" x="597.0" y="370.0" curvePoint="false"/>
+            <arcpath id="" x="585.0" y="406.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="refuse TO articles to be reviewed" source="refuse" target="articles to be reviewed">
+            <arcpath id="" x="678.0" y="332.0" curvePoint="false"/>
+            <arcpath id="" x="593.0" y="411.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="assign editors TO editor B" source="assign editors" target="editor B">
+            <arcpath id="" x="794.0" y="433.0" curvePoint="false"/>
+            <arcpath id="" x="899.0" y="470.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="show to chief editor TO chief editor" source="show to chief editor" target="chief editor">
+            <arcpath id="" x="665.0" y="409.0" curvePoint="false"/>
+            <arcpath id="" x="715.0" y="417.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="editor B TO review articles" source="editor B" target="review articles">
+            <arcpath id="" x="909.0" y="461.0" curvePoint="false"/>
+            <arcpath id="" x="880.0" y="373.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="author TO submit an article" source="author" target="submit an article">
+            <arcpath id="" x="423.0" y="409.0" curvePoint="false"/>
+            <arcpath id="" x="480.0" y="410.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="chief editor TO assign editors" source="chief editor" target="assign editors">
+            <arcpath id="" x="745.0" y="422.0" curvePoint="false"/>
+            <arcpath id="" x="784.0" y="433.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="articles to be reviewed TO show to chief editor" source="articles to be reviewed" target="show to chief editor">
+            <arcpath id="" x="597.0" y="419.0" curvePoint="false"/>
+            <arcpath id="" x="655.0" y="409.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P0 TO T0" source="articles to be final reviewed" target="refuse">
+            <arcpath id="" x="784.0" y="346.0" curvePoint="false"/>
+            <arcpath id="" x="688.0" y="332.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="P0 TO T1" source="articles to be final reviewed" target="pass">
+            <arcpath id="" x="796.0" y="333.0" curvePoint="false"/>
+            <arcpath id="" x="785.0" y="299.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="editor TO T0" source="editor A " target="review articles">
+            <arcpath id="" x="870.0" y="414.0" curvePoint="false"/>
+            <arcpath id="" x="880.0" y="373.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="articles to be reviewed TO T0" source="articles to be reviewed" target="check articles">
+            <arcpath id="" x="574.0" y="408.0" curvePoint="false"/>
+            <arcpath id="" x="548.0" y="380.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        <arc id="articles to be reviewed TO T1" source="articles to be reviewed" target="edit articles">
+            <arcpath id="" x="585.0" y="406.0" curvePoint="false"/>
+            <arcpath id="" x="597.0" y="370.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+    </net>
+</pnml>
