@@ -1,14 +1,19 @@
 import web
+import model
 
 urls = (
-    '/', 'index'
+    '/', 'Filter'
 )
 
-class index:
-    def GET(self):
-        return "Hello world"
+class Filter:
 
-if __name__ == "__main__":
-    app = web.application(urls, globals())
+    def post(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        req = web.input()
+        model.post(req)
+
+app =web.application(urls, globals())
+
+if __name__ == '__main__':
     app.run()
-
