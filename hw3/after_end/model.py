@@ -33,7 +33,7 @@ def do_register(param):
     json_res = json.loads(res.text)
     print(json_res)
     res = ""
-    print(len(json_res.key()))
+    print(len(json_res))
     if len(json_res.key())==0:
         print("post to db")
         tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
