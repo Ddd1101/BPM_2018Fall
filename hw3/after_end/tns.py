@@ -3,7 +3,7 @@ import model
 import json
 
 urls = (
-    '/','Register',
+    '/','Index',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
     '/register/','Register',
@@ -13,21 +13,7 @@ urls = (
 #web.header("Access-Control-Allow-Origin", "*")
 #web.header('content-type', 'application/json')
 
-class article_filter:
-
-    def POST(self):
-        req = web.input()
-        model.do_article_filter(req)
-
-class comment_filter:
-
-    def Post(self):
-        web.header("Access-Control-Allow-Origin", "*")
-        web.header('content-type', 'application/json')
-        req = web.input()
-        model.do_comment_filter(req)
-
-class Register:
+class Index:
 
     def Post(self):
         web.header("Access-Control-Allow-Origin", "*")
@@ -43,6 +29,21 @@ class Register:
 
     def Get(self):
         return json.dump({'res':'get'})
+
+class article_filter:
+
+    def POST(self):
+        req = web.input()
+        model.do_article_filter(req)
+
+class comment_filter:
+
+    def Post(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        req = web.input()
+        model.do_comment_filter(req)
+
 class login:
 
     def Get(self):
