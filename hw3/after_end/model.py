@@ -1,8 +1,9 @@
 import web
 import requests
+import json
 from filter import DFAFilter
 
-def post(src):
+def do_article_filter(src):
     content = src['content']
 
     gfw = DFAFilter()
@@ -13,3 +14,28 @@ def post(src):
 
     requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', src)
 
+def do_comment_filter(param):
+    content = param['content']
+
+    gfw = DFAFilter()
+    gfw.parse("keywords")
+    gfw.filter(content, "*")
+
+    param['content'] = content
+
+    requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', param)
+
+def do_register(param):
+    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/')
+    user_list = json.loads(res.text)
+    res = ""
+    for itor in user_list:
+        if itor['name'] == param['name']:
+            return res;
+    tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', param)
+    res = json.load(tmp.text)
+
+    return res['id'];
+
+def do_login(param):
+    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/')
