@@ -26,7 +26,9 @@ def do_comment_filter(param):
     requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', param)
 
 def do_register(param):
-    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/')
+    name = param['name']
+    print(name)
+    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
     print(res.text)
     user_list = json.loads(res.text)
     res = ""
