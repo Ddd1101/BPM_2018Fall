@@ -33,6 +33,7 @@ def do_register(param):
     user_list = json.loads(res.text)
     res = ""
     for itor in user_list:
+        print(itor)
         if itor['name'] == param['name']:
             return res;
     tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', param)
