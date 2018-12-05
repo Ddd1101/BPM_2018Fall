@@ -30,16 +30,15 @@ def do_register(param):
     print(name)
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
     print(res.text)
-    print(res.type)
-    user = json.loads(res.text)
-    print(user['User'][0]['name'])
+    json_res = json.loads(res.text)
     res = ""
-    if name == user['User'][0]['name']:
+    if json_res is None:
+        tmp = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
+        res = json.load(tmp.text)
+        print(res)
+        return res['id']
+    if name == json_res['User'][0]['name']:
         return res
-    tmp = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
-    res = json.load(tmp.text)
-    print(res)
-    return res['id']
 
 def do_login(param):
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/')
