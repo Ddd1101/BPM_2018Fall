@@ -3,7 +3,7 @@ import model
 import json
 
 urls = (
-    '/','REgister',
+    '/','Register',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
     '/register/','Register',
