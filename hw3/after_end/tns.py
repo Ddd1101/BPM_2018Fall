@@ -7,6 +7,7 @@ urls = (
     '/comment_filter','comment_filter'
     '/register','register'
     '/login','login'
+    '/','Register'
 )
 
 #web.header("Access-Control-Allow-Origin", "*")
@@ -26,7 +27,7 @@ class comment_filter:
         req = web.input()
         model.do_comment_filter(req)
 
-class register:
+class Register:
 
     def Post(self):
         web.header("Access-Control-Allow-Origin", "*")
