@@ -37,7 +37,7 @@ def do_register(param):
         return res
     tmp = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
     res = json.load(tmp.text)
-    print(res['id'])
+    print(res)
     return res['id']
 
 def do_login(param):
