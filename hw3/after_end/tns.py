@@ -21,12 +21,16 @@ class article_filter:
 class comment_filter:
 
     def Post(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         req = web.input()
         model.do_comment_filter(req)
 
 class register:
 
     def Post(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         print("get in register_post")
         req = web.input()
         res = model.do_register(req)
