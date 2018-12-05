@@ -32,17 +32,17 @@ def do_register(param):
     print(res.text)
     json_res = json.loads(res.text)
     print(json_res)
-    res = ""
+    rt = ""
     print(len(json_res))
     if len(json_res)==0:
         print("post to db")
         tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
-        res = json.loads(tmp.text)
+        rt = json.loads(tmp.text)
         print(param)
-        print(res)
-        return res['id']
+        print(rt)
+        return rt['id']
     elif name == json_res['User'][0]['name']:
-        return res
+        return rt
 
 def do_login(param):
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/')
