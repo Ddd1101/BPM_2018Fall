@@ -36,10 +36,10 @@ def do_register(param):
     print(len(json_res))
     if len(json_res)==0:
         print("post to db")
+        print(param)
         tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
         print(tmp)
         rt = json.loads(tmp.text)
-        print(param)
         print(rt)
         return rt['id']
     elif name == json_res['User'][0]['name']:
