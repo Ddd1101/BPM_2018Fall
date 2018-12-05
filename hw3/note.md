@@ -5,6 +5,7 @@
 	- [get格式](https://blog.csdn.net/hehangjiang/article/details/80259556)
 	- '/(.*)','index' 通配符
 	- [转发请求直接用python写，不要被框架束缚](http://docs.python-requests.org/zh_CN/latest/user/quickstart.html)
+	- [json解析](https://blog.csdn.net/byweiker/article/details/79234853)
 - 复杂算法：
 	- 文本分析
 		- [敏感词检测](https://github.com/observerss/textfilter)

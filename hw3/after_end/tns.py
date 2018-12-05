@@ -9,8 +9,8 @@ urls = (
     '/login','login'
 )
 
-web.header("Access-Control-Allow-Origin", "*")
-web.header('content-type', 'application/json')
+#web.header("Access-Control-Allow-Origin", "*")
+#web.header('content-type', 'application/json')
 
 class article_filter:
 
