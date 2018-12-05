@@ -25,7 +25,11 @@ class Register:
         #print("get in register_post")
         req = web.input()
         res = model.do_register(req)
-        return json.dumps({'res':res})
+        if res == "":
+            return json.dumps({'id': res,'res':'error'})
+        else:
+            return json.dumps({'id': res, 'res': 'success'})
+
 
     def GET(self):
         return json.dumps({'res':'get'})
