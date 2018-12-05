@@ -38,6 +38,7 @@ def do_register(param):
         print("post to db")
         tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User', param)
         #res = json.load(tmp.text)
+        print(param)
         print(res)
         return res['id']
     elif name == json_res['User'][0]['name']:
