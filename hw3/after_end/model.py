@@ -32,7 +32,7 @@ def do_register(param):
     print(res.text)
     user_list = json.loads(res.text)
     res = ""
-    for itor in user_list:
+    for itor in user_list[1]:
         print(itor)
         if itor['name'] == param['name']:
             return res;
