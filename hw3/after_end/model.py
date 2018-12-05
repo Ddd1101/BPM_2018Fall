@@ -27,6 +27,7 @@ def do_comment_filter(param):
 
 def do_register(param):
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/')
+    print(res.text)
     user_list = json.loads(res.text)
     res = ""
     for itor in user_list:
