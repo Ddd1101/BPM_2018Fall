@@ -33,6 +33,8 @@ def do_register(param):
     user = json.loads(res.text)
     print(user['User'][0]['name'])
     res = ""
+    if name == user['User'][0]['name']:
+        return res
     tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', param)
     res = json.load(tmp.text)
     print(res['id'])
