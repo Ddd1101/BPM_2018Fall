@@ -5,7 +5,7 @@ import json
 urls = (
     '/article_filter', 'article_filter'
     '/comment_filter','comment_filter'
-    '/register','register'
+    '/register','Register'
     '/login','login'
     '/','Register'
 )
@@ -30,6 +30,7 @@ class comment_filter:
 class Register:
 
     def Post(self):
+        return json.dumps({'res': 'post'})
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         print("get in register_post")
@@ -37,6 +38,8 @@ class Register:
         res = model.do_register(req)
         return json.dumps({'res':res})
 
+    def Get(self):
+        return json.dump({'res':'get'})
 class login:
 
     def Get(self):
