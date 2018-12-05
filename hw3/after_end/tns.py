@@ -27,6 +27,7 @@ class comment_filter:
 class register:
 
     def Post(self):
+        print("get in register_post")
         req = web.input()
         res = model.do_register(req)
         return json.dumps({'res':res})
