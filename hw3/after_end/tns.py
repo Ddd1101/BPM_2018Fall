@@ -15,9 +15,9 @@ urls = (
 
 class Index:
 
-    def Post(self):
-        web.header("Access-Control-Allow-Origin", "*")
-        web.header('content-type', 'application/json')
+    def POST(self):
+        #web.header("Access-Control-Allow-Origin", "*")
+        #web.header('content-type', 'application/json')
         print("get in register_post")
         return json.dumps({'res': 'post'})
         #web.header("Access-Control-Allow-Origin", "*")
@@ -27,7 +27,7 @@ class Index:
         #res = model.do_register(req)
         #return json.dumps({'res':res})
 
-    def Get(self):
+    def GET(self):
         return json.dump({'res':'get'})
 
 class article_filter:
