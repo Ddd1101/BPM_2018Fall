@@ -6,7 +6,7 @@ urls = (
     '/','Register',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
-    '/register/','Register',
+    '/register','Register',
     '/login','login',
 )
 
