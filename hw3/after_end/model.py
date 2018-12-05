@@ -31,7 +31,7 @@ def do_register(param):
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
     print(res.text)
     user = json.loads(res.text)
-    print(user)
+    print(user['User'][0]['name'])
     res = ""
     tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/article', param)
     res = json.load(tmp.text)
