@@ -16,9 +16,6 @@ urls = (
 class Register:
 
     def POST(self):
-        #web.header("Access-Control-Allow-Origin", "*")
-        #web.header('content-type', 'application/json')
-        print("get in register_post")
         #return json.dumps({'res': 'post'})
         #web.header("Access-Control-Allow-Origin", "*")
         #web.header('content-type', 'application/json')
