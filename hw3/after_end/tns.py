@@ -3,10 +3,10 @@ import model
 import json
 
 urls = (
-    '/article_filter', 'article_filter'
-    '/comment_filter','comment_filter'
-    '/register','Register'
-    '/login','login'
+    '/article_filter', 'article_filter',
+    '/comment_filter','comment_filter',
+    '/register','Register',
+    '/login','login',
 )
 
 #web.header("Access-Control-Allow-Origin", "*")
