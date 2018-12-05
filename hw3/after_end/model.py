@@ -43,6 +43,7 @@ def do_register(param):
         print(tmp)
         rt = json.loads(tmp.text)
         print(rt)
+        print(rt['id'])
         return rt['id']
     elif name == json_res['User'][0]['name']:
         return rt
