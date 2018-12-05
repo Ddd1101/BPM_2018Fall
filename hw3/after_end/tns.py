@@ -3,9 +3,10 @@ import model
 import json
 
 urls = (
+    '/','REgister',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
-    '/register','Register',
+    '/register/','Register',
     '/login','login',
 )
 
