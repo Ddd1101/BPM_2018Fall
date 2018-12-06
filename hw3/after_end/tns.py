@@ -24,9 +24,7 @@ class Register:
         print(req_)
         req__ = str(req_, encoding="utf-8")
         print(req__)
-        trans = json.loads(req__)
-        print(trans)
-        req = web.input()
+        req = json.loads(req__)
         res = model.do_register(req)
         if res == "":
             return json.dumps({'id': res,'res':'error'})
