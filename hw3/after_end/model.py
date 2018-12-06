@@ -33,8 +33,6 @@ def do_register(param):
     res_email = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.email=' + email)
     json_email = json.loads(res_email.text)
     rt = ""
-    print(len(json_name))
-    print(len(json_email))
     if len(json_name)==0 and len(json_email)==0:
         _param = json.dumps(param)
         tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/', _param)
