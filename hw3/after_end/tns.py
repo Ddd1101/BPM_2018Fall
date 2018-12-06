@@ -6,7 +6,7 @@ urls = (
     '/','Register',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
-    '/register','Register',
+    '/api/user','Register',
     '/login','login',
 )
 
@@ -26,6 +26,7 @@ class Register:
         print(req__)
         req = json.loads(req__)
         res = model.do_register(req)
+        print(res)
         if res == "":
             return json.dumps({'id': res,'res':'error'})
         else:
