@@ -17,8 +17,8 @@ class Register:
 
     def POST(self):
         #return json.dumps({'res': 'post'})
-        #web.header("Access-Control-Allow-Origin", "*")
-        #web.header('content-type', 'application/json')
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         #print("get in register_post")
         req_ = web.data()
         print(req_)
