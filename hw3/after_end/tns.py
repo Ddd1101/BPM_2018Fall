@@ -20,6 +20,8 @@ class Register:
         #web.header("Access-Control-Allow-Origin", "*")
         #web.header('content-type', 'application/json')
         #print("get in register_post")
+        req_ = web.data()
+        print(req_)
         req = web.input()
         res = model.do_register(req)
         if res == "":
