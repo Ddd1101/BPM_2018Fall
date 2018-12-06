@@ -27,7 +27,7 @@ def do_comment_filter(param):
 
 def do_register(param):
     name = param['name']
-    email = param['emial']
+    email = param['email']
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
     json_res = json.loads(res.text)
     rt = ""
