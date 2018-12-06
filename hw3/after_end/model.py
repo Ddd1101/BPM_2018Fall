@@ -30,7 +30,7 @@ def do_register(param):
     email = param['email']
     res_name = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
     json_name = json.loads(res_name.text)
-    res_email = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name=' + email)
+    res_email = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.email=' + email)
     json_email = json.loads(res_email.text)
     rt = ""
     print(len(json_name))
