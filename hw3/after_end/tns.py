@@ -24,7 +24,7 @@ class Register:
         print(req_)
         req__ = str(req_, encoding="utf-8")
         print(req__)
-        trans = json.loads(req__.text)
+        trans = json.loads(req__)
         print(trans)
         req = web.input()
         res = model.do_register(req)
