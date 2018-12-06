@@ -22,7 +22,7 @@ class Register:
         #print("get in register_post")
         req_ = web.data()
         print(req_)
-        trans = json.loads(req_)
+        trans = json.loads(req_.text)
         print(trans)
         req = web.input()
         res = model.do_register(req)
