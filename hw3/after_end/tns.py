@@ -22,6 +22,8 @@ class Register:
         #print("get in register_post")
         req_ = web.data()
         print(req_)
+        trans = json.loads(req_)
+        print(trans)
         req = web.input()
         res = model.do_register(req)
         if res == "":
