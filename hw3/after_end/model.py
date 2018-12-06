@@ -29,16 +29,16 @@ def do_register(param):
     name = param['name']
     email = param['email']
     res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
-    json_res = json.loads(res.text)
+    json_name = json.loads(res.text)
+    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name=' + email)
+    json_email = json.loads(res.text)
     rt = ""
-    if len(json_res)==0:
+    if len(json_name)==0 and len(json_email)==0:
         _param = json.dumps(param)
         tmp = requests.post('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/', _param)
         rt = json.loads(tmp.text)
         return rt['id']
-    elif name == json_res['User'][0]['name']:
-        return rt
-    elif email == json_res['User'][0]['email']:
+    else:
         return rt
 
 def do_login(param):
