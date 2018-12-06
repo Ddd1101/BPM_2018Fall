@@ -28,10 +28,10 @@ def do_comment_filter(param):
 def do_register(param):
     name = param['name']
     email = param['email']
-    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
-    json_name = json.loads(res.text)
-    res = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name=' + email)
-    json_email = json.loads(res.text)
+    res_name = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name='+name)
+    json_name = json.loads(res_name.text)
+    res_email = requests.get('http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS/User/?User.name=' + email)
+    json_email = json.loads(res_email.text)
     rt = ""
     if len(json_name)==0 and len(json_email)==0:
         _param = json.dumps(param)
