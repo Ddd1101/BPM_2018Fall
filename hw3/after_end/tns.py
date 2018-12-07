@@ -60,7 +60,8 @@ class users_login:
         req_str = str(req_bytes, encoding="utf-8")
         print(req_str)
         req = json.loads(req_str)
-        print("------->"+req)
+        print("=================")
+        print(req)
         res = model.do_user_login(req)
         if res == "":
             res = json.dumps({"errors":{"body":["user not exist"]}})
