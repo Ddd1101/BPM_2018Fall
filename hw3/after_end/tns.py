@@ -43,6 +43,7 @@ class users:
         user_id = req['id']
         param = req.pop('id')
         res = requests.put(url + '/User/' + user_id,param)
+        print(res)
 
 
 class users_login:
