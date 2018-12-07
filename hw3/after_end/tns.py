@@ -13,8 +13,8 @@ urls = (
     '/login','login',
 )
 
-web.header("Access-Control-Allow-Origin", "*")
-web.header('content-type', 'application/json')
+#web.header("Access-Control-Allow-Origin", "*")
+#web.header('content-type', 'application/json')
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
@@ -22,8 +22,8 @@ class users:
 
     def POST(self):
         #return json.dumps({'res': 'post'})
-        #web.header("Access-Control-Allow-Origin", "*")
-        #web.header('content-type', 'application/json')
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         #print("get in register_post")
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
@@ -35,6 +35,8 @@ class users:
             return json.dumps({'id': res, 'res': 'success'})
 
     def PUT(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req =json.loads(req_str)
@@ -46,6 +48,8 @@ class users:
 class users_login:
 
     def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
@@ -57,6 +61,8 @@ class users_login:
 class article:
 
     def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
@@ -65,8 +71,8 @@ class article:
 class comment_filter:
 
     def Post(self):
-        #web.header("Access-Control-Allow-Origin", "*")
-        #web.header('content-type', 'application/json')
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
         req = web.input()
         model.do_comment_filter(req)
 
