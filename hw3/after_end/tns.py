@@ -1,59 +1,74 @@
 import web
 import model
 import json
+import requests
 
 urls = (
     '/','Register',
+    '/users','users',
+    '/users/login','user_login',
+    '/article','article',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
-    '/user','Register',
     '/login','login',
 )
 
-#web.header("Access-Control-Allow-Origin", "*")
-#web.header('content-type', 'application/json')
+web.header("Access-Control-Allow-Origin", "*")
+web.header('content-type', 'application/json')
 
-class Register:
+url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
+
+class users:
 
     def POST(self):
         #return json.dumps({'res': 'post'})
-        web.header("Access-Control-Allow-Origin", "*")
-        web.header('content-type', 'application/json')
+        #web.header("Access-Control-Allow-Origin", "*")
+        #web.header('content-type', 'application/json')
         #print("get in register_post")
-        req_ = web.data()
-        print(req_)
-        req__ = str(req_, encoding="utf-8")
-        print(req__)
-        req = json.loads(req__)
-        res = model.do_register(req)
-        print(res)
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        res = model.do_user_register(req)
         if res == "":
             return json.dumps({'id': res,'res':'error'})
         else:
             return json.dumps({'id': res, 'res': 'success'})
 
+    def PUT(self):
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req =json.loads(req_str)
+        user_id = req['id']
+        param = req.pop('id')
+        res = requests.put(url + '/User/' + user_id,param)
 
-    def GET(self):
-        return json.dumps({'res':'get'})
 
-class article_filter:
+class users_login:
 
     def POST(self):
-        req = web.input()
-        model.do_article_filter(req)
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        res = model.do_user_login(req)
+        if res == "":
+            res = json.dumps({"errors":{"body":["user not exist"]}})
+        return res
+
+class article:
+
+    def POST(self):
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        res = model.do_article_submit(req)
 
 class comment_filter:
 
     def Post(self):
-        web.header("Access-Control-Allow-Origin", "*")
-        web.header('content-type', 'application/json')
+        #web.header("Access-Control-Allow-Origin", "*")
+        #web.header('content-type', 'application/json')
         req = web.input()
         model.do_comment_filter(req)
-
-class login:
-
-    def Get(self):
-        req = web.input()
 
 
 app =web.application(urls, globals())
