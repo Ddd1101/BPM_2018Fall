@@ -25,6 +25,7 @@ def do_user_login(param):
     name = param['name']
     res = requests.get(url + '/User/?User.name=' + name)
     rt = ""
+    print("in do_user_login")
     print(res)
     if len(res)!=0:
         tmp = res.pop('password')
