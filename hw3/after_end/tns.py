@@ -6,7 +6,7 @@ import requests
 urls = (
     '/','Register',
     '/users','users',
-    '/users/login','user_login',
+    '/users/login','users_login',
     '/article','article',
     '/article_filter', 'article_filter',
     '/comment_filter','comment_filter',
