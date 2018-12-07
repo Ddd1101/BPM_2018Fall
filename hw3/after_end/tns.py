@@ -38,10 +38,14 @@ class users:
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         req_bytes = web.data()
+        print(req_bytes)
         req_str = str(req_bytes, encoding="utf-8")
+        print(req_str)
         req =json.loads(req_str)
+        print(req)
         user_id = req['id']
         param = req.pop('id')
+        print(req)
         res = requests.put(url + '/User/' + user_id,param)
         print(res)
 
