@@ -25,6 +25,7 @@ def do_user_login(param):
     name = param['name']
     res = requests.get(url + '/User/?User.name=' + name)
     rt = ""
+    print(res)
     if len(res)!=0:
         tmp = res.pop('password')
         tr = json.loads(tmp.text)
