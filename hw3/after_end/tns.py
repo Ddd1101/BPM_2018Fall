@@ -25,7 +25,8 @@ class users:
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
-        res = model.do_user_register(req)
+        print(req)
+        res = model.do_user_register(req['user'])
         print(res)
         if res == "":
             return json.dumps({'id': res,'res':'error'})
@@ -40,7 +41,8 @@ class users:
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req =json.loads(req_str)
-        user_id = req['id']
+        req_ = req['user']
+        user_id = req_['id']
         whole_param_  = requests.get(url + 'User' + user_id)
         whole_param = json.loads(whole_param_)
         for key in req:
