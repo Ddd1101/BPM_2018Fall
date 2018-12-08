@@ -10,3 +10,5 @@
 	- 文本分析
 		- [敏感词检测](https://github.com/observerss/textfilter)
 		- [关键词提取](https://github.com/letiantian/TextRank4ZH) 
+- json
+	- [添加key](https://stackoverflow.com/questions/34603348/how-to-add-a-key-value-list-to-a-json-dict/34603473)

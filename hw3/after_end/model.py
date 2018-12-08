@@ -24,25 +24,31 @@ def do_user_register(param):
 def do_user_login(param):
     name = param['name']
     res = requests.get(url + '/User/?User.name=' + name)
-    rt = ""
-    print("in do_user_login")
-    print(res)
-    if len(res)!=0:
-        tmp = res.pop('password')
-        tr = json.loads(tmp.text)
-    return rt
+    rt = json.loads(res.text)
+    if len(rt['User'])!=0:
+        rt['User'][0].pop('password')
+    return rt['User'][0]
 
 def do_article_submit(param):
-    content = param['body']
-
+    content = param['title']
     gfw = DFAFilter()
     gfw.parse("keywords")
-    gfw.filter(content, "*")
+    res = gfw.filter(content, "*")
+    param['title'] = res
 
-    param['body'] = content
+    content = param['description']
+    res = gfw.filter(content, "*")
+    param['description'] = res
+
+    content = param['body']
+    res = gfw.filter(content, "*")
+    param['body'] = res
 
     _param = json.dumps(param)
-    tmp = requests.post(url+'/article', _param)
+    response = requests.post(url+'/Article/', _param)
+
+    print(type(response.getcode()))
+    return response
 
 def do_comment_filter(param):
     content = param['content']
