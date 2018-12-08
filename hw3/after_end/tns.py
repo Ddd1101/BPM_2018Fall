@@ -6,7 +6,8 @@ import time
 
 urls = (
     '/','Register',
-    '/users','users',
+    '/api/users','users',
+    '/api/user','users',
     '/users/login','users_login',
     '/profiles','profiles',
     '/article','article',
