@@ -26,6 +26,7 @@ class users:
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
         res = model.do_user_register(req)
+        print(res)
         if res == "":
             return json.dumps({'id': res,'res':'error'})
         else:
