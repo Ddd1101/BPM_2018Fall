@@ -10,9 +10,8 @@ urls = (
     '/api/user','users',
     '/users/login','users_login',
     '/profiles','profiles',
-    '/article','article',
-    '/article_filter', 'article_filter',
-    '/comment_filter','comment_filter'
+    '/api/articles','article',
+    '/api/comments','comment'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
@@ -73,19 +72,56 @@ class article:
         update_time_ =create_time_
         addition ='{"createat":"' + create_time_ + '","updateat":"'+update_time_+'"}'
         req = json.loads(req_str)
-        req.update(json.loads(addition))
-        res = model.do_article_submit(req)
+        req_ = req['article']
+        req_.update(json.loads(addition))
+        req_.update(req['user'])
+        res = model.do_article_submit(req_)
 
-
-class comment_filter:
-
-    def Post(self):
+    def PUT(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
-        req = web.input()
-        model.do_comment_filter(req)
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_get = json.loads(req_str)
+        req = req_get['user']
+        req.update(req['atticle'])
+        res = model.do_article_update(req)
 
+    def DELETE(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_get = json.loads(req_str)
+        req = req_get['article']
+        res = model.do_article_delete(req)
 
+class comment:
+
+    def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        create_time_ = time.asctime(time.localtime(time.time()))
+        addition = '{"createat":"' + create_time_ + '"}'
+        req = req_raw['user']
+        req.update(req_raw['article'].text)
+        req.update(req_raw['body'].text)
+        req.update(addition)
+        res = model.do_comment_commit(req)
+
+    def DELETE(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        req = req_raw['comment']
+        res = model.do_comment_delete(req)
+
+    
 app =web.application(urls, globals())
 
 if __name__ == '__main__':

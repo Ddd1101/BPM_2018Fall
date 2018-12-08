@@ -50,13 +50,38 @@ def do_article_submit(param):
     print(type(response.getcode()))
     return response
 
-def do_comment_filter(param):
-    content = param['content']
+def do_article_update(param):
+    gfw = DFAFilter()
+    gfw.parse("keywords")
+    for key in param:
+        if key == 'title' or key == 'description' or key == 'body':
+            res = gfw.filter(param[key],'*')
+            param[key] = res
+    _param = json.dumps(param)
 
+    find = requests.put(url+'/Article/?Article.userid='+_param['userId']+'& Article.title='+_param['title'])
+
+    find_ = json.loads(find.text)
+
+    res = requests.put(url+'/Article/'+find_['userId'], _param)
+
+def do_article_delete(param):
+    res = requests.delete(url+'/Article/'+param['id'])
+    res = json.loads(res.text)
+    print(res)
+
+def do_article_get(param):
+    return 0
+
+def do_comment_commit(param):
+    content = param['body']
     gfw = DFAFilter()
     gfw.parse("keywords")
     gfw.filter(content, "*")
 
-    param['content'] = content
+    param['body'] = content
 
-    requests.post(url+'/article', param)
+    res = requests.post(url+'/Comment', param)
+
+def do_comment_delete(param):
+    res = requests.delete(url + '/Comment/', param["id"])

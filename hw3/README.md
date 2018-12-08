@@ -387,15 +387,18 @@ Optional fields: `title`, `description`, `body`
 
 ### Add Comments to an Article
 
-`POST /api/articles/:articleId/comments`
+`POST /api/comments`
 
 Example request body:
 
 ```json
 {
   "user": {
-    "userId": 123456789
+    "userId": "123456789"
   },
+  "article":{
+  	"articleId":"123466789"
+  }
   "comment": {
     "body": "cool article!!"
   }
@@ -416,7 +419,15 @@ Returns [multiple comments](#Multiple Comments)
 
 > Known defect: DELETE doesn't need authentication 
 
-`DELETE /api/articles/:articleId/comments/:commentId`
+`DELETE /api/comments`
+
+```json
+{
+  "comment": {
+    "id": "123456789"
+  }
+}
+```
 
 ### Favorite Article
 
