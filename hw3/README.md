@@ -286,8 +286,11 @@ Example request body:
 
 ```json
 {
-  "user": {
-      "userId": 123456789
+  "param":{
+  		"userId": "123456789",
+  	   "tag"="bpm",
+  	   "author"="alan"
+  	   ...
   }
 }
 ```
@@ -306,7 +309,7 @@ Filter by author:
 
 Favorited by user:
 
-`?favorited=alan`
+`?favorited=alan X`
 
 Limit number of articles (default is 20):
 
@@ -465,3 +468,4 @@ GET /api/tags
 
 Returns a [List of Tags](#List of Tags)
 
+1. 
