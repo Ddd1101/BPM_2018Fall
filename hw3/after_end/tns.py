@@ -90,15 +90,15 @@ class article:
         req_.update({"authorid":authorid})
         res = model.do_article_submit(req_)
 
+    #update
     def PUT(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
-        req = req_get['user']
-        req.update(req['atticle'])
-        res = model.do_article_update(req)
+        res = model.do_article_update(req_get)
+        return res
 
     def DELETE(self):
         web.header("Access-Control-Allow-Origin", "*")

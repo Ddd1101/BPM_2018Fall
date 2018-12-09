@@ -1,6 +1,7 @@
 import web
 import requests
 import json
+import time
 from filter import DFAFilter
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
@@ -56,31 +57,61 @@ def do_article_submit(param):
     param['body'] = res
 
     _param = json.dumps(param)
-    print(_param)
     response = requests.post(url+'/Article/', _param)
-
-    print(response.text)
     return response
 
 def do_article_update(param):
+    find_req = param['user']
+    find_req.update(param['article'])
+    update_req = param["item"]
     gfw = DFAFilter()
     gfw.parse("keywords")
-    for key in param:
+    for key in update_req:
         if key == 'title' or key == 'description' or key == 'body':
-            res = gfw.filter(param[key],'*')
-            param[key] = res
-    _param = json.dumps(param)
+            res = gfw.filter(update_req[key],'*')
+            update_req[key] = res
 
-    find = requests.put(url+'/Article/?Article.userid='+_param['userId']+'& Article.title='+_param['title'])
+    for key in find_req:
+        if key == 'title' or key == 'description' or key == 'body':
+            res = gfw.filter(find_req[key],'*')
+            find_req[key] = res
 
+    find_req_ = json.dumps(find_req)
+    find = requests.get(url+'/Article/?Article.authorid='+find_req['userId']+'&Article.title='+find_req['title'])
     find_ = json.loads(find.text)
+    if 'Article' in find_:
+        tmp = find_['Article'][0]
+    else:
+        return json.dumps({"error": "something wrong in request"})
 
-    res = requests.put(url+'/Article/'+find_['userId'], _param)
+    for key in update_req:
+        print(key)
+        if key in tmp:
+            print(key)
+            tmp[key]=update_req[key]
+
+    tmp["updateat"]= time.time()
+
+
+
+    res = requests.put(url+'/Article/'+str(find_['Article'][0]['id']), json.dumps(tmp))
+    rt = res.text
+    rt = json.loads(rt)
+    rt_ = json.dumps(rt)
+    time_tmp = float(rt['createat'])
+    rt['createat'] = time.asctime(time.localtime(time_tmp))
+    time_tmp = float(rt['updateat'])
+    rt['updateat'] = time.asctime(time.localtime(time_tmp))
+
+
+    if res.ok :
+        return json.dumps({"article":rt})
+    else :
+        return json.dumps({"error":"something wrong in request"})
 
 def do_article_delete(param):
     res = requests.delete(url+'/Article/'+param['id'])
     res = json.loads(res.text)
-    print(res)
 
 def do_article_get(param):
 
@@ -101,7 +132,15 @@ def do_aticle_list(param):
     it = 0
     for each in res['Article']:
         it = it+1
-    res.update({"articlescount":it})
+    res.update({'articlescount':it})
+    sort_var = res['Article']
+    sort_var.sort(key = lambda x:x['createat'])
+    for each in sort_var:
+        time_tmp = float(each['createat'])
+        each['createat'] = time.asctime(time.localtime(time_tmp))
+        time_tmp = float(each['updateat'])
+        each['updateat'] = time.asctime(time.localtime(time_tmp))
+    res = json.dumps(res)
     return res
 
 def do_comment_commit(param):
