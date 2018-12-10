@@ -73,7 +73,7 @@ class users:
         req_str = str(req_bytes, encoding="utf-8")
         req_raw = json.loads(req_str)
         req = req_raw['user']
-        rt_raw = requests.get(url+'/User/?User.id='+req['userid'])
+        rt_raw = requests.get(url+'/User/?User.id='+req['id'])
         rt = json.loads(rt_raw.text)
         rt = rt['User'][0]
         for each in dict_:
