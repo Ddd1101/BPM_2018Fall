@@ -7,6 +7,7 @@ import time
 urls = (
     '/','Register',
     '/api/users','users',
+    '/api/users/get','user_get',
     '/api/user','users',
     '/api/users/login','users_login',
     '/profiles','profiles',
@@ -63,24 +64,6 @@ class users:
 
         return rt;
 
-    def GET(self):
-        dict_ = ['email', 'id', 'username', 'bio', 'image']
-        dict_ = ['email', 'id', 'username', 'bio', 'image']
-        web.header("Access-Control-Allow-Origin", "*")
-        web.header('content-type', 'application/json')
-        web.header('Access-Control-Allow-Credentials', 'true')
-        req_bytes = web.data()
-        req_str = str(req_bytes, encoding="utf-8")
-        req_raw = json.loads(req_str)
-        req = req_raw['user']
-        rt_raw = requests.get(url+'/User/?User.id='+req['id'])
-        rt = json.loads(rt_raw.text)
-        rt = rt['User'][0]
-        for each in dict_:
-            if each not in rt:
-                rt.update({each:None})
-        return json.dumps({'user':rt})
-
 class users_login:
     #login
     def POST(self):
@@ -97,6 +80,25 @@ class users_login:
         else :
             rt = json.dumps({'user':res})
         return rt
+
+class user_get:
+    def POST(self):
+
+        dict_ = ['email', 'id', 'username', 'bio', 'image']
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        req = req_raw['user']
+        rt_raw = requests.get(url+'/User/?User.id='+req['id'])
+        rt = json.loads(rt_raw.text)
+        rt = rt['User'][0]
+        for each in dict_:
+            if each not in rt:
+                rt.update({each:None})
+        return json.dumps({'user':rt})
 
 class article:
     #submit
