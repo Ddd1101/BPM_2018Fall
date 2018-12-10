@@ -23,6 +23,7 @@ class users:
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
@@ -38,6 +39,7 @@ class users:
         dick = ['email', 'id', 'username', 'bio', 'image']
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req =json.loads(req_str)
@@ -66,6 +68,7 @@ class users_login:
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
@@ -82,6 +85,7 @@ class article:
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         #create_time_ = time.asctime( time.localtime(time.time()))
@@ -101,6 +105,7 @@ class article:
     def PUT(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
@@ -110,6 +115,7 @@ class article:
     def DELETE(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
@@ -119,6 +125,7 @@ class article:
     def GET(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
@@ -128,6 +135,7 @@ class articles_get:
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
@@ -140,6 +148,7 @@ class comment:
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_raw = json.loads(req_str)
@@ -154,6 +163,7 @@ class comment:
     def DELETE(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req_raw = json.loads(req_str)
