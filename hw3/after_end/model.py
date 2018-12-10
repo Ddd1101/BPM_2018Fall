@@ -74,11 +74,11 @@ def do_article_submit(param):
         has_tag = True
         taglist = param.pop('taglist')
 
-
     _param = json.dumps(param)
     response_1 = requests.post(url+'/Article/', _param)
     response_1 = json.loads(response_1.text)
     response_1.pop('type')
+
     for each in dict_:
         if each in response_1:
             continue
