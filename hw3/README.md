@@ -191,7 +191,7 @@ Example request body:
 ```json
 {
   "user":{
-      "email": "example@bpm.com",
+      "username": "username",
       "password": "password"
   }
 }
