@@ -10,7 +10,7 @@ Make sure the right content type like `Content-Type: application/json; charset=u
 {
   "user": {
       "email": "example@bpm.com",
-      "userId": 123456789,
+      "id": 123456789,
       "username": "bpm",
       "bio": "Hello bpm",
       "image": "https://www.example.com/example.jpg"
@@ -23,31 +23,32 @@ Make sure the right content type like `Content-Type: application/json; charset=u
 ```json
 {
   "article": {
-      "articleId": 123456789,
+      "id": 123456789,
       "title": "How to train your example",
       "description": "Ever wonder how?",
       "body": "It takes a example",
-      "tagList": ["example", "training"],
-      "createdAt": "2018-12-03T03:22:56.637Z",
-      "updatedAt": "2018-12-03T03:48:35.824Z",
-      "passState": false,
-      "editor": {
-          "editor1Id": "pass",
-          "editor2Id": "reject"
+      //"tagList": ["example", "training"],
+      "createdat": "2018-12-03T03:22:56.637Z",
+      "updatedat": "2018-12-03T03:48:35.824Z",
+      "passtate": false,
+      //"editor": {
+          "editor1id": "pass",
+          "editor2id": "reject"
       },
-      "favorited": false,
-      "favoritesCount": 0,
-      "author": {
-          "username": "bpm",
+      //"favorited": false,
+      //"favoritesCount": 0,
+      "authorid":"123456"
+      //"author": {            //暂时返回authorid
+         "username": "bpm",
       	  "bio": "Hello bpm",
       	  "image": "https://www.example.com/example.jpg",
-      	  "following": false
+      	  //"following": false 
       }
   }
 }
 ```
 
-### Multiple Articles
+### Multiple Articles(article items refer to single article)
 
 ```json
 {
@@ -57,8 +58,8 @@ Make sure the right content type like `Content-Type: application/json; charset=u
       	"description": "Ever wonder how?",
       	"body": "It takes a example",
       	"tagList": ["example", "training"],
-      	"createdAt": "2018-12-03T03:22:56.637Z",
-      	"updatedAt": "2018-12-03T03:48:35.824Z",
+      	"createdat": "2018-12-03T03:22:56.637Z",
+      	"updatedat": "2018-12-03T03:48:35.824Z",
       	"passState": false,
       	"editor": {
           "editor1Id": "pass",
@@ -94,7 +95,7 @@ Make sure the right content type like `Content-Type: application/json; charset=u
       	  "following": false
       	}
     }],
-    "articlesCount": 2
+    "articlescount": 2
 }
 ```
 
@@ -103,8 +104,8 @@ Make sure the right content type like `Content-Type: application/json; charset=u
 ```json
 {
   "comment": {
-    "commentId": 1234588,
-    "createdAt": "2018-12-03T03:22:56.637Z",
+    "commentid": 1234588,
+    "createdat": "2018-12-03T03:22:56.637Z",
     "body": "cool article!",
     "author": {
       "username": "bpm",
@@ -287,7 +288,7 @@ Example request body:
 ```json
 {
   "param":{
-  		"userId": "123456789",
+  	   "authorid": "123456789",
   	   "tag"="bpm",
   	   "author"="alan"
   	   ...
@@ -344,13 +345,13 @@ Example request body:
 ```json
 {
   "user": {
-    "userId": 123456789
+    "id": 123456789
   },
   "article": {
     "title": "How to train your example",
     "description": "Ever wonder how?",
     "body": "You have to believe",
-    "tagList": ["train", "example"]
+    "taglist": ["train", "example"]
   }
 }
 ```
@@ -370,7 +371,7 @@ Example request body:
 ```json
 {
   "user": {
-    "userId": 123456789
+    "id": 123456789
   },
   "article": {
     "title": "Did you train your example?"

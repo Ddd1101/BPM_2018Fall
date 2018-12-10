@@ -34,6 +34,7 @@ class users:
     #修改需要全部数据一起修改
     #update
     def PUT(self):
+        dick = ['email', 'id', 'username', 'bio', 'image']
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         req_bytes = web.data()
@@ -50,6 +51,11 @@ class users:
         rt_raw = requests.put(url + '/User/' + user_id,json.dumps(whole_param))
         rt_tmp = json.loads(rt_raw.text)
         rt_tmp.pop('type')
+        for each in dick:
+            if each in rt_tmp:
+                continue
+            else:
+                rt_tmp.update({each:None})
         rt = json.dumps({'user':rt_tmp})
 
         return rt;
@@ -63,7 +69,6 @@ class users_login:
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
         res = model.do_user_login(req['user'])
-        print(res)
         if res == "":
             res = json.dumps({'errors':{'body':'user not exist or psw error'}})
             rt = res
@@ -86,9 +91,10 @@ class article:
         req_ = req['article']
         req_.update(json.loads(addition))
         req_.update(req['user'])
-        authorid = req_.pop('userId')
+        authorid = req_.pop('id')
         req_.update({"authorid":authorid})
-        res = model.do_article_submit(req_)
+        rt = model.do_article_submit(req_)
+        return rt
 
     #update
     def PUT(self):
@@ -98,7 +104,7 @@ class article:
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
         res = model.do_article_update(req_get)
-        return res
+        return json.dumps(res)
 
     def DELETE(self):
         web.header("Access-Control-Allow-Origin", "*")
@@ -126,8 +132,6 @@ class articles_get:
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
         req = req_get['param']
-        authorid = req.pop('userId')
-        req.update({"authorid":authorid})
         print(req)
         rt = model.do_aticle_list(req)
         return rt
