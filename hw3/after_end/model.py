@@ -16,9 +16,12 @@ def do_user_register(param):
     json_email = json.loads(res_email.text)
     rt = ""
     if len(json_name)==0 and len(json_email)==0:
+        if 'inmage' not in param:
+            param.update({'image':'http://img3.imgtn.bdimg.com/it/u=896346703,1515616226&fm=26&gp=0.jpg'})
         _param = json.dumps(param)
         tmp = requests.post(url+'/User/', _param)
         rt_raw = json.loads(tmp.text)
+        print(rt_raw)
         rt_raw.pop("type")
         for each in dict_:
             if each in rt_raw:

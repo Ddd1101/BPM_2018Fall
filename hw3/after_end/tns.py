@@ -18,6 +18,7 @@ urls = (
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
 class users:
+
     #register
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
@@ -124,7 +125,6 @@ class article:
         print(req_get)
 
 class articles_get:
-
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
@@ -137,7 +137,6 @@ class articles_get:
         return rt
 
 class comment:
-
     def POST(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
