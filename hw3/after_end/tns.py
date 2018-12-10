@@ -36,7 +36,7 @@ class users:
     #修改需要全部数据一起修改
     #update
     def PUT(self):
-        dick = ['email', 'id', 'username', 'bio', 'image']
+        dict_ = ['email', 'id', 'username', 'bio', 'image']
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
@@ -54,7 +54,7 @@ class users:
         rt_raw = requests.put(url + '/User/' + user_id,json.dumps(whole_param))
         rt_tmp = json.loads(rt_raw.text)
         rt_tmp.pop('type')
-        for each in dick:
+        for each in dict_:
             if each in rt_tmp:
                 continue
             else:
@@ -62,6 +62,24 @@ class users:
         rt = json.dumps({'user':rt_tmp})
 
         return rt;
+
+    def GET(self):
+        dict_ = ['email', 'id', 'username', 'bio', 'image']
+        dict_ = ['email', 'id', 'username', 'bio', 'image']
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        req = req_raw['user']
+        rt_raw = requests.get(url+'/User/?User.id='+req['userid'])
+        rt = json.loads(rt_raw.text)
+        rt = rt['User'][0]
+        for each in dict_:
+            if each not in rt:
+                rt.update({each:None})
+        return json.dumps({'user':rt})
 
 class users_login:
     #login
