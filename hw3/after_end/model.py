@@ -54,6 +54,29 @@ def do_user_login(param):
     else:
         return rt
 
+def do_profile_get(param):
+    dict_ = ['email', 'id', 'username', 'bio', 'image']
+    req_1 = param['user1']
+    req_2 = param['user2']
+    res_raw_2 = requests.get(url + '/User/?User.username=' + req_2['username'])
+    print(res_raw_2.text)
+    res_2 = json.loads(res_raw_2.text)
+    param = json.dumps({'user1': req_1['id'], 'user2': res_2['User'][0]['id']})
+    res_raw_follow = requests.get(
+        url + '/Follow/?Follow.user1=' + str(req_1['id']) + "&Follow.user2=" + str(res_2['User'][0]['id']))
+    print(res_raw_follow.text)
+    rt=res_2['User'][0]
+    for each in dict_:
+        if each not in rt:
+            rt.update({each:None})
+    res_follow = json.loads(res_raw_follow.text)
+    res_follow = res_follow['Follow']
+    if len(res_follow)>0:
+        rt.update({'follow':True})
+    else:
+        rt.update({'follow':False})
+    return rt
+
 #2018/12/10 9.16am add taglist module by:gxhou
 def do_article_submit(param):
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']

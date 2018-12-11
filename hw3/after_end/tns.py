@@ -10,11 +10,11 @@ urls = (
     '/api/users/get','user_get',
     '/api/user','users',
     '/api/users/login','users_login',
-    '/profiles','profiles',
+    '/api/profiles','profile',
     '/api/articles','article',
     '/api/articles/get','articles_get',
-    '/api/comments','comment',
-    '/api/articles/tag','tag'
+    '/api/articles/tag', 'tags',
+    '/api/comments','comment'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
@@ -101,6 +101,20 @@ class user_get:
                 rt.update({each:None})
         return json.dumps({'user':rt})
 
+class profile:
+    def GET(self):
+        dict_ = ['email', 'id', 'username', 'bio', 'image']
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        rt = model.do_profile_get(req_raw)
+        print(rt)
+        return json.dumps({'profile':rt})
+
+
 class article:
     #submit
     def POST(self):
@@ -165,7 +179,7 @@ class articles_get:
         rt = model.do_aticle_list(req)
         return rt
 
-class tag:
+class tags:
     def GET(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
@@ -174,7 +188,10 @@ class tag:
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
         req =req_get['article']['id']
-        res_raw = requests.get(url+'/Articles/'+str(req))
+        print(url+'/Articles/'+str(req))
+        res_raw = requests.get(url+'/Article/'+str(req))
+        print(res_raw.text)
+        return json.dumps(res_raw.text)
 
 class comment:
     def POST(self):
