@@ -83,7 +83,7 @@ def do_article_submit(param):
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
     content = param['title']
     gfw = DFAFilter()
-    gfw.parse("keywords")
+    #gfw.parse("keywords")
     #res = gfw.filter(content, "*")
     #param['title'] = res
 
