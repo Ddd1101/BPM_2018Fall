@@ -116,10 +116,11 @@ def do_article_submit(param):
     response_1['createat'] = time.asctime(time.localtime(time_tmp))
     time_tmp = float(response_1['updateat'])
     response_1['updateat'] = time.asctime(time.localtime(time_tmp))
-    print(response_1)
+    articleid = response_1.pop('id')
+    response_1.update({'articleid':articleid})
     if has_tag == True:
         response_to_json_1 = response_1
-        aritcle_id = response_to_json_1['id']
+        aritcle_id = response_to_json_1['articleid']
         for key in taglist:
             param_tag_article = json.dumps({'articleid':aritcle_id})
             param_tag_article.update(key)
