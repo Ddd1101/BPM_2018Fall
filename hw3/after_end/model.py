@@ -116,7 +116,7 @@ def do_article_submit(param):
     response_1['createat'] = time.asctime(time.localtime(time_tmp))
     time_tmp = float(response_1['updateat'])
     response_1['updateat'] = time.asctime(time.localtime(time_tmp))
-
+    print(response_1)
     if has_tag == True:
         response_to_json_1 = response_1
         aritcle_id = response_to_json_1['id']
