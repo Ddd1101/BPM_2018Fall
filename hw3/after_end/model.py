@@ -186,9 +186,67 @@ def do_article_delete(param):
     res = requests.delete(url+'/Article/'+param['id'])
     res = json.loads(res.text)
 
-def do_article_get(param):
+def do_articles_get(param):
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
+    req_state = url+'/Article/'
+    it =0
+    for each in param:
+        if it == 0:
+            req_state += ('?Article.'+each+'='+param[each])
+            it += 1
+        else:
+            req_state += ('&Article.'+each+'='+param[each])
+    print(req_state)
+    rt_raw = requests.get(req_state)
+    print(rt_raw.text)
+    res = json.loads(rt_raw.text)
+    it = 0
+    res['articles'] = res['Article']
+    res.pop('Article')
+    for each in res['articles']:
+        it = it + 1
+    res.update({'articlescount': it})
+    sort_var = res['articles']
+    sort_var.sort(key=lambda x: x['createat'])
+    for each in sort_var:
+        time_tmp = float(each['createat'])
+        each['createat'] = time.asctime(time.localtime(time_tmp))
+        time_tmp = float(each['updateat'])
+        each['updateat'] = time.asctime(time.localtime(time_tmp))
+        for item in dict_:
+            if item in each:
+                continue
+            else:
+                each[item] = None
+    res = json.dumps(res)
+    return res
 
-    return 0
+def do_articles_all():
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
+    req_state = url+'/Article/'
+    rt_raw = requests.get(req_state)
+    print(rt_raw.text)
+    res = json.loads(rt_raw.text)
+    it = 0
+    res['articles'] = res['Article']
+    res.pop('Article')
+    for each in res['articles']:
+        it = it + 1
+    res.update({'articlescount': it})
+    sort_var = res['articles']
+    sort_var.sort(key=lambda x: x['createat'])
+    for each in sort_var:
+        time_tmp = float(each['createat'])
+        each['createat'] = time.asctime(time.localtime(time_tmp))
+        time_tmp = float(each['updateat'])
+        each['updateat'] = time.asctime(time.localtime(time_tmp))
+        for item in dict_:
+            if item in each:
+                continue
+            else:
+                each[item] = None
+    res = json.dumps(res)
+    return res
 
 def do_aticle_list(param):
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']

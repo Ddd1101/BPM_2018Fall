@@ -13,6 +13,7 @@ urls = (
     '/api/profiles','profile',
     '/api/articles','article',
     '/api/articles/get','articles_get',
+    '/api/articles/'
     '/api/articles/tag', 'tags',
     '/api/comments','comment'
 )
@@ -176,6 +177,19 @@ class articles_get:
         req = req_get['param']
         print(req)
         rt = model.do_aticle_list(req)
+        return rt
+
+    def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_raw = web.input()
+        rt = ''
+        if '*' in req_raw:
+            print(req_raw)
+            rt = model.do_articles_all()
+            return rt
+        rt = model.do_articles_get(req_raw)
         return rt
 
 class tags:
