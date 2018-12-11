@@ -46,7 +46,7 @@ class users:
         req =json.loads(req_str)
         req_ = req['user']
         user_id = req_['id']
-        whole_param_  = requests.get(url + '/User/' + user_id)
+        whole_param_  = requests.get(url + '/User/' + str(user_id))
         whole_param = json.loads(whole_param_.text)
         whole_param.pop('type')
         for key in req_:
