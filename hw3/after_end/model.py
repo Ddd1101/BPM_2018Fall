@@ -68,9 +68,12 @@ def do_profile_get(param):
         if each not in rt:
             rt.update({each:None})
     res_follow = json.loads(res_raw_follow.text)
-    res_follow = res_follow['Follow']
     if len(res_follow)>0:
-        rt.update({'follow':True})
+        res_follow = res_follow['Follow']
+        if len(res_follow)>0:
+            rt.update({'follow':True})
+        else:
+            rt.update({'follow': False})
     else:
         rt.update({'follow':False})
     return rt
