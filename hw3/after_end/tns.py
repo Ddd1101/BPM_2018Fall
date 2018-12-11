@@ -102,7 +102,7 @@ class user_get:
         return json.dumps({'user':rt})
 
 class profile:
-    def GET(self):
+    def POST(self):
         dict_ = ['email', 'id', 'username', 'bio', 'image']
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
@@ -123,7 +123,6 @@ class article:
         web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
-        #create_time_ = time.asctime( time.localtime(time.time()))
         create_time_ = time.time()
         update_time_ =create_time_
         addition ='{"createat":"' + str(create_time_) + '","updateat":"' + str(update_time_) + '"}'

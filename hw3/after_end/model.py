@@ -21,7 +21,6 @@ def do_user_register(param):
         _param = json.dumps(param)
         tmp = requests.post(url+'/User/', _param)
         rt_raw = json.loads(tmp.text)
-        print(rt_raw)
         rt_raw.pop("type")
         for each in dict_:
             if each in rt_raw:
@@ -59,13 +58,12 @@ def do_profile_get(param):
     req_1 = param['user1']
     req_2 = param['user2']
     res_raw_2 = requests.get(url + '/User/?User.username=' + req_2['username'])
-    print(res_raw_2.text)
     res_2 = json.loads(res_raw_2.text)
     param = json.dumps({'user1': req_1['id'], 'user2': res_2['User'][0]['id']})
     res_raw_follow = requests.get(
         url + '/Follow/?Follow.user1=' + str(req_1['id']) + "&Follow.user2=" + str(res_2['User'][0]['id']))
-    print(res_raw_follow.text)
     rt=res_2['User'][0]
+    rt.pop('password')
     for each in dict_:
         if each not in rt:
             rt.update({each:None})
@@ -111,6 +109,11 @@ def do_article_submit(param):
         else:
             response_1[each]=None
 
+    time_tmp = float(response_1['createat'])
+    response_1['createat'] = time.asctime(time.localtime(time_tmp))
+    time_tmp = float(response_1['updateat'])
+    response_1['updateat'] = time.asctime(time.localtime(time_tmp))
+
     if has_tag == True:
         response_to_json_1 = response_1
         aritcle_id = response_to_json_1['id']
@@ -150,14 +153,10 @@ def do_article_update(param):
         return json.dumps({"error": "something wrong in request"})
 
     for key in update_req:
-        print(key)
         if key in tmp:
-            print(key)
             tmp[key]=update_req[key]
 
     tmp["updateat"]= time.time()
-
-
 
     res = requests.put(url+'/Article/'+str(find_['Article'][0]['id']), json.dumps(tmp))
     rt = res.text
