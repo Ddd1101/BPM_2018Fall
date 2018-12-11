@@ -41,8 +41,7 @@ Make sure the right content type like `Content-Type: application/json; charset=u
       //"author": {            //暂时返回authorid
          "username": "bpm",
       	  "bio": "Hello bpm",
-      	  "image": "https://www.example.com/example.jpg",
-      	  //"following": false 
+      	  "image": "https://www.example.com/example.jpg"
       }
   }
 }
@@ -142,8 +141,7 @@ Make sure the right content type like `Content-Type: application/json; charset=u
     "profile":{
         "username": "bpm",
         "bio": "hello bpm",
-        "image": "https://www.example.com/example.jpg",
-        "following": false
+        "image": "https://www.example.com/example.jpg"
     }
 }
 ```
@@ -230,6 +228,7 @@ Example request body:
 ```json
 {
   "user":{
+    "id":123456
     "email": "example@bpm.com",
     "bio": "Hello bpm",
     "image": "https://www.example.com/example.jpg"
@@ -241,19 +240,24 @@ Returns the [User](#Users (for authentication))
 
 Accepted fields: `email`, `username`, `password`, `image`, `bio`
 
-### Get Profile
+### User Login:
 
-`POST /api/profiles/:username`
+`PUT /api/user`
 
 Example request body:
 
 ```json
 {
-  "user": {
-      "userId": 123456789
+  "user":{
+    "username":"bpm"
+    "passwod": "example@bpm.com"
   }
 }
 ```
+
+### Get Profile
+
+`GET /api/profiles?username="name"/or(id=123456)`
 
 Returns a [Profile](#Profile)
 
@@ -281,20 +285,8 @@ Returns a [Profile](#Profile)
 
 ### List Articles
 
-`POST /api/articles/get`
+`GET /api/articles/get?key1=value1&key2=value2`
 
-Example request body:
-
-```json
-{
-  "param":{
-  	   "authorid": "123456789",
-  	   "tag"="bpm",
-  	   "author"="alan"
-  	   ...
-  }
-}
-```
 
 Returns most recent articles globally by default, provide `tag`, `author` or `favorited` query parameter to filter results.
 
@@ -322,17 +314,8 @@ Returns [multiple articles](#Multiple Articles), ordered by most recent first
 
 > Known defect: DELETE doesn't need authentication 
 
-`GET /api/articles/:articleId`
+`GET /api/articles?articleId=123456`
 
-Example request body:
-
-```json
-{
-  "user": {
-      "userId": 123456789
-  }
-}
-```
 
 Returns [single article](#Single Article).
 
@@ -364,7 +347,7 @@ Optional fields: `tagList` as an array of Strings
 
 ### Update Article
 
-`PUT /api/articles/:articleId`
+`PUT /api/articles`
 
 Example request body:
 
@@ -390,7 +373,7 @@ Optional fields: `title`, `description`, `body`
 
 > Known defect: DELETE doesn't need authentication 
 
-`DELETE /api/articles/:articleId`
+`DELETE /api/articles?articleId=123456`
 
 ### Add Comments to an Article
 
