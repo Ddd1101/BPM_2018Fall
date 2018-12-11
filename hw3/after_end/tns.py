@@ -13,7 +13,8 @@ urls = (
     '/profiles','profiles',
     '/api/articles','article',
     '/api/articles/get','articles_get',
-    '/api/comments','comment'
+    '/api/comments','comment',
+    '/api/articles/tag','tag'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
@@ -52,7 +53,7 @@ class users:
         for key in req_:
             whole_param[key] = req_[key]
         whole_param.pop('id')
-        rt_raw = requests.put(url + '/User/' + user_id,json.dumps(whole_param))
+        rt_raw = requests.put(url + '/User/' + str(user_id),json.dumps(whole_param))
         rt_tmp = json.loads(rt_raw.text)
         rt_tmp.pop('type')
         for each in dict_:
@@ -163,6 +164,17 @@ class articles_get:
         print(req)
         rt = model.do_aticle_list(req)
         return rt
+
+class tag:
+    def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_get = json.loads(req_str)
+        req =req_get['article']['id']
+        res_raw = requests.get(url+'/Articles/'+str(req))
 
 class comment:
     def POST(self):
