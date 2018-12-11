@@ -17,7 +17,7 @@ def do_user_register(param):
     rt = ""
     if len(json_name)==0 and len(json_email)==0:
         if 'inmage' not in param:
-            param.update({'image':'http://img5.imgtn.bdimg.com/it/u=1606972337,3987749266&fm=200&gp=0.jpg'})
+            param.update({'image':'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2588767485,2358347029&fm=26&gp=0.jpg'})
         _param = json.dumps(param)
         tmp = requests.post(url+'/User/', _param)
         rt_raw = json.loads(tmp.text)
