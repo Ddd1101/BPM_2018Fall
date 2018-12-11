@@ -13,7 +13,6 @@ urls = (
     '/api/profiles','profile',
     '/api/articles','article',
     '/api/articles/get','articles_get',
-    '/api/articles/'
     '/api/articles/tag', 'tags',
     '/api/comments','comment'
 )
@@ -161,10 +160,18 @@ class article:
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
-        req_bytes = web.data()
-        req_str = str(req_bytes, encoding="utf-8")
-        req_get = json.loads(req_str)
-        print(req_get)
+        req_raw = web.input()
+        rt = ''
+        if 'articleid' in req_raw:
+            id = req_raw.pop('articleid')
+            req_raw.update({'id':id})
+
+        if '*' in req_raw:
+            print(req_raw)
+            rt = model.do_articles_all()
+            return rt
+        rt = model.do_articles_get(req_raw)
+        return rt
 
 class articles_get:
     def POST(self):
