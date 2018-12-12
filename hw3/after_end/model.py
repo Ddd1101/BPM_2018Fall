@@ -6,31 +6,34 @@ from filter import DFAFilter
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
+
 def do_user_register(param):
-    dict_ = ['email','id','username','bio','image']
+    dict_ = ['email', 'id', 'username', 'bio', 'image']
     name = param['username']
     email = param['email']
-    res_name = requests.get(url+'/User/?User.username='+name)
+    res_name = requests.get(url + '/User/?User.username=' + name)
     json_name = json.loads(res_name.text)
-    res_email = requests.get(url+'/User/?User.email=' + email)
+    res_email = requests.get(url + '/User/?User.email=' + email)
     json_email = json.loads(res_email.text)
     rt = ""
-    if len(json_name)==0 and len(json_email)==0:
+    if len(json_name) == 0 and len(json_email) == 0:
         if 'inmage' not in param:
-            param.update({'image':'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2588767485,2358347029&fm=26&gp=0.jpg'})
+            param.update({
+                'image': 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2588767485,2358347029&fm=26&gp=0.jpg'})
         _param = json.dumps(param)
-        tmp = requests.post(url+'/User/', _param)
+        tmp = requests.post(url + '/User/', _param)
         rt_raw = json.loads(tmp.text)
         rt_raw.pop("type")
         for each in dict_:
             if each in rt_raw:
                 continue
             else:
-                rt_raw.update({each:None})
-        rt = json.dumps({'user':rt_raw})
+                rt_raw.update({each: None})
+        rt = json.dumps({'user': rt_raw})
         return rt
     else:
         return rt
+
 
 def do_user_login(param):
     dict_ = ['email', 'id', 'username', 'bio', 'image']
@@ -38,9 +41,9 @@ def do_user_login(param):
     res = requests.get(url + '/User/?User.username=' + name)
     rt_raw = json.loads(res.text)
     rt = ""
-    if len(rt_raw)!=0:
+    if len(rt_raw) != 0:
         pwd = rt_raw['User'][0].pop('password')
-        if param['password']!=pwd :
+        if param['password'] != pwd:
             return rt
         else:
             rt = rt_raw['User'][0]
@@ -48,10 +51,11 @@ def do_user_login(param):
                 if each in rt:
                     continue
                 else:
-                    rt.update({each:None})
+                    rt.update({each: None})
             return rt
     else:
         return rt
+
 
 def do_profile_get(param):
     dict_ = ['email', 'id', 'username', 'bio', 'image']
@@ -62,38 +66,39 @@ def do_profile_get(param):
     param = json.dumps({'user1': req_1['id'], 'user2': res_2['User'][0]['id']})
     res_raw_follow = requests.get(
         url + '/Follow/?Follow.user1=' + str(req_1['id']) + "&Follow.user2=" + str(res_2['User'][0]['id']))
-    rt=res_2['User'][0]
+    rt = res_2['User'][0]
     rt.pop('password')
     for each in dict_:
         if each not in rt:
-            rt.update({each:None})
+            rt.update({each: None})
     res_follow = json.loads(res_raw_follow.text)
-    if len(res_follow)>0:
+    if len(res_follow) > 0:
         res_follow = res_follow['Follow']
-        if len(res_follow)>0:
-            rt.update({'follow':True})
+        if len(res_follow) > 0:
+            rt.update({'follow': True})
         else:
             rt.update({'follow': False})
     else:
-        rt.update({'follow':False})
+        rt.update({'follow': False})
     return rt
 
-#2018/12/10 9.16am add taglist module by:gxhou
+
+# 2018/12/10 9.16am add taglist module by:gxhou
 def do_article_submit(param):
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
     content = param['title']
     gfw = DFAFilter()
-    #gfw.parse("keywords")
-    #res = gfw.filter(content, "*")
-    #param['title'] = res
+    # gfw.parse("keywords")
+    # res = gfw.filter(content, "*")
+    # param['title'] = res
 
     content = param['description']
-    #res = gfw.filter(content, "*")
-    #param['description'] = res
+    # res = gfw.filter(content, "*")
+    # param['description'] = res
 
     content = param['body']
-    #res = gfw.filter(content, "*")
-    #param['body'] = res
+    # res = gfw.filter(content, "*")
+    # param['body'] = res
 
     has_tag = False
     taglist = ""
@@ -102,37 +107,39 @@ def do_article_submit(param):
         taglist = param.pop('taglist')
 
     _param = json.dumps(param)
-    response_1 = requests.post(url+'/Article/', _param)
+    response_1 = requests.post(url + '/Article/', _param)
     response_1 = json.loads(response_1.text)
+    print(response_1)
     response_1.pop('type')
 
     for each in dict_:
         if each in response_1:
             continue
         else:
-            response_1[each]=None
+            response_1[each] = None
 
     time_tmp = float(response_1['createat'])
     response_1['createat'] = time.asctime(time.localtime(time_tmp))
     time_tmp = float(response_1['updateat'])
     response_1['updateat'] = time.asctime(time.localtime(time_tmp))
     articleid = response_1.pop('id')
-    response_1.update({'articleid':articleid})
+    response_1.update({'articleid': articleid})
     if has_tag == True:
         response_to_json_1 = response_1
         aritcle_id = response_to_json_1['articleid']
         for key in taglist:
-            param_tag_article = json.dumps({'articleid':aritcle_id})
+            param_tag_article = json.dumps({'articleid': aritcle_id})
             param_tag_article.update(key)
-            requests.post(url + '/Tag_article/',param_tag_article)
+            requests.post(url + '/Tag_article/', param_tag_article)
         response_2 = json.loads(response_1.text)
-        response_2.update({'taglist':taglist})
-        return json.dumps({'article':response_2})
-    else :
-        return json.dumps({'article':response_1})
+        response_2.update({'taglist': taglist})
+        return json.dumps({'article': response_2})
+    else:
+        return json.dumps({'article': response_1})
+
 
 def do_article_update(param):
-    dict_ = ['id','title','description','body','createat','updateat','passstate','authorid']
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
     find_req = param['user']
     find_req.update(param['article'])
     update_req = param["item"]
@@ -140,16 +147,17 @@ def do_article_update(param):
     gfw.parse("keywords")
     for key in update_req:
         if key == 'title' or key == 'description' or key == 'body':
-            res = gfw.filter(update_req[key],'*')
+            res = gfw.filter(update_req[key], '*')
             update_req[key] = res
 
     for key in find_req:
         if key == 'title' or key == 'description' or key == 'body':
-            res = gfw.filter(find_req[key],'*')
+            res = gfw.filter(find_req[key], '*')
             find_req[key] = res
 
     find_req_ = json.dumps(find_req)
-    find = requests.get(url+'/Article/?Article.authorid='+find_req['userId']+'&Article.title='+find_req['title'])
+    find = requests.get(
+        url + '/Article/?Article.authorid=' + find_req['userId'] + '&Article.title=' + find_req['title'])
     find_ = json.loads(find.text)
     if 'Article' in find_:
         tmp = find_['Article'][0]
@@ -158,14 +166,14 @@ def do_article_update(param):
 
     for key in update_req:
         if key in tmp:
-            tmp[key]=update_req[key]
+            tmp[key] = update_req[key]
 
-    tmp["updateat"]= time.time()
+    tmp["updateat"] = time.time()
 
-    res = requests.put(url+'/Article/'+str(find_['Article'][0]['id']), json.dumps(tmp))
+    res = requests.put(url + '/Article/' + str(find_['Article'][0]['id']), json.dumps(tmp))
     rt = res.text
     rt = json.loads(rt)
-    #rt_ = json.dumps(rt)
+    # rt_ = json.dumps(rt)
     time_tmp = float(rt['createat'])
     rt['createat'] = time.asctime(time.localtime(time_tmp))
     time_tmp = float(rt['updateat'])
@@ -175,27 +183,32 @@ def do_article_update(param):
         if each in rt:
             continue
         else:
-            rt[each]=None
+            rt[each] = None
 
-    if res.ok :
-        return json.dumps({"article":rt})
-    else :
-        return json.dumps({"error":"something wrong in request"})
+    if res.ok:
+        return json.dumps({"article": rt})
+    else:
+        return json.dumps({"error": "something wrong in request"})
+
 
 def do_article_delete(param):
-    res = requests.delete(url+'/Article/'+param['id'])
+    res = requests.delete(url + '/Article/' + param['id'])
     res = json.loads(res.text)
 
+
 def do_articles_get(param):
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
-    req_state = url+'/Article/'
-    it =0
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'author', 'taglist', 'editor']
+    dict_author = ['email', 'id', 'username', 'bio', 'image']
+    dict_supervisor = ['id', 'decision', 'remark']
+    dict_editor = ['id', 'decision', 'trust', 'remark']
+    req_state = url + '/Article/'
+    it = 0
     for each in param:
         if it == 0:
-            req_state += ('?Article.'+each+'='+param[each])
+            req_state += ('?Article.' + each + '=' + param[each])
             it += 1
         else:
-            req_state += ('&Article.'+each+'='+param[each])
+            req_state += ('&Article.' + each + '=' + param[each])
     print(req_state)
     rt_raw = requests.get(req_state)
     print(rt_raw.text)
@@ -209,24 +222,177 @@ def do_articles_get(param):
     sort_var = res['articles']
     sort_var.sort(key=lambda x: x['createat'])
     for each in sort_var:
+        each.pop('type')
+        # item_time
         time_tmp = float(each['createat'])
         each['createat'] = time.asctime(time.localtime(time_tmp))
         time_tmp = float(each['updateat'])
         each['updateat'] = time.asctime(time.localtime(time_tmp))
-        for item in dict_:
-            if item in each:
-                continue
+        # item author
+        authorid = each['authorid']
+        author_info_res = requests.get(url + '/User/' + str(authorid))
+        each.pop('authorid')
+        author_info = json.loads(author_info_res.text)
+        author_info.pop('password')
+        author_info.pop('type')
+        for itor in dict_author:
+            if itor not in author_info:
+                author_info.update({itor: None})
+        each.update({'author': author_info})
+        # item supervisor
+        each.update({'editor': None})
+        supervisor_info_res = requests.get(url + '/Supervisor_article/?Supervisor_article.articleid=' + str(each['id']))
+        supervisor_info = json.loads(supervisor_info_res.text)
+        if len(supervisor_info) == 0:
+            each['editor'] = json.dumps({'supervisor': None})
+        else:
+            supervisor_info = supervisor_info['Supervisor_article'][0]
+            for itor in dict_supervisor:
+                if itor not in supervisor_info:
+                    supervisor_info.update({itor: None})
+                    each['editor'] = json.dumps({'supervisor': supervisor_info})
+        # item editor
+        editor_info_res = requests.get(url + '/Editor_article/?articleid=' + str(each['id']))
+        editor_info = json.loads(editor_info_res.text)
+        each['editor'] = json.loads(each['editor'])
+        item_editor = each['editor']
+        item_editor.update({'editor1': None})
+        item_editor.update({'editor2': None})
+        if len(editor_info) != 0:
+            it = 1
+            for itor in editor_info['Editor_article']:
+                for item in dict_editor:
+                    if item not in itor:
+                        itor.update({item: None})
+                        if itor == 'decision':
+                            itor.update({item: 'checking'})
+                each['editor'].update({('editor' + it): itor})
+                it += 1
+        # item status
+        if 'status' not in each:
+            each.update({'status': False})
+        else:
+            if each['status'] == 'True':
+                each['status'] = True
             else:
+                each['status'] = False
+        for item in dict_:
+            if item not in each:
                 each[item] = None
+        # item tag
+        tag_info_res = requests.get(url + '/Tag_article/?Tag_article.articleid=' + str(each['id']))
+        tag_info = json.loads(tag_info_res.text)
+        if len(tag_info) == 0:
+            each.update({'taglist': None})
+        else:
+            taglist = {}
+            for itor in tag_info:
+                taglist.update({tag_info[itor]})
+                each.update({'taglist': taglist})
     res = json.dumps(res)
     return res
 
+
 def do_articles_all():
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
-    req_state = url+'/Article/'
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'authorid']
+    dict_author = ['email', 'id', 'username', 'bio', 'image']
+    dict_supervisor = ['id', 'decision', 'remark']
+    dict_editor = ['id', 'decision', 'trust', 'remark']
+    req_state = url + '/Article/'
     rt_raw = requests.get(req_state)
-    print(rt_raw.text)
     res = json.loads(rt_raw.text)
+    it = 0
+    res['articles'] = res['Article']
+    res.pop('Article')
+    for each in res['articles']:
+        it = it + 1
+    res.update({'articlescount': it})
+    sort_var = res['articles']
+    sort_var.sort(key=lambda x: x['createat'])
+    for each in sort_var:
+        # item time
+        time_tmp = float(each['createat'])
+        each['createat'] = time.asctime(time.localtime(time_tmp))
+        time_tmp = float(each['updateat'])
+        each['updateat'] = time.asctime(time.localtime(time_tmp))
+        # item author
+        authorid = each['authorid']
+        author_info_res = requests.get(url + '/User/' + str(authorid))
+        each.pop('authorid')
+        author_info = json.loads(author_info_res.text)
+        author_info.pop('password')
+        author_info.pop('type')
+        for itor in dict_author:
+            if itor not in author_info:
+                author_info.update({itor: None})
+        each.update({'author': author_info})
+        # item supervisor
+        each.update({'editor': None})
+        supervisor_info_res = requests.get(url + '/Supervisor_article/?Supervisor_article.articleid=' + str(each['id']))
+        supervisor_info = json.loads(supervisor_info_res.text)
+        if len(supervisor_info) == 0:
+            each['editor'] = json.dumps({'supervisor': None})
+        else:
+            supervisor_info = supervisor_info['Supervisor_article'][0]
+            for itor in dict_supervisor:
+                if itor not in supervisor_info:
+                    supervisor_info.update({itor: None})
+                    each['editor'] = json.dumps({'supervisor': supervisor_info})
+        # item editor
+        editor_info_res = requests.get(url + '/Editor_article/?articleid=' + str(each['id']))
+        editor_info = json.loads(editor_info_res.text)
+        each['editor'] = json.loads(each['editor'])
+        item_editor = each['editor']
+        item_editor.update({'editor1': None})
+        item_editor.update({'editor2': None})
+        if len(editor_info) != 0:
+            it = 1
+            for itor in editor_info['Editor_article']:
+                for item in dict_editor:
+                    if item not in itor:
+                        itor.update({item: None})
+                        if itor == 'decision':
+                            itor.update({item: 'checking'})
+                each['editor'].update({('editor' + it): itor})
+                it += 1
+        # item status
+        if 'status' not in each:
+            each.update({'status': False})
+        else:
+            if each['status'] == 'True':
+                each['status'] = True
+            else:
+                each['status'] = False
+        for item in dict_:
+            if item not in each:
+                each[item] = None
+        # item tag
+        tag_info_res = requests.get(url + '/Tag_article/?Tag_article.articleid=' + str(each['id']))
+        tag_info = json.loads(tag_info_res.text)
+        if len(tag_info) == 0:
+            each.update({'taglist': None})
+        else:
+            taglist = {}
+            for itor in tag_info:
+                taglist.update({tag_info[itor]})
+                each.update({'taglist': taglist})
+    res = json.dumps(res)
+    return res
+
+
+def do_aticle_list(param):
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
+    req_state = url + "/Article/"
+    it = 0
+
+    for key in param:
+        if it == 0:
+            req_state = req_state + "?Article." + key + "=" + param[key]
+            it = it + 1
+        else:
+            req_state = req_state + "&Article." + key + "=" + param[key]
+    res_raw = requests.get(req_state)
+    res = json.loads(res_raw.text)
     it = 0
     res['articles'] = res['Article']
     res.pop('Article')
@@ -248,39 +414,6 @@ def do_articles_all():
     res = json.dumps(res)
     return res
 
-def do_aticle_list(param):
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
-    req_state = url+"/Article/"
-    it = 0
-
-    for key in param:
-        if it == 0:
-            req_state = req_state + "?Article."+key+"="+param[key]
-            it = it+1
-        else:
-            req_state = req_state + "&Article." + key + "=" + param[key]
-    res_raw = requests.get(req_state)
-    res = json.loads(res_raw.text)
-    it = 0
-    res['articles'] = res['Article']
-    res.pop('Article')
-    for each in res['articles']:
-        it = it+1
-    res.update({'articlescount':it})
-    sort_var = res['articles']
-    sort_var.sort(key = lambda x:x['createat'])
-    for each in sort_var:
-        time_tmp = float(each['createat'])
-        each['createat'] = time.asctime(time.localtime(time_tmp))
-        time_tmp = float(each['updateat'])
-        each['updateat'] = time.asctime(time.localtime(time_tmp))
-        for item in dict_:
-            if item in each:
-                continue
-            else:
-                each[item] = None
-    res = json.dumps(res)
-    return res
 
 def do_comment_commit(param):
     content = param['body']
@@ -290,7 +423,8 @@ def do_comment_commit(param):
 
     param['body'] = content
 
-    res = requests.post(url+'/comment', param)
+    res = requests.post(url + '/comment', param)
+
 
 def do_comment_delete(param):
     res = requests.delete(url + '/Comment/', param["id"])

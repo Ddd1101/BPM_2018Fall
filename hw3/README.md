@@ -27,18 +27,17 @@ Make sure the right content type like `Content-Type: application/json; charset=u
       "title": "How to train your example",
       "description": "Ever wonder how?",
       "body": "It takes a example",
-      //"tagList": ["example", "training"],
+      "tagList": ["example", "training"],
       "createdat": "2018-12-03T03:22:56.637Z",
       "updatedat": "2018-12-03T03:48:35.824Z",
       "passtate": false,
-      //"editor": {
-          "editor1id": "pass",
+      "editor": {
+          "editor1id": {
+          	"pass",
+          }
           "editor2id": "reject"
       },
-      //"favorited": false,
-      //"favoritesCount": 0,
-      "authorid":"123456"
-      //"author": {            //暂时返回authorid
+      "author": {            
          "username": "bpm",
       	  "bio": "Hello bpm",
       	  "image": "https://www.example.com/example.jpg"
@@ -64,13 +63,10 @@ Make sure the right content type like `Content-Type: application/json; charset=u
           "editor1Id": "pass",
           "editor2Id": "reject"
       	},
-      	"favorited": false,
-      	"favoritesCount": 0,
       	"author": {
           "username": "bpm",
       	  "bio": "Hello bpm",
-      	  "image": "https://www.example.com/example.jpg",
-      	  "following": false
+      	  "image": "https://www.example.com/example.jpg"
       	}
     },{
         "articleId": 123456788,
@@ -85,13 +81,10 @@ Make sure the right content type like `Content-Type: application/json; charset=u
           "editor1Id": "pass",
           "editor2Id": "reject"
       	},
-      	"favorited": false,
-      	"favoritesCount": 0,
       	"author": {
           "username": "bpm",
       	  "bio": "Hello bpm",
-      	  "image": "https://www.example.com/example.jpg",
-      	  "following": false
+      	  "image": "https://www.example.com/example.jpg"
       	}
     }],
     "articlescount": 2
@@ -106,11 +99,10 @@ Make sure the right content type like `Content-Type: application/json; charset=u
     "commentid": 1234588,
     "createdat": "2018-12-03T03:22:56.637Z",
     "body": "cool article!",
-    "author": {
+    "": {
       "username": "bpm",
       "bio": "Hello bpm",
-      "image": "https://www.example.com/example.jpg",
-      "following": false
+      "image": "https://www.example.com/example.jpg"
     }
   }
 }
@@ -127,8 +119,7 @@ Make sure the right content type like `Content-Type: application/json; charset=u
     "author": {
       "username": "bpm",
       "bio": "Hello bpm",
-      "image": "https://www.example.com/example.jpg",
-      "following": false
+      "image": "https://www.example.com/example.jpg"
     }
   }]
 }
@@ -257,7 +248,7 @@ Example request body:
 
 ### Get Profile
 
-`GET /api/profiles?username="name"/or(id=123456)`
+`GET /api/profiles?username=name`
 
 Returns a [Profile](#Profile)
 
@@ -277,12 +268,6 @@ Example request body:
 
 Returns a [Profile](#Profile)
 
-### Unfollow user
-
-> Known defect: DELETE doesn't need authentication 
-
-`DELETE /api/profiles/:username/follow`
-
 ### List Articles
 
 `GET /api/articles/get?key1=value1&key2=value2`
@@ -292,7 +277,7 @@ Returns most recent articles globally by default, provide `tag`, `author` or `fa
 
 Query Parameters:
 
-Filter by tag:
+Filter by tag:// todo
 
 `?tag=bpm`
 
@@ -300,21 +285,13 @@ Filter by author:
 
 `?author=alan`
 
-Favorited by user:
-
-`?favorited=alan X`
-
-Limit number of articles (default is 20):
-
-`?limit=20`
-
 Returns [multiple articles](#Multiple Articles), ordered by most recent first
 
 ### Get Article
 
 > Known defect: DELETE doesn't need authentication 
 
-`GET /api/articles?articleId=123456`
+`GET /api/articles?articleid=123456`
 
 
 Returns [single article](#Single Article).
@@ -347,21 +324,18 @@ Optional fields: `tagList` as an array of Strings
 
 ### Update Article
 
-`PUT /api/articles`
+`PUT /api/articles?articleid=123456`
 
 Example request body:
 
 ```json
 {
-  "user": {
-    "id": 123456789
-  },
-  "article": {
-    "title": "Did you train your example?"
-  }，
-  “items”:{
-  	"title": "Do some change"
-  }
+	"article":{
+		"articleid":1234564
+		"title": "Do some change"
+	}
+  	
+
 }
 ```
 
@@ -373,7 +347,7 @@ Optional fields: `title`, `description`, `body`
 
 > Known defect: DELETE doesn't need authentication 
 
-`DELETE /api/articles?articleId=123456`
+`DELETE /api/articles?articleid=123456`
 
 ### Add Comments to an Article
 
@@ -383,11 +357,11 @@ Example request body:
 
 ```json
 {
-  "user": {
-    "userId": "123456789"
+  "editor": {
+    "editorid": "123456789"
   },
   "article":{
-  	"articleId":"123466789"
+  	"articleid":"123466789"
   }
   "comment": {
     "body": "cool article!!"
@@ -419,33 +393,6 @@ Returns [multiple comments](#Multiple Comments)
 }
 ```
 
-### Favorite Article
-
-```
-POST /api/articles/:articleId/favorite
-```
-
-Example request body:
-
-```json
-{
-  "user": {
-      "userId": 123456789
-  }
-}
-```
-
-Returns the  [single article](#Single Article)
-
-### Unfavorite Article
-
-> Known defect: DELETE doesn't need authentication 
-
-```
-DELETE /api/articles/:articleId/favorite
-```
-
-Returns the [single article](#Single Article)
 
 ### Get Tags
 
@@ -454,5 +401,3 @@ GET /api/tags
 ```
 
 Returns a [List of Tags](#List of Tags)
-
-1. 
