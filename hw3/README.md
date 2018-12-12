@@ -32,12 +32,26 @@ Make sure the right content type like `Content-Type: application/json; charset=u
       "updatedat": "2018-12-03T03:48:35.824Z",
       "passtate": false,
       "editor": {
-          "editor1id": {
-          	"pass",
+          "supervisor": {
+          	"id":123456,
+          	"status":checking,
+          	"remark"
+          },
+          "editor1": {
+          	"id":123456,
+          	"status":checking,
+          	"trust":80,   //(1-100)
+          	"remark"
+          },
+          "editor2": {
+          	"id":123456,
+          	"status":checking,
+          	"trust":80,   //(1-100)
+          	"remark"
           }
-          "editor2id": "reject"
       },
-      "author": {            
+      "author": { 
+         "id":123456,           
          "username": "bpm",
       	  "bio": "Hello bpm",
       	  "image": "https://www.example.com/example.jpg"
@@ -51,42 +65,42 @@ Make sure the right content type like `Content-Type: application/json; charset=u
 ```json
 {
     "articles":[{
-        "articleId": 123456789,
-      	"title": "How to train your example",
-      	"description": "Ever wonder how?",
-      	"body": "It takes a example",
-      	"tagList": ["example", "training"],
-      	"createdat": "2018-12-03T03:22:56.637Z",
-      	"updatedat": "2018-12-03T03:48:35.824Z",
-      	"passState": false,
-      	"editor": {
-          "editor1Id": "pass",
-          "editor2Id": "reject"
-      	},
-      	"author": {
-          "username": "bpm",
+       "id": 123456789,
+      "title": "How to train your example",
+      "description": "Ever wonder how?",
+      "body": "It takes a example",
+      "tagList": ["example", "training"],
+      "createdat": "2018-12-03T03:22:56.637Z",
+      "updatedat": "2018-12-03T03:48:35.824Z",
+      "passtate": false,
+      "editor": {
+          "supervisor": {
+          	"id":123456,
+          	"status":checking,
+          	"remark"
+          },
+          "editor1": {
+          	"id":123456,
+          	"status":checking,
+          	"trust":80,   //(1-100)
+          	"remark"
+          },
+          "editor2": {
+          	"id":123456,
+          	"status":checking,
+          	"trust":80,   //(1-100)
+          	"remark"
+          }
+      },
+      "author": { 
+         "id":123456,           
+         "username": "bpm",
       	  "bio": "Hello bpm",
       	  "image": "https://www.example.com/example.jpg"
-      	}
-    },{
-        "articleId": 123456788,
-      	"title": "How to train your example2",
-      	"description": "Ever wonder how?",
-      	"body": "It takes a example",
-      	"tagList": ["example", "training"],
-      	"createdAt": "2018-12-03T03:22:56.637Z",
-      	"updatedAt": "2018-12-03T03:48:35.824Z",
-      	"passState": false,
-      	"editor": {
-          "editor1Id": "pass",
-          "editor2Id": "reject"
-      	},
-      	"author": {
-          "username": "bpm",
-      	  "bio": "Hello bpm",
-      	  "image": "https://www.example.com/example.jpg"
-      	}
-    }],
+      }
+    },
+    {....}
+    ],
     "articlescount": 2
 }
 ```

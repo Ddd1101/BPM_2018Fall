@@ -19,7 +19,6 @@ urls = (
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
-
 class users:
 
     # register
@@ -115,7 +114,6 @@ class profile:
         req_str = str(req_bytes, encoding="utf-8")
         req_raw = json.loads(req_str)
         rt = model.do_profile_get(req_raw)
-        print(rt)
         return json.dumps({'profile': rt})
 
 
@@ -171,7 +169,6 @@ class article:
             req_raw.update({'id': id})
 
         if '*' in req_raw:
-            print(req_raw)
             rt = model.do_articles_all()
             return rt
         rt = model.do_articles_get(req_raw)
@@ -187,7 +184,6 @@ class articles_get:
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
         req = req_get['param']
-        print(req)
         rt = model.do_aticle_list(req)
         return rt
 
@@ -198,9 +194,9 @@ class articles_get:
         req_raw = web.input()
         rt = ''
         if '*' in req_raw:
-            print(req_raw)
             rt = model.do_articles_all()
             return rt
+        print(req_raw)
         rt = model.do_articles_get(req_raw)
         return rt
 
@@ -218,7 +214,6 @@ class tags:
         res_raw = requests.get(url + '/Article/' + str(req))
         print(res_raw.text)
         return json.dumps(res_raw.text)
-
 
 class comment:
     def POST(self):

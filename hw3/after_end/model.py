@@ -112,7 +112,6 @@ def do_article_submit(param):
     response_1.pop('type')
     articleid = response_1.pop('id')
 
-
     for each in dict_:
         if each in response_1:
             continue
@@ -128,7 +127,7 @@ def do_article_submit(param):
     if has_tag == True:
         for key in taglist:
             param_tag_article = json.dumps({'articleid': articleid})
-            param_tag_article.update({'tag':key})
+            param_tag_article.update({'tag': key})
             requests.post(url + '/Tag_article/', param_tag_article)
         response_2 = json.loads(response_1.text)
         response_2.update({'taglist': taglist})
@@ -203,20 +202,22 @@ def do_articles_get(param):
     req_state = url + '/Article/'
     it = 0
     if 'articleid' in param:
-        id_tmp =param.pop('articleid')
-        param.update({'id':id_tmp})
+        id_tmp = param.pop('articleid')
+        param.update({'id': id_tmp})
+    if 'username' in param:
+        username = param.pop('username')
+        author_info_raw = requests.get(url + '/User/?User.username=' + username)
+        author_info = json.loads(author_info_raw.text)
+        param['authorid'] = str(author_info['User'][0]['id'])
     for each in param:
         if it == 0:
             req_state += ('?Article.' + each + '=' + param[each])
             it += 1
         else:
             req_state += ('&Article.' + each + '=' + param[each])
-    print(req_state)
     rt_raw = requests.get(req_state)
-    print(rt_raw.text)
     res = json.loads(rt_raw.text)
     it = 0
-    print(res)
     res['articles'] = res['Article']
     res.pop('Article')
     for each in res['articles']:
@@ -225,7 +226,7 @@ def do_articles_get(param):
     sort_var = res['articles']
     sort_var.sort(key=lambda x: x['createat'])
     for each in sort_var:
-        #each.pop('type')
+        # each.pop('type')
         # item_time
         time_tmp = float(each['createat'])
         each['createat'] = time.asctime(time.localtime(time_tmp))
@@ -433,4 +434,4 @@ def do_comment_commit(param):
 
 
 def do_comment_delete(param):
-    res = requests.delete(url + '/Comment/', param["id"])
+    res = requests.delete(url + '/Comment/' + str(param['id']))
