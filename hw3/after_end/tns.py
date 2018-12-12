@@ -19,6 +19,7 @@ urls = (
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
+
 class users:
 
     # register
@@ -153,10 +154,9 @@ class article:
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
-        req_state = url+'/Articles/'+req_raw['articleid']
-        rt = requests(req_state)
-        return rt
-
+        req_state = url + '/Article/' + req_raw['articleid']
+        rt = requests.delete(req_state)
+        return json.loads(rt.text)
 
     def GET(self):
         web.header("Access-Control-Allow-Origin", "*")
@@ -214,6 +214,7 @@ class tags:
         res_raw = requests.get(url + '/Article/' + str(req))
         print(res_raw.text)
         return json.dumps(res_raw.text)
+
 
 class comment:
     def POST(self):
