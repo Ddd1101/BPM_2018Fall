@@ -197,7 +197,7 @@ def do_article_delete(param):
 
 
 def do_articles_get(param):
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'author', 'taglist', 'editor']
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'author', 'taglist', 'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
     dict_supervisor = ['id', 'decision', 'remark']
     dict_editor = ['id', 'decision', 'trust', 'remark']
@@ -294,7 +294,7 @@ def do_articles_get(param):
 
 
 def do_articles_all():
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'authorid']
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'author', 'taglist', 'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
     dict_supervisor = ['id', 'decision', 'remark']
     dict_editor = ['id', 'decision', 'trust', 'remark']
