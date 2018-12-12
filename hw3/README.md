@@ -338,14 +338,14 @@ Optional fields: `tagList` as an array of Strings
 
 ### Update Article
 
-`PUT /api/articles?articleid=123456`
+`PUT /api/articles`
 
 Example request body:
 
 ```json
 {
 	"article":{
-		"articleid":1234564
+		"id":1234564
 		"title": "Do some change"
 	}
   	
@@ -362,6 +362,15 @@ Optional fields: `title`, `description`, `body`
 > Known defect: DELETE doesn't need authentication 
 
 `DELETE /api/articles?articleid=123456`
+
+return 
+
+```json
+{
+	"status":"delete",
+	"message":“success”
+}
+```
 
 ### Add Comments to an Article
 

@@ -137,61 +137,26 @@ def do_article_submit(param):
 
 
 def do_article_update(param):
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
-    find_req = param['user']
-    find_req.update(param['article'])
-    update_req = param["item"]
-    gfw = DFAFilter()
-    gfw.parse("keywords")
-    for key in update_req:
-        if key == 'title' or key == 'description' or key == 'body':
-            res = gfw.filter(update_req[key], '*')
-            update_req[key] = res
-
-    for key in find_req:
-        if key == 'title' or key == 'description' or key == 'body':
-            res = gfw.filter(find_req[key], '*')
-            find_req[key] = res
-
-    find_req_ = json.dumps(find_req)
-    find = requests.get(
-        url + '/Article/?Article.authorid=' + find_req['userId'] + '&Article.title=' + find_req['title'])
-    find_ = json.loads(find.text)
-    if 'Article' in find_:
-        tmp = find_['Article'][0]
-    else:
-        return json.dumps({"error": "something wrong in request"})
-
-    for key in update_req:
-        if key in tmp:
-            tmp[key] = update_req[key]
-
-    tmp["updateat"] = time.time()
-
-    res = requests.put(url + '/Article/' + str(find_['Article'][0]['id']), json.dumps(tmp))
-    rt = res.text
-    rt = json.loads(rt)
-    # rt_ = json.dumps(rt)
-    time_tmp = float(rt['createat'])
-    rt['createat'] = time.asctime(time.localtime(time_tmp))
-    time_tmp = float(rt['updateat'])
-    rt['updateat'] = time.asctime(time.localtime(time_tmp))
-
-    for each in dict_:
-        if each in rt:
-            continue
-        else:
-            rt[each] = None
-
-    if res.ok:
-        return json.dumps({"article": rt})
-    else:
-        return json.dumps({"error": "something wrong in request"})
+    req_state = url+'/Article/'+str(param.pop('id'))
+    time_tmp = time.time()
+    param.update({'updateat':str(time_tmp)})
+    get_src = requests.get(req_state)
+    get_src = json.loads(get_src.text)
+    get_src.pop('type')
+    for key in param:
+        get_src[key] = param[key]
+    rt_raw = requests.put(req_state,json.dumps(get_src))
+    rt = json.loads(rt_raw.text)
+    rt.pop('type')
+    rt['createat']= time.asctime(time.localtime(float(rt['createat'])))
+    rt['updateat'] = time.asctime(time.localtime(float(rt['updateat'])))
+    return json.dumps({'article':rt})
 
 
 def do_article_delete(param):
-    res = requests.delete(url + '/Article/' + param['id'])
+    res = requests.delete(url + '/Article/' + str(param['id']))
     res = json.loads(res.text)
+    return res
 
 
 def do_articles_get(param):

@@ -144,19 +144,19 @@ class article:
         web.header('Access-Control-Allow-Credentials', 'true')
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
-        req_get = json.loads(req_str)
-        res = model.do_article_update(req_get)
-        return json.dumps(res)
+        req_raw = json.loads(req_str)
+        rt = model.do_article_update(req_raw['article'])
+        return rt
 
     def DELETE(self):
         web.header("Access-Control-Allow-Origin", "*")
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
-        req_bytes = web.data()
-        req_str = str(req_bytes, encoding="utf-8")
-        req_get = json.loads(req_str)
-        req = req_get['article']
-        res = model.do_article_delete(req)
+        req_raw = web.input()
+        req_state = url+'/Articles/'+req_raw['articleid']
+        rt = requests(req_state)
+        return rt
+
 
     def GET(self):
         web.header("Access-Control-Allow-Origin", "*")
