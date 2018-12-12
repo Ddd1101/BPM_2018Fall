@@ -109,8 +109,9 @@ def do_article_submit(param):
     _param = json.dumps(param)
     response_1 = requests.post(url + '/Article/', _param)
     response_1 = json.loads(response_1.text)
-    print(response_1)
     response_1.pop('type')
+    articleid = response_1.pop('id')
+
 
     for each in dict_:
         if each in response_1:
@@ -122,14 +123,12 @@ def do_article_submit(param):
     response_1['createat'] = time.asctime(time.localtime(time_tmp))
     time_tmp = float(response_1['updateat'])
     response_1['updateat'] = time.asctime(time.localtime(time_tmp))
-    articleid = response_1.pop('id')
+
     response_1.update({'articleid': articleid})
     if has_tag == True:
-        response_to_json_1 = response_1
-        aritcle_id = response_to_json_1['articleid']
         for key in taglist:
-            param_tag_article = json.dumps({'articleid': aritcle_id})
-            param_tag_article.update(key)
+            param_tag_article = json.dumps({'articleid': articleid})
+            param_tag_article.update({'tag':key})
             requests.post(url + '/Tag_article/', param_tag_article)
         response_2 = json.loads(response_1.text)
         response_2.update({'taglist': taglist})
@@ -199,10 +198,13 @@ def do_article_delete(param):
 def do_articles_get(param):
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'author', 'taglist', 'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
-    dict_supervisor = ['id', 'decision', 'remark']
-    dict_editor = ['id', 'decision', 'trust', 'remark']
+    dict_supervisor = ['id', 'status', 'remark']
+    dict_editor = ['id', 'status', 'trust', 'remark']
     req_state = url + '/Article/'
     it = 0
+    if 'articleid' in param:
+        id_tmp =param.pop('articleid')
+        param.update({'id':id_tmp})
     for each in param:
         if it == 0:
             req_state += ('?Article.' + each + '=' + param[each])
@@ -214,6 +216,7 @@ def do_articles_get(param):
     print(rt_raw.text)
     res = json.loads(rt_raw.text)
     it = 0
+    print(res)
     res['articles'] = res['Article']
     res.pop('Article')
     for each in res['articles']:
@@ -222,7 +225,7 @@ def do_articles_get(param):
     sort_var = res['articles']
     sort_var.sort(key=lambda x: x['createat'])
     for each in sort_var:
-        each.pop('type')
+        #each.pop('type')
         # item_time
         time_tmp = float(each['createat'])
         each['createat'] = time.asctime(time.localtime(time_tmp))
@@ -296,10 +299,12 @@ def do_articles_get(param):
 def do_articles_all():
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'author', 'taglist', 'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
-    dict_supervisor = ['id', 'decision', 'remark']
-    dict_editor = ['id', 'decision', 'trust', 'remark']
+    dict_supervisor = ['id', 'status', 'remark']
+    dict_editor = ['id', 'status', 'trust', 'remark']
     req_state = url + '/Article/'
+    print(req_state)
     rt_raw = requests.get(req_state)
+    print(rt_raw.text)
     res = json.loads(rt_raw.text)
     it = 0
     res['articles'] = res['Article']
@@ -393,6 +398,7 @@ def do_aticle_list(param):
             req_state = req_state + "&Article." + key + "=" + param[key]
     res_raw = requests.get(req_state)
     res = json.loads(res_raw.text)
+    print(res)
     it = 0
     res['articles'] = res['Article']
     res.pop('Article')
