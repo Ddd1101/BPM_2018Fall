@@ -152,7 +152,7 @@ def do_article_update(param):
     rt = json.loads(rt_raw.text)
     rt.pop('type')
     rt['createat'] = time.asctime(time.localtime(float(rt['createat'])))
-    rt['updateat'] = time.asctime(time.localtime(float(rt['updateat'])))
+    rt['updateat'] = time.asctime(time.localtime(float(time.time())))
     return json.dumps({'article': rt})
 
 
