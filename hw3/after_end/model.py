@@ -85,7 +85,7 @@ def do_profile_get(param):
 
 # 2018/12/10 9.16am add taglist module by:gxhou
 def do_article_submit(param):
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'passstate', 'authorid']
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'authorid']
     content = param['title']
     gfw = DFAFilter()
     # gfw.parse("keywords")
@@ -105,7 +105,6 @@ def do_article_submit(param):
     if 'taglist' in param:
         has_tag = True
         taglist = param.pop('taglist')
-
     _param = json.dumps(param)
     response_1 = requests.post(url + '/Article/', _param)
     response_1 = json.loads(response_1.text)
@@ -127,9 +126,13 @@ def do_article_submit(param):
     if has_tag == True:
         for key in taglist:
             param_tag_article = json.dumps({'articleid': articleid})
+            param_tag_article = json.loads(param_tag_article)
             param_tag_article.update({'tag': key})
-            requests.post(url + '/Tag_article/', param_tag_article)
-        response_2 = json.loads(response_1.text)
+            print(url + '/Tag_article/', json.dumps(param_tag_article))
+            rt = requests.post(url + '/Tag_article/', json.dumps(param_tag_article))
+            print(rt)
+        response_2 = json.dumps(response_1)
+        response_2 = json.loads(response_2)
         response_2.update({'taglist': taglist})
         return json.dumps({'article': response_2})
     else:
@@ -137,20 +140,20 @@ def do_article_submit(param):
 
 
 def do_article_update(param):
-    req_state = url+'/Article/'+str(param.pop('id'))
+    req_state = url + '/Article/' + str(param.pop('id'))
     time_tmp = time.time()
-    param.update({'updateat':str(time_tmp)})
+    param.update({'updateat': str(time_tmp)})
     get_src = requests.get(req_state)
     get_src = json.loads(get_src.text)
     get_src.pop('type')
     for key in param:
         get_src[key] = param[key]
-    rt_raw = requests.put(req_state,json.dumps(get_src))
+    rt_raw = requests.put(req_state, json.dumps(get_src))
     rt = json.loads(rt_raw.text)
     rt.pop('type')
-    rt['createat']= time.asctime(time.localtime(float(rt['createat'])))
+    rt['createat'] = time.asctime(time.localtime(float(rt['createat'])))
     rt['updateat'] = time.asctime(time.localtime(float(rt['updateat'])))
-    return json.dumps({'article':rt})
+    return json.dumps({'article': rt})
 
 
 def do_article_delete(param):
@@ -291,8 +294,10 @@ def do_articles_all():
         author_info_res = requests.get(url + '/User/' + str(authorid))
         each.pop('authorid')
         author_info = json.loads(author_info_res.text)
-        author_info.pop('password')
-        author_info.pop('type')
+        if 'password' in author_info:
+            author_info.pop('password')
+        if 'type' in author_info:
+            author_info.pop('type')
         for itor in dict_author:
             if itor not in author_info:
                 author_info.update({itor: None})
@@ -345,8 +350,12 @@ def do_articles_all():
         else:
             taglist = {}
             for itor in tag_info:
-                taglist.update({tag_info[itor]})
-                each.update({'taglist': taglist})
+                tag_info = json.dumps(tag_info[itor])
+                tag_info = json.loads(tag_info)
+                tag_dict = []
+                for i in tag_info:
+                    tag_dict.append(i.pop('tag'))
+                each.update({'taglist': tag_dict})
     res = json.dumps(res)
     return res
 
