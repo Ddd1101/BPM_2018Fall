@@ -259,8 +259,12 @@ def do_articles_get(param):
         else:
             taglist = {}
             for itor in tag_info:
-                taglist.update({tag_info[itor]})
-                each.update({'taglist': taglist})
+                tag_info = json.dumps(tag_info[itor])
+                tag_info = json.loads(tag_info)
+                tag_dict = []
+                for i in tag_info:
+                    tag_dict.append(i.pop('tag'))
+                each.update({'taglist': tag_dict})
     res = json.dumps(res)
     return res
 
