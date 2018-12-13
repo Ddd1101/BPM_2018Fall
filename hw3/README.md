@@ -372,7 +372,7 @@ return
 }
 ```
 
-### Add Comments to an Article
+### Add Remarks to an Article
 
 `POST /api/comments`
 
@@ -386,7 +386,7 @@ Example request body:
   "article":{
   	"articleid":"123466789"
   }
-  "comment": {
+  "remark": {
     "body": "cool article!!"
   }
 }
@@ -396,21 +396,21 @@ Returns the created [Comment](#Single Comment)
 
 Required field: `body`
 
-### Get Comments from an Article
+### Get Reamarks from an Article
 
 `POST /api/articles/:articleId/comments/get`
 
-Returns [multiple comments](#Multiple Comments)
+Returns [multiple remarks](#Multiple Comments)
 
 ### Delete Comment
 
 > Known defect: DELETE doesn't need authentication 
 
-`DELETE /api/comments`
+`DELETE /api/reamrks`
 
 ```json
 {
-  "comment": {
+  "remark": {
     "id": "123456789"
   }
 }
