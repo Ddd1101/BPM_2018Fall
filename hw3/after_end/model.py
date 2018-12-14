@@ -367,7 +367,10 @@ def do_articles_all():
                     item.pop('password')
                 each.update({'author': item})
         each.pop('authorid')
-    return json.dumps(articles_info)
+    rt = json.dumps({'articles':articles_info})
+    rt = json.loads(rt)
+    rt.update({'articlescount':len(articles_info)})
+    return json.dumps(rt)
 
 
 def do_aticle_list(param):
