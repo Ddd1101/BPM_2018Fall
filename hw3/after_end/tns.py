@@ -19,8 +19,6 @@ urls = (
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
-test_check == 'test'
-
 class users:
 
     # register
@@ -197,7 +195,6 @@ class articles_get:
         if '*' in req_raw:
             rt = model.do_articles_all()
             return rt
-        print(req_raw)
         rt = model.do_articles_get(req_raw)
         return rt
 
