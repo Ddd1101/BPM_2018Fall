@@ -3,13 +3,14 @@
 ## DBStore
 
 ### Editor
+
 ```
 {
   "editor":{
-      "email":"emample@bpm.com", // cheif editor默认admin@bpm.com
+      "email":"emample@bpm.com", // cheif editor default admin@bpm.com
       "id":123456789,
-      "editorName":"editor", // cheif editor默认admin
-      "password":"bpmbpmbpm", // cheif editor默认admin
+      "editorName":"editor", // cheif editor default admin
+      "password":"bpmbpmbpm", // cheif editor default admin
       "maxReview":10,
       "toReview":[{
           "id":123456789,
@@ -19,7 +20,9 @@
   }
 }
 ```
+
 ## API
+
 ### Editor
 
 #### Login
@@ -27,6 +30,7 @@
 `POST /api/editor/login`
 
 request body:
+
 ```
 {
   "editor":{
@@ -39,6 +43,8 @@ request body:
 #### GetReviewList
 
 `GET /api/editor/reviewList/:editorID`
+
+this request should only return articleList that belonged to the corresponding editor,not all articles
 
 return example:
 ```
@@ -79,22 +85,28 @@ request body example:
 ```
 
 ### ChiefEditor
+
 #### getAvaliableEditors
 
 `GET /api/chiefEditor/editors`
 
+this request should only return editors that are available which means **maxReview**,which is a property of an editor,minus **toReviewList.length** should be non-negative.
+
 return example:
+
 ```
 {     
     "statusCode":200,
     "editors":["editorName1","editorName2",...]
 }
 ```
+
 #### assignEditor
 
 `POST /api/chiefEditor/assign`
 
 request body example:
+
 ```
 {
   "article":{
@@ -108,6 +120,7 @@ request body example:
 ## All successful request should return a JsonObj with a statusCode 200 in its body,wheras error should return a JsonObj as below 
 
 ### failed request
+
 ```
 {
   "error":{
