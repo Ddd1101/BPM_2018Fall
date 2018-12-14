@@ -90,7 +90,7 @@ request body example:
 
 `GET /api/chiefEditor/editors`
 
-this request should only return editors that are available which means **maxReview**,which is a property of an editor,minus **toReviewList.length** should be non-negative.
+this request should only return editors that are available which means **maxReview**,which is a property of an editor,minus **toReview.length** should be non-negative.
 
 return example:
 
