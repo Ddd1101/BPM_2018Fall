@@ -163,6 +163,8 @@ def do_article_delete(param):
 
 
 def do_articles_get(param):
+    if 'tag' in param:
+        return do_article_get_by_tag(param)
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'author', 'taglist', 'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
     dict_supervisor = ['id', 'status', 'remark']
@@ -267,6 +269,25 @@ def do_articles_get(param):
                 each.update({'taglist': tag_dict})
     res = json.dumps(res)
     return res
+
+
+def do_article_get_by_tag(param):
+    return 0
+
+
+def do_add_tag_to_article(param):
+    req = param['article']
+    if 'articleid' in req:
+        articleid = req['articleid']
+    elif 'id' in req:
+        articleid = req['id']
+    taglist = param['taglist']
+    for each in taglist:
+        param_ = json.dumps({'tag': each, 'articleid': articleid})
+        requests.post(url + '/Tag_article/', )
+    req_state = json.dumps({'id': articleid})
+    rt = do_articles_get(req_state)
+    return rt
 
 
 def do_articles_all():

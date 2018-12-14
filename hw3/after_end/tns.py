@@ -19,6 +19,7 @@ urls = (
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
+test_check == 'test'
 
 class users:
 
@@ -210,10 +211,17 @@ class tags:
         req_str = str(req_bytes, encoding="utf-8")
         req_get = json.loads(req_str)
         req = req_get['article']['id']
-        print(url + '/Articles/' + str(req))
         res_raw = requests.get(url + '/Article/' + str(req))
-        print(res_raw.text)
         return json.dumps(res_raw.text)
+
+    def PUT(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        rt = model.do_article_get_by_tag(req_raw['article'])
 
 
 class comment:
