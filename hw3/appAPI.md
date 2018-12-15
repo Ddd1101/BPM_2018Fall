@@ -53,7 +53,7 @@ return :
 
 #### GetReviewList
 
-`GET /api/editor/reviewlist/?editorid=123456`
+`GET /api/editor/reviewlist/?editorid=123456`//changed
 
 this request should only return articleList that belonged to the corresponding editor,not all articles
 
@@ -63,7 +63,7 @@ return example:
      "statuscode": 200,
      "reviewlist":[{
      "id":123456789,
-     "description":"something",
+     "description":"something",//changed
      "title":"title1",
      "body":"this is a example",
      "author":"author1"
@@ -86,10 +86,9 @@ return example:
 request body example:
 ```
 {
-  "review":{
-      "id":123456789, //什么id？
-      "editorName":{
-        "id":123456,
+  "review":{ //changed
+        "articleid":123456789, 
+        "editorid":123456,  
         "status":"accept",
         "remark":"this article is too low,kick it out"
       }
