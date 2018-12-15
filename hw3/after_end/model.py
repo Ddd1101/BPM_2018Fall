@@ -7,6 +7,21 @@ from filter import DFAFilter
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
 
+def do_review(param):
+    dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']
+    res = requests.get(url + '/Review/?editorid=' + param['editorid'] + '&articleid=' + param['articleid'])
+    res = json.loads(res.text)
+    for each in dict_review:
+        res[each] = param[each]
+    reviewid = res.pop('id')
+    rt = requests.post(url + '/Review/' + reviewid, json.dumps(res))
+    if rt.ok:
+        rt = json.dumps({'success': {'statuscode': 200}})
+    else:
+        rt = json.dumps({'error': {'statuscode': rt.status_code}})
+    return rt
+
+
 def do_get_review_list(param):
     # get all info needed
     article_list = requests.get(url + '/Article/')
@@ -15,7 +30,7 @@ def do_get_review_list(param):
     author_list = requests.get(url + '/User/')
     author_list = json.loads(author_list.text)
     author_list = author_list['User']
-    articleid_list1 = requests.get(url + '/Editor_article/?editor1id=' + param)
+    articleid_list1 = requests.get(url + '/Article_assgin/?editor1id=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
     articleid_list1 = articleid_list1['Article_assgin']
     # pack articleid
@@ -121,10 +136,10 @@ def do_assign(param):
         articleid = param.pop('id')
         param.update({'articleid': articleid})
     res = requests.post(url + '/Article_assgin/', json.dumps(param))
-    to_editor_article = {'articleid': param['article'], 'editorid': param['editor1id'], 'status': 'assigned'}
-    requests.post(url + '/Editor_article/', json.dumps(to_editor_article))
-    to_editor_article = {'articleid': param['article'], 'editorid': param['editor2id'], 'status': 'assigned'}
-    requests.post(url + '/Editor_article/', json.dumps(to_editor_article))
+    to_remark = {'articleid': param['article'], 'editorid': param['editor1id'], 'status': 'assigned'}
+    requests.post(url + '/Review/', json.dumps(to_remark))
+    to_remark = {'articleid': param['article'], 'editorid': param['editor2id'], 'status': 'assigned'}
+    requests.post(url + '/review/', json.dumps(to_remark))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
         return rt

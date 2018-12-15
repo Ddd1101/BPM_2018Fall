@@ -90,7 +90,8 @@ request body example:
         "articleid":123456789, 
         "editorid":123456,  
         "status":"accept",
-        "remark":"this article is too low,kick it out"
+        "remark":"this article is too low,kick it out"，
+        “trust”:80 //信任度
       }
   }
 }

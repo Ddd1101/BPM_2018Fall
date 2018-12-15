@@ -18,10 +18,21 @@ urls = (
     '/api/chiefeditor/assign', 'chiefeditor',
     '/api/editor/register', 'editor_register',
     '/api/editor/login', 'editor',
-    '/api/editor/reviewlist/','editor'
+    '/api/editor/reviewlist/','editor',
+    '/api/editor/review','review'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
+
+class review:
+    def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        rt = model.do_review(req['review'])
 
 class editor:
     def POST(self):
