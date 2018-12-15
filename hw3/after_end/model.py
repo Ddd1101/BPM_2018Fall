@@ -7,6 +7,132 @@ from filter import DFAFilter
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
 
+def do_get_review_list(param):
+    # get all info needed
+    article_list = requests.get(url + '/Article/')
+    article_list = json.loads(article_list.text)
+    article_list = article_list['Article']
+    author_list = requests.get(url + '/User/')
+    author_list = json.loads(author_list.text)
+    author_list = author_list['User']
+    articleid_list1 = requests.get(url + '/Editor_article/?editor1id=' + param)
+    articleid_list1 = json.loads(articleid_list1.text)
+    articleid_list1 = articleid_list1['Article_assgin']
+    # pack articleid
+    articleid_list = []
+    for each in articleid_list1:
+        articleid_list.append(each['articleid'])
+    # pack rt article list
+    rt_list = []
+    for each in article_list:
+        if each['articleid'] in articleid_list:
+            if 'taglist' in each:
+                each.pop('taglist')
+            each.pop('createat')
+            each.pop('updateat')
+            rt_list.append(each)
+    authorid_list = []
+    for each in author_list:
+        authorid_list.append(each['id'])
+    for each in rt_list:
+        if each['authorid'] in authorid_list:
+            for item in author_list:
+                if each['authorid'] == item['id']:
+                    each.pop('authorid')
+                    each.update({'author': item['username']})
+
+    rt = json.dumps({'statuscode': 200, 'reviewlist': rt_list})
+    return rt
+
+
+def do_get_review_list_1(param):
+    # get all info needed
+    article_list = requests.get(url + '/Article/')
+    article_list = json.loads(article_list.text)
+    article_list = article_list['Article']
+    author_list = requests.get(url + '/User/')
+    author_list = json.loads(author_list.text)
+    author_list = author_list['User']
+    articleid_list1 = requests.get(url + '/Article_assgin/?editor1id=' + param)
+    articleid_list1 = json.loads(articleid_list1.text)
+    articleid_list1 = articleid_list1['Article_assgin']
+    articleid_list2 = requests.get(url + '/Article_assgin/?editor2id=' + param)
+    articleid_list2 = json.loads(articleid_list2.text)
+    articleid_list2 = articleid_list2['Article_assgin']
+    # pack articleid
+    articleid_list = []
+    for each in articleid_list1:
+        articleid_list.append(each['articleid'])
+    for each in articleid_list2:
+        articleid_list.append(each['articleid'])
+    # pack rt article list
+    rt_list = []
+    for each in article_list:
+        if each['articleid'] in articleid_list:
+            if 'taglist' in each:
+                each.pop('taglist')
+            each.pop('createat')
+            each.pop('updateat')
+            rt_list.append(each)
+    authorid_list = []
+    for each in author_list:
+        authorid_list.append(each['id'])
+    for each in rt_list:
+        if each['authorid'] in authorid_list:
+            for item in author_list:
+                if each['authorid'] == item['id']:
+                    each.pop('authorid')
+                    each.update({'author': item['username']})
+
+    rt = json.dumps({'statuscode': 200, 'reviewlist': rt_list})
+    return rt
+
+
+def do_editor_login(param):
+    res_raw = requests.get(url + '/Editor/?editorname=' + param['editorname'])
+    res = json.loads(res_raw.text)
+    if len(res) == 0:
+        rt = json.dumps({'error': {'statuscode': 400, 'description': 'no such editorname'}})
+        return rt
+    else:
+        rt = res['Editor'][0]
+        if rt['password'] != param['password']:
+            rt = json.dumps({'error': {'statuscode': res.status_code, 'description': 'pwd error'}})
+            return rt
+        else:
+            rt.pop('password')
+            if 'maxreview' in rt:
+                rt.pop('maxreview')
+            return json.dumps({'statuscode': 200, 'editor': rt})
+
+
+def do_editor_register(param):
+    res = requests.post(url + '/Editor/', json.dumps(param))
+    if res.ok:
+        rt = json.dumps({'success': {'statuscode': 200}})
+        return rt
+    else:
+        rt = json.dumps({'error': {'statuscode': res.status_code}})
+        return rt
+
+
+def do_assign(param):
+    if 'id' in param:
+        articleid = param.pop('id')
+        param.update({'articleid': articleid})
+    res = requests.post(url + '/Article_assgin/', json.dumps(param))
+    to_editor_article = {'articleid': param['article'], 'editorid': param['editor1id'], 'status': 'assigned'}
+    requests.post(url + '/Editor_article/', json.dumps(to_editor_article))
+    to_editor_article = {'articleid': param['article'], 'editorid': param['editor2id'], 'status': 'assigned'}
+    requests.post(url + '/Editor_article/', json.dumps(to_editor_article))
+    if res.ok:
+        rt = json.dumps({'success': {'statuscode': 200}})
+        return rt
+    else:
+        rt = json.dumps({'error': {'statuscode': res.status_code}})
+        return rt
+
+
 def do_user_register(param):
     dict_ = ['email', 'id', 'username', 'bio', 'image']
     name = param['username']
@@ -367,9 +493,9 @@ def do_articles_all():
                     item.pop('password')
                 each.update({'author': item})
         each.pop('authorid')
-    rt = json.dumps({'articles':articles_info})
+    rt = json.dumps({'articles': articles_info})
     rt = json.loads(rt)
-    rt.update({'articlescount':len(articles_info)})
+    rt.update({'articlescount': len(articles_info)})
     return json.dumps(rt)
 
 

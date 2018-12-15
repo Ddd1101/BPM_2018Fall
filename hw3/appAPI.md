@@ -9,10 +9,10 @@
   "editor":{
       "email":"emample@bpm.com", // cheif editor default admin@bpm.com
       "id":123456789,
-      "editorName":"editor", // cheif editor default admin
+      "editorname":"editor", // cheif editor default admin
       "password":"bpmbpmbpm", // cheif editor default admin
-      "maxReview":10,
-      "toReview":[{
+      "maxreview":10,
+      "toreview":[{
           "id":123456789,
           "title":"title1",
           "author":"aaaa"
@@ -39,19 +39,31 @@ request body:
   }
 }
 ```
+return :
+
+```
+{
+  "editor":{
+     "editorName":"editor",
+     "password":"bpmbpmbpm",
+     "id":123456 
+  }
+}
+```
 
 #### GetReviewList
 
-`GET /api/editor/reviewList/:editorID`
+`GET /api/editor/reviewlist/?editorid=123456`
 
 this request should only return articleList that belonged to the corresponding editor,not all articles
 
 return example:
 ```
   {   
-     "statusCode": 200,
-     "reviewList":[{
+     "statuscode": 200,
+     "reviewlist":[{
      "id":123456789,
+     "description":"something",
      "title":"title1",
      "body":"this is a example",
      "author":"author1"
@@ -59,6 +71,7 @@ return example:
      {
      "id":123456789,
      "title":"title2",
+     "description":"something",
      "body":"this is a example",
      "author":"author2"
      },
@@ -74,7 +87,7 @@ request body example:
 ```
 {
   "review":{
-      "id":123456789,
+      "id":123456789, //什么id？
       "editorName":{
         "id":123456,
         "status":"accept",
@@ -111,8 +124,8 @@ request body example:
 {
   "article":{
       "id":123456789,
-      "editor1ID":123456,
-      "editor2ID":654321
+      "editor1id":123456,
+      "editor2id":654321
   }
 }
 ```
@@ -124,7 +137,7 @@ request body example:
 ```
 {
   "error":{
-     "statusCode": 400 // e.g.
+     "statuscode": 400 // e.g.
      "description":"an connection err has occured" // e.g.
   }
 }

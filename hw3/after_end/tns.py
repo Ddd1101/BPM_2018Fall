@@ -14,10 +14,57 @@ urls = (
     '/api/articles', 'article',
     '/api/articles/get', 'articles_get',
     '/api/articles/tag', 'tags',
-    '/api/comments', 'comment'
+    '/api/comments', 'comment',
+    '/api/chiefeditor/assign', 'chiefeditor',
+    '/api/editor/register', 'editor_register',
+    '/api/editor/login', 'editor',
+    '/api/editor/reviewlist/','editor'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
+
+class editor:
+    def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        rt = model.do_editor_login(req['editor'])
+        return rt
+
+    def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_raw = web.input()
+        rt = model.do_get_review_list(req_raw['editorid'])
+        return rt
+
+class editor_register:
+    # register
+    def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        rt = model.do_editor_register(req['editor'])
+        return rt
+
+class chiefeditor:
+    # assign
+    def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req = json.loads(req_str)
+        res = model.do_assign(req['article'])
+        return res
 
 class users:
 
