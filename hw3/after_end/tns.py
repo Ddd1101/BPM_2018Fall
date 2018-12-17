@@ -18,7 +18,7 @@ urls = (
     '/api/chiefeditor/assign', 'chiefeditor',
     '/api/editor/register', 'editor_register',
     '/api/editor/login', 'editor',
-    '/api/editor/reviewlist/', 'editor',
+    '/api/editor/reviewlist', 'editor',
     '/api/editor/review', 'review'
 )
 

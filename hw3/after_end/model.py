@@ -6,15 +6,26 @@ from filter import DFAFilter
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
+
 def do_delete_tag(param):
-    res_get_tagid_raw = requests.get(url+'/Tag/?Tag.tag='+param['tag'])
+    res_get_tagid_raw = requests.get(url + '/Tag/?Tag.tag=' + param['tag'])
     rag_get_tagid = json.load(res_get_tagid_raw.text)
     tagid = rag_get_tagid['Tag'][0]
-    res_raw = requests.delete(url+'/Tag/'+tagid)
+    res_raw = requests.delete(url + '/Tag/' + tagid)
     return res_raw
 
+
 def do_delete_tag_article(param):
-    
+    res_get_itemid_raw = requests.get(
+        url + '/Tag_article/?Tag.tag=' + param['tag'] + '&Tag.articleid=' + param['articleid'])
+    res_get_itemid = json.loads(res_get_itemid_raw.text)
+    itemid = res_get_itemid['Tag_article'][0]
+    rt_raw = requests.delete(url + '/Tag_article/' + itemid)
+    if rt_raw.ok:
+        return json.dumps({'success': {'statuscode': 200}})
+    else:
+        return json.dumps({'error': {'statuscode': 400, 'description': 'something wrong happen'}})
+
 
 def do_review(param):
     dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']
@@ -49,7 +60,8 @@ def do_get_review_list(param):
     # pack rt article list
     rt_list = []
     for each in article_list:
-        if each['articleid'] in articleid_list:
+        print(each)
+        if each['id'] in articleid_list:
             if 'taglist' in each:
                 each.pop('taglist')
             each.pop('createat')
