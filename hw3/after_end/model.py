@@ -6,6 +6,15 @@ from filter import DFAFilter
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
+def do_delete_tag(param):
+    res_get_tagid_raw = requests.get(url+'/Tag/?Tag.tag='+param['tag'])
+    rag_get_tagid = json.load(res_get_tagid_raw.text)
+    tagid = rag_get_tagid['Tag'][0]
+    res_raw = requests.delete(url+'/Tag/'+tagid)
+    return res_raw
+
+def do_delete_tag_article(param):
+    
 
 def do_review(param):
     dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']

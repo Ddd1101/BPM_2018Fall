@@ -18,11 +18,12 @@ urls = (
     '/api/chiefeditor/assign', 'chiefeditor',
     '/api/editor/register', 'editor_register',
     '/api/editor/login', 'editor',
-    '/api/editor/reviewlist/','editor',
-    '/api/editor/review','review'
+    '/api/editor/reviewlist/', 'editor',
+    '/api/editor/review', 'review'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
+
 
 class review:
     def POST(self):
@@ -33,6 +34,7 @@ class review:
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
         rt = model.do_review(req['review'])
+
 
 class editor:
     def POST(self):
@@ -53,6 +55,7 @@ class editor:
         rt = model.do_get_review_list(req_raw['editorid'])
         return rt
 
+
 class editor_register:
     # register
     def POST(self):
@@ -65,6 +68,7 @@ class editor_register:
         rt = model.do_editor_register(req['editor'])
         return rt
 
+
 class chiefeditor:
     # assign
     def POST(self):
@@ -76,6 +80,7 @@ class chiefeditor:
         req = json.loads(req_str)
         res = model.do_assign(req['article'])
         return res
+
 
 class users:
 
@@ -277,6 +282,21 @@ class tags:
         req_str = str(req_bytes, encoding="utf-8")
         req_raw = json.loads(req_str)
         rt = model.do_article_get_by_tag(req_raw['article'])
+        return rt
+
+    def DELETE(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        req = req_raw['tag']
+        if 'articleid' in req:
+            rt = model.do_delete_tag_article(req)
+        else:
+            rt = model.do_delete_tag(req)
+        return rt
 
 
 class comment:

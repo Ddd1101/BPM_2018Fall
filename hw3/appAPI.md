@@ -44,7 +44,7 @@ return :
 ```
 {
   "editor":{
-     "editorName":"editor",
+     "editorname":"editor",
      "password":"bpmbpmbpm",
      "id":123456 
   }
