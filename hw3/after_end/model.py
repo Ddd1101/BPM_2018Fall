@@ -103,7 +103,7 @@ def do_get_review_list_1(param):
     # pack rt article list
     rt_list = []
     for each in article_list:
-        if each['articleid'] in articleid_list:
+        if each['id'] in articleid_list:
             if 'taglist' in each:
                 each.pop('taglist')
             each.pop('createat')
@@ -116,8 +116,8 @@ def do_get_review_list_1(param):
         if each['authorid'] in authorid_list:
             for item in author_list:
                 if each['authorid'] == item['id']:
-                    each.pop('authorid')
                     each.update({'author': item['username']})
+            each.pop('authorid')
 
     rt = json.dumps({'statuscode': 200, 'reviewlist': rt_list})
     return rt
@@ -156,9 +156,9 @@ def do_assign(param):
         articleid = param.pop('id')
         param.update({'articleid': articleid})
     res = requests.post(url + '/Article_assgin/', json.dumps(param))
-    to_remark = {'articleid': param['article'], 'editorid': param['editor1id'], 'status': 'assigned'}
+    to_remark = {'articleid': param['articleid'], 'editorid': param['editor1id'], 'status': 'assigned'}
     requests.post(url + '/Review/', json.dumps(to_remark))
-    to_remark = {'articleid': param['article'], 'editorid': param['editor2id'], 'status': 'assigned'}
+    to_remark = {'articleid': param['articleid'], 'editorid': param['editor2id'], 'status': 'assigned'}
     requests.post(url + '/review/', json.dumps(to_remark))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})

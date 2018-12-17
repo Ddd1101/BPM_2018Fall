@@ -52,7 +52,7 @@ class editor:
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
-        rt = model.do_get_review_list(req_raw['editorid'])
+        rt = model.do_get_review_list_1(req_raw['editorid'])
         return rt
 
 
