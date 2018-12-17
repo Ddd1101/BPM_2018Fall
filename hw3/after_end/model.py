@@ -60,7 +60,6 @@ def do_get_review_list(param):
     # pack rt article list
     rt_list = []
     for each in article_list:
-        print(each)
         if each['id'] in articleid_list:
             if 'taglist' in each:
                 each.pop('taglist')
