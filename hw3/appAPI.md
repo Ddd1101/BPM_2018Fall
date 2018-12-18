@@ -124,8 +124,8 @@ request body example:
 {
   "article":{
       "ariticleid":123456789,
-      "editor1id":123456,
-      "editor2id":654321
+      "editor1name":name1,
+      "editor2name":name2
   }
 }
 ```
