@@ -14,8 +14,10 @@ def do_get_taglist():
     res = res['Tag']
     rt = []
     for each in res:
-        rt.append(each['tag'])
-    return json.dumps({'tags':rt})
+        rt.append(each["tag"])
+    print(type(rt))
+    rt = json.dumps({"tags": rt})
+    return rt
 
 
 def do_delete_tag(param):
@@ -147,16 +149,17 @@ def do_avaliable_editor():
     res_raw = requests.get(url + '/Editor/')
     res = json.loads(res_raw.text)
     res = res['Editor']
-    rt = []
+    rt = {'editors': None}
+    rt_ = []
     for each in res:
         if 'maxreview' in each:
             if each['maxreview'] < 10:
-                #each.pop('eamil')
+                # each.pop('eamil')
                 each.pop('password')
                 each.pop('maxreview')
-                rt.append(each)
-    rt_ = json.dumps({'statuscode':200,'editor': rt})
-    return json.loads(rt_)
+                rt_.append(each)
+    rt = json.dumps({'editors':rt_})
+    return rt
 
 
 def do_editor_login(param):
@@ -178,7 +181,6 @@ def do_editor_login(param):
 
 
 def do_editor_register(param):
-
     res = requests.post(url + '/Editor/', json.dumps(param))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
