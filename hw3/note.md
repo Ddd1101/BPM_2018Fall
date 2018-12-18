@@ -18,3 +18,5 @@
 	- 根据tag查找
 	- avaliable editor
 	- 复杂算法
+	- supervisor 的review
+	- 文章状态跟踪

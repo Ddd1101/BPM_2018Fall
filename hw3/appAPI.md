@@ -53,7 +53,7 @@ return :
 
 #### GetReviewList
 
-`GET /api/editor/reviewlist/?editorid=123456`//changed
+`GET /api/editor/reviewlist?editorid=123456`//changed
 
 this request should only return articleList that belonged to the corresponding editor,not all articles
 

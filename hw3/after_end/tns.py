@@ -23,10 +23,20 @@ urls = (
     '/api/editor/register', 'editor_register',
     '/api/editor/reviewlist', 'editor',
     '/api/editor/review', 'review',
-    '/api/chiefeditor/editors','editorlist'
+    '/api/editor/assignlist', 'assign',
+    '/api/chiefeditor/editors', 'editorlist'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
+
+
+class assign:
+    def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        rt = model.do_get_assign_list()
+        return rt
 
 
 class review:
@@ -57,7 +67,10 @@ class editor:
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
-        rt = model.do_get_review_list_1(req_raw['editorid'])
+        if req_raw['editorid'] == 1544853927169:
+            rt = model.do_get_review_list()
+        else:
+            rt = model.do_get_review_list_1(req_raw['editorid'])
         return rt
 
 
@@ -311,6 +324,16 @@ class tags:
         else:
             rt = model.do_delete_tag(req)
         return rt
+
+    def POST(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        req_bytes = web.data()
+        req_str = str(req_bytes, encoding="utf-8")
+        req_raw = json.loads(req_str)
+        req = req_raw['tag']
+        rt =model.do_add_article_tag(req)
 
 
 class taglist:

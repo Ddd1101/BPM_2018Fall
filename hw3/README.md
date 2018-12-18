@@ -424,3 +424,81 @@ GET /api/tags
 ```
 
 Returns a [List of Tags](#List of Tags)
+
+### Add Tags
+
+```
+POST /api/tags
+
+{
+	"tag":{
+		"articleid":123456,
+		"taglist":[
+		"tag1",
+		"tag2",
+		...
+		]
+	}
+}
+```
+
+Returns  
+success:
+
+```
+{
+	"statuscode":200
+}
+```
+
+error:
+
+```
+{
+	"statuscode":statuscode
+}
+```
+
+### Delete Tags
+
+**Delete tags in Tag table**
+
+```
+DELETE /api/tags
+body:
+{
+	“tag”{
+		"tag":"food"
+	}
+}
+```
+
+**Delete tag of a single article**
+
+```
+DELETE /api/tags
+body:
+{
+	“tag”{
+		"articleid":123456,
+		"tag":"food"
+	}
+}
+```
+
+Returns  
+success:
+
+```
+{
+	"statuscode":200
+}
+```
+
+error:
+
+```
+{
+	"statuscode":statuscode
+}
+```
