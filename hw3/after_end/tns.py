@@ -34,6 +34,7 @@ class review:
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
         rt = model.do_review(req['review'])
+        return rt
 
 
 class editor:

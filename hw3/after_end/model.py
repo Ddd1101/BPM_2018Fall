@@ -29,17 +29,26 @@ def do_delete_tag_article(param):
 
 def do_review(param):
     dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']
-    res = requests.get(url + '/Review/?editorid=' + param['editorid'] + '&articleid=' + param['articleid'])
+    res = requests.get(url + '/Review/?editorid=' + str(param['editorid']) + '&articleid=' + str(param['articleid']))
     res = json.loads(res.text)
-    for each in dict_review:
-        res[each] = param[each]
-    reviewid = res.pop('id')
-    rt = requests.post(url + '/Review/' + reviewid, json.dumps(res))
-    if rt.ok:
-        rt = json.dumps({'success': {'statuscode': 200}})
+    if len(res) == 0:
+        res = requests.post(url + '/Review/', json.dumps(param))
+        if res.ok:
+            rt = json.dumps({'success': {'statuscode': 200}})
+        else:
+            rt = json.dumps({'error': {'statuscode': res.status_code}})
+        return rt
     else:
-        rt = json.dumps({'error': {'statuscode': rt.status_code}})
-    return rt
+        res = res['Review'][0]
+        for each in dict_review:
+            res[each] = param[each]
+        reviewid = res.pop('id')
+        res = requests.put(url + '/Review/' + str(reviewid), json.dumps(res))
+        if res.ok:
+            rt = json.dumps({'success': {'statuscode': 200}})
+        else:
+            rt = json.dumps({'error': {'statuscode': res.status_code}})
+        return rt
 
 
 def do_get_review_list(param):

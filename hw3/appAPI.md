@@ -89,7 +89,7 @@ request body example:
   "review":{ //changed
         "articleid":123456789, 
         "editorid":123456,  
-        "status":"accept",
+        "decision":"accept",
         "remark":"this article is too low,kick it out"，
         “trust”:80 //信任度
       }
