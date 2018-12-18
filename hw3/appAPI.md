@@ -110,7 +110,7 @@ return example:
 ```
 {     
     "statusCode":200,
-    "editors":["editorName1","editorName2",...]
+    "editors":[{"editorid":123555,"editorname":"editorName1"},{"editorid":123555,"editorname":"editorName2"},...]
 }
 ```
 
