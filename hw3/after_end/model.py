@@ -8,10 +8,14 @@ import _thread
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
 
-def do_get_tag():
+def do_get_taglist():
     res_raw = requests.get(url + '/Tag/')
-    rt = json.loads(res_raw.text)
-    return json.dumps(rt)
+    res = json.loads(res_raw.text)
+    res = res['Tag']
+    rt = []
+    for each in res:
+        rt.append(each['tag'])
+    return json.dumps({'tags':rt})
 
 
 def do_delete_tag(param):
@@ -151,8 +155,8 @@ def do_avaliable_editor():
                 each.pop('password')
                 each.pop('maxreview')
                 rt.append(each)
-    rt_ = json.dumps({'editor': rt})
-    return rt_
+    rt_ = json.dumps({'statuscode':200,'editor': rt})
+    return json.loads(rt_)
 
 
 def do_editor_login(param):
@@ -207,7 +211,6 @@ def do_assign(param):
     editor2_info_raw = requests.get(url + '/Editor/' + str(param['editor2id']))
     editor2_info = json.loads(editor2_info_raw.text)
     editor2_info.pop('type')
-    print(editor2_info)
     if 'maxreview' in editor2_info:
         editor2_info['maxreview'] = editor2_info['maxreview'] + 1
     else:

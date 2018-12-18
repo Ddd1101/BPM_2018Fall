@@ -14,7 +14,7 @@ urls = (
     '/api/articles', 'article',
     '/api/articles/get', 'articles_get',
     '/api/articles/tag', 'tags',
-    '/api/articles/tags', 'taglist',
+    '/api/tags', 'taglist',
     '/api/comments', 'comment',
     '/api/chiefeditor/assign', 'chiefeditor',
     '/api/editor/register', 'editor_register',
@@ -312,7 +312,7 @@ class tags:
 
 class taglist:
     def GET(self):
-        rt = model.do_get_tag()
+        rt = model.do_get_taglist()
         return rt
 
 
