@@ -12,3 +12,9 @@
 		- [关键词提取](https://github.com/letiantian/TextRank4ZH) 
 - json
 	- [添加key](https://stackoverflow.com/questions/34603348/how-to-add-a-key-value-list-to-a-json-dict/34603473)
+- 2018.12.18 剩余工作
+	- 文章获取remark
+	- tag列表
+	- 根据tag查找
+	- avaliable editor
+	- 复杂算法

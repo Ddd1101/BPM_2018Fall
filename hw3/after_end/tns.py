@@ -14,12 +14,16 @@ urls = (
     '/api/articles', 'article',
     '/api/articles/get', 'articles_get',
     '/api/articles/tag', 'tags',
+    '/api/articles/tags', 'taglist',
     '/api/comments', 'comment',
     '/api/chiefeditor/assign', 'chiefeditor',
     '/api/editor/register', 'editor_register',
+    '/api/editor/get', 'editorlist',
     '/api/editor/login', 'editor',
+    '/api/editor/register', 'editor_register',
     '/api/editor/reviewlist', 'editor',
-    '/api/editor/review', 'review'
+    '/api/editor/review', 'review',
+    '/api/chiefeditor/editors','editorlist'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
@@ -54,6 +58,12 @@ class editor:
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
         rt = model.do_get_review_list_1(req_raw['editorid'])
+        return rt
+
+
+class editorlist:
+    def GET(self):
+        rt = model.do_avaliable_editor()
         return rt
 
 
@@ -297,6 +307,12 @@ class tags:
             rt = model.do_delete_tag_article(req)
         else:
             rt = model.do_delete_tag(req)
+        return rt
+
+
+class taglist:
+    def GET(self):
+        rt = model.do_get_tag()
         return rt
 
 

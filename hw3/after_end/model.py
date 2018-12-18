@@ -3,8 +3,15 @@ import requests
 import json
 import time
 from filter import DFAFilter
+import _thread
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
+
+
+def do_get_tag():
+    res_raw = requests.get(url + '/Tag/')
+    rt = json.loads(res_raw.text)
+    return json.dumps(rt)
 
 
 def do_delete_tag(param):
@@ -132,6 +139,22 @@ def do_get_review_list_1(param):
     return rt
 
 
+def do_avaliable_editor():
+    res_raw = requests.get(url + '/Editor/')
+    res = json.loads(res_raw.text)
+    res = res['Editor']
+    rt = []
+    for each in res:
+        if 'maxreview' in each:
+            if each['maxreview'] < 10:
+                #each.pop('eamil')
+                each.pop('password')
+                each.pop('maxreview')
+                rt.append(each)
+    rt_ = json.dumps({'editor': rt})
+    return rt_
+
+
 def do_editor_login(param):
     res_raw = requests.get(url + '/Editor/?editorname=' + param['editorname'])
     res = json.loads(res_raw.text)
@@ -151,6 +174,7 @@ def do_editor_login(param):
 
 
 def do_editor_register(param):
+
     res = requests.post(url + '/Editor/', json.dumps(param))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
@@ -169,6 +193,27 @@ def do_assign(param):
     requests.post(url + '/Review/', json.dumps(to_remark))
     to_remark = {'articleid': param['articleid'], 'editorid': param['editor2id'], 'status': 'assigned'}
     requests.post(url + '/review/', json.dumps(to_remark))
+    # num of review ++
+    dict_editor = ['id', 'email', 'editorname', 'password', 'maxreview']
+    editor1_info_raw = requests.get(url + '/Editor/' + str(param['editor1id']))
+    editor1_info = json.loads(editor1_info_raw.text)
+    editor1_info.pop('type')
+    if 'maxreview' in editor1_info:
+        editor1_info['maxreview'] = editor1_info['maxreview'] + 1
+    else:
+        editor1_info.update({'maxreview': 1})
+    editor1_info.pop('id')
+    requests.put(url + '/Editor/' + str(param['editor1id']), json.dumps(editor1_info))
+    editor2_info_raw = requests.get(url + '/Editor/' + str(param['editor2id']))
+    editor2_info = json.loads(editor2_info_raw.text)
+    editor2_info.pop('type')
+    print(editor2_info)
+    if 'maxreview' in editor2_info:
+        editor2_info['maxreview'] = editor2_info['maxreview'] + 1
+    else:
+        editor2_info.update({'maxreview': 1})
+    editor2_info.pop('id')
+    requests.put(url + '/Editor/' + str(param['editor2id']), json.dumps(editor2_info))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
         return rt
@@ -442,6 +487,10 @@ def do_articles_get(param):
 
 
 def do_article_get_by_tag(param):
+    return 0
+
+
+def do_article_status(articleid):
     return 0
 
 
