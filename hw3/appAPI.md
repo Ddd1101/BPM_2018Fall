@@ -77,7 +77,40 @@ return example:
      },
      ...]
   }
+  
+  主编和编辑返回都是一样的，不同的是，
+  1.编辑的这个，返回的条件就是你要找出所有属于这个editor的article，并且看他们的statu是不是checking，然后返回包含了这样Article的List.
+  2.主编的这个，就是要找出这个人所有的Article,并且这些文章的supervisor，statu 是checking
+    editor1和editor2的statu都是accpet||reject 这样的一个reviewlist
+    
 ```
+
+#### GetAssignList
+
+`GET /api/editor/assignlist`
+
+  返回一个ArticleList
+  
+  ```
+  {   
+     "statuscode": 200,
+     "assignlist":[{
+     "id":123456789,
+     "description":"something",//changed
+     "title":"title1",
+     "author":"author1"
+     },
+     {
+     "id":123456789,
+     "title":"title2",
+     "description":"something",
+     "author":"author2"
+     },
+     ...]
+  }
+  
+  这个就是你要去所有article里面去找，editor1或者editor2为null的就把它添加到这个list里面返回
+  ```
 
 #### review
 
@@ -123,9 +156,9 @@ request body example:
 ```
 {
   "article":{
-      "id":123456789,
-      "editor1id":123456,
-      "editor2id":654321
+      "ariticleid":123456789,
+      "editor1name":name1,
+      "editor2name":name2
   }
 }
 ```
