@@ -163,7 +163,7 @@ def do_avaliable_editor():
 
 
 def do_editor_login(param):
-    res_raw = requests.get(url + '/Editor/?editorname=' + param['editorname'])
+    res_raw = requests.get(url + '/Editor/?Editor.editorname=' + param['editorname'])
     res = json.loads(res_raw.text)
     if len(res) == 0:
         rt = json.dumps({'error': {'statuscode': 400, 'description': 'no such editorname'}})
@@ -171,7 +171,7 @@ def do_editor_login(param):
     else:
         rt = res['Editor'][0]
         if rt['password'] != param['password']:
-            rt = json.dumps({'error': {'statuscode': res.status_code, 'description': 'pwd error'}})
+            rt = json.dumps({'error': {'statuscode': 400, 'description': 'pwd error'}})
             return rt
         else:
             rt.pop('password')
