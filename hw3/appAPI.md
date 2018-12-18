@@ -123,7 +123,7 @@ request body example:
 ```
 {
   "article":{
-      "id":123456789,
+      "ariticleid":123456789,
       "editor1id":123456,
       "editor2id":654321
   }
