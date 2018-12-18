@@ -158,7 +158,7 @@ def do_avaliable_editor():
                 each.pop('password')
                 each.pop('maxreview')
                 rt_.append(each)
-    rt = json.dumps({'editors':rt_})
+    rt = json.dumps({'statuscode': 200, 'editors': rt_})
     return rt
 
 

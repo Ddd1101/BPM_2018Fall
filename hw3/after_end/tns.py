@@ -63,6 +63,9 @@ class editor:
 
 class editorlist:
     def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         rt = model.do_avaliable_editor()
         return rt
 
@@ -312,6 +315,9 @@ class tags:
 
 class taglist:
     def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
         rt = model.do_get_taglist()
         return rt
 
