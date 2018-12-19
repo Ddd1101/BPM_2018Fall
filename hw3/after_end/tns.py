@@ -71,8 +71,8 @@ class editor:
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
-        if req_raw['editorid'] == 1544853927169:
-            rt = model.do_get_review_list()
+        if req_raw['editorid'] == str(1544853927169):
+            rt = model.do_get_review_list(req_raw['editorid'])
         else:
             rt = model.do_get_review_list_1(req_raw['editorid'])
         return rt

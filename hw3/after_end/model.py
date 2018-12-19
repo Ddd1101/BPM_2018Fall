@@ -155,13 +155,22 @@ def do_get_review_list(param):
     # get all info needed
     article_list = requests.get(url + '/Article/')
     article_list = json.loads(article_list.text)
-    article_list = article_list['Article']
+    if len(article_list) > 0:
+        article_list = article_list['Article']
+    else:
+        article_list = []
     author_list = requests.get(url + '/User/')
     author_list = json.loads(author_list.text)
-    author_list = author_list['User']
-    articleid_list1 = requests.get(url + '/Review/?editorid=' + param)
+    if len(author_list) > 0:
+        author_list = author_list['User']
+    else:
+        author_list = []
+    articleid_list1 = requests.get(url + '/Review/?Review.editorid=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
-    articleid_list1 = articleid_list1['Review']
+    if len(articleid_list1) > 0:
+        articleid_list1 = articleid_list1['Review']
+    else:
+        articleid_list1 = []
     tag_article_list = requests.get(url + '/Tag_article/')
     tag_article_list = json.loads(tag_article_list.text)
     if len(tag_article_list) > 0:
@@ -215,13 +224,22 @@ def do_get_review_list_1(param):
     # get all info needed
     article_list = requests.get(url + '/Article/')
     article_list = json.loads(article_list.text)
-    article_list = article_list['Article']
+    if len(article_list):
+        article_list = article_list['Article']
+    else:
+        article_list = []
     author_list = requests.get(url + '/User/')
     author_list = json.loads(author_list.text)
-    author_list = author_list['User']
+    if len(author_list) > 0:
+        author_list = author_list['User']
+    else:
+        author_list = []
     articleid_list1 = requests.get(url + '/Review/?editorid=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
-    articleid_list1 = articleid_list1['Review']
+    if len(articleid_list1) > 0:
+        articleid_list1 = articleid_list1['Review']
+    else:
+        articleid_list1 = []
     tag_article_list = requests.get(url + '/Tag_article/')
     tag_article_list = json.loads(tag_article_list.text)
     if len(tag_article_list) > 0:
