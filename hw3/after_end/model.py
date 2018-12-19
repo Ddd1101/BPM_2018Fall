@@ -262,12 +262,14 @@ def do_get_review_list_1(param):
 def do_avaliable_editor():
     res_raw = requests.get(url + '/Editor/')
     res = json.loads(res_raw.text)
-    res = res['Editor']
+    res_raw = res['Editor']
     rt = {'editors': None}
     rt_ = []
-    for each in res:
-        if each['id'] == 1544853927169:
-            res.pop(each)
+    res = []
+    for each in res_raw:
+        if each['id'] != 1544853927169:
+            res.append(each)
+    print(res)
     for each in res:
         if 'maxreview' in each:
             if each['maxreview'] < 30:
