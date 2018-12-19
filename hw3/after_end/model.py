@@ -143,20 +143,12 @@ def do_get_review_list(param):
     author_list = requests.get(url + '/User/')
     author_list = json.loads(author_list.text)
     author_list = author_list['User']
-    articleid_list1 = requests.get(url + '/Article_assgin/?editor1id=' + param)
+    articleid_list1 = requests.get(url + '/Review/?editorid=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
-    articleid_list1 = articleid_list1['Article_assgin']
-    articleid_list2 = requests.get(url + '/Article_assgin/?editor2id=' + param)
-    articleid_list2 = json.loads(articleid_list2.text)
-    articleid_list2 = articleid_list2['Article_assgin']
-    review_list = requests.get(url + '/Review/')
-    review_list = json.loads(review_list)
-    review_list = review_list['Review']
+    articleid_list1 = articleid_list1['Review']
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
-        articleid_list.append(each['articleid'])
-    for each in articleid_list2:
         articleid_list.append(each['articleid'])
     # pack rt article list
     rt_list = []
@@ -202,17 +194,12 @@ def do_get_review_list_1(param):
     author_list = requests.get(url + '/User/')
     author_list = json.loads(author_list.text)
     author_list = author_list['User']
-    articleid_list1 = requests.get(url + '/Article_assgin/?editor1id=' + param)
+    articleid_list1 = requests.get(url + '/Review/?editor1id=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
-    articleid_list1 = articleid_list1['Article_assgin']
-    articleid_list2 = requests.get(url + '/Article_assgin/?editor2id=' + param)
-    articleid_list2 = json.loads(articleid_list2.text)
-    articleid_list2 = articleid_list2['Article_assgin']
+    articleid_list1 = articleid_list1['Review']
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
-        articleid_list.append(each['articleid'])
-    for each in articleid_list2:
         articleid_list.append(each['articleid'])
     # pack rt article list
     rt_list = []
@@ -246,7 +233,7 @@ def do_avaliable_editor():
     rt_ = []
     for each in res:
         if 'maxreview' in each:
-            if each['maxreview'] < 10:
+            if each['maxreview'] < 30:
                 # each.pop('eamil')
                 each.pop('password')
                 each.pop('maxreview')
@@ -294,15 +281,17 @@ def do_assign(param):
     param.pop('editor2name')
     param.update({'editor2id': res1["Editor"][0]["id"]})
     #
-    to_remark = {'articleid': param['articleid'], 'editorid': param['editor1id'], 'stat': 'assigned'}
-    requests.post(url + '/Review/', json.dumps(to_remark))
-    to_remark = {'articleid': param['articleid'], 'editorid': param['editor2id'], 'stat': 'assigned'}
-    requests.post(url + '/review/', json.dumps(to_remark))
+    to_remark = {'articleid': param['articleid'], 'editorid': param['editor1id']}
+    res_tmp = requests.post(url + '/Review/', json.dumps(to_remark))
+    print(res_tmp)
+    to_remark = {'articleid': param['articleid'], 'editorid': param['editor2id']}
+    res_tmp = requests.post(url + '/Review/', json.dumps(to_remark))
+    print(res_tmp)
     # article
     article_res_raw = requests.get(url + '/Article/' + str(param['articleid']))
     article_res = json.loads(article_res_raw.text)
     article_res.pop('type')
-    article_res.update({'status': 'assigned'})
+    article_res.update({'stat': 'checking'})
     article_res.pop('id')
     article_rt = requests.put(url + '/Article/' + str(param['articleid']), json.dumps(article_res))
     # num of review ++
@@ -469,7 +458,7 @@ def do_article_submit(param):
             param_tag_article.update({'tag': key})
             rt = requests.post(url + '/Tag_article/', json.dumps(param_tag_article))
             if key not in tag_list:
-                requests.post(url + '/Tag/', json.dumps({'tag':key}))
+                requests.post(url + '/Tag/', json.dumps({'tag': key}))
         response_2 = json.dumps(response_1)
         response_2 = json.loads(response_2)
         response_2.update({'taglist': taglist})
