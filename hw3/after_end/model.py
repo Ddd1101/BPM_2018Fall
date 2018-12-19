@@ -734,7 +734,7 @@ def do_articles_all():
     # get all resource
     articles_res_raw = requests.get(url + '/Article/')
     supervisor_res_raw = requests.get(url + '/Supervisor_article/')
-    editor_res_raw = requests.get(url + '/Editor_article/')
+    editor_res_raw = requests.get(url + '/Review/')
     author_res_raw = requests.get(url + '/User/')
     tag_res_raw = requests.get(url + '/Tag_article/')
     articles_info = json.loads(articles_res_raw.text)
@@ -749,7 +749,8 @@ def do_articles_all():
         supervisor_info = []
     editor_info = json.loads(editor_res_raw.text)
     if len(editor_info) > 0:
-        editor_info = editor_info['Editor_article']
+        editor_info = editor_info['Review']
+        print(editor_info)
     else:
         editor_info = []
     author_info = json.loads(author_res_raw.text)
@@ -785,14 +786,13 @@ def do_articles_all():
         time_tmp = float(each['updateat'])
         each['updateat'] = time.asctime(time.localtime(time_tmp))
         # editor
-        it = 0
+        it = 1
         for item in editor_info:
             if item['articleid'] == each['id']:
                 for itor in dict_editor:
                     if itor not in item:
                         item.update({itor: None})
-                item.pop('articleid')
-                each['editor'].update({('editor' + it): item})
+                each['editor'].update({('editor' + str(it)): item})
                 it += 1
         # supervisor
         for item in supervisor_info:
