@@ -249,7 +249,9 @@ def do_get_review_list_1(param):
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
+        print(each)
         if 'trust' not in each:
+            print("1")
             articleid_list.append(each['articleid'])
     # pack rt article list
     rt_list = []
@@ -337,7 +339,7 @@ def do_assign(param):
     res2_raw = requests.get(url + '/Editor/?Editor.editorname=' + param['editor2name'])
     res2 = json.loads(res2_raw.text)
     param.pop('editor2name')
-    param.update({'editor2id': res1["Editor"][0]["id"]})
+    param.update({'editor2id': res2["Editor"][0]["id"]})
     #
     to_remark = {'articleid': param['articleid'], 'editorid': param['editor1id'], 'decision': 'checking'}
     res_tmp = requests.post(url + '/Review/', json.dumps(to_remark))
@@ -349,7 +351,7 @@ def do_assign(param):
     article_res.pop('type')
     article_res.update({'stat': 'checking'})
     article_res.pop('id')
-    article_rt = requests.put(url + '/Article/' + str(param['articleid']), json.dumps(article_res))
+    article_rt = requests.put(url + '/Article/' + str(param['articleid']), json.dumps(article_res))#
     # num of review ++
     dict_editor = ['id', 'email', 'editorname', 'password', 'maxreview']
     editor1_info_raw = requests.get(url + '/Editor/' + str(param['editor1id']))
