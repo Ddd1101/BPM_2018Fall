@@ -197,6 +197,12 @@ def do_get_review_list_1(param):
     articleid_list1 = requests.get(url + '/Review/?editor1id=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
     articleid_list1 = articleid_list1['Review']
+    tag_article_list = requests.get(url + '/Tag_article/')
+    tag_article_list = json.loads(tag_article_list)
+    if len(tag_article_list) > 0:
+        tag_article_list = tag_article_list['Tag_article']
+    else:
+        tag_article_list = []
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
@@ -205,8 +211,11 @@ def do_get_review_list_1(param):
     rt_list = []
     for each in article_list:
         if each['id'] in articleid_list:
-            if 'taglist' in each:
-                each.pop('taglist')
+            taglist =[]
+            for item in tag_article_list:
+                if each['id'] == item['articleid']:
+                    taglist.append(item['tag'])
+            each.update({'taglist':taglist})
             each.pop('createat')
             each.pop('updateat')
             if each['stat'] == 'checking':
@@ -281,12 +290,10 @@ def do_assign(param):
     param.pop('editor2name')
     param.update({'editor2id': res1["Editor"][0]["id"]})
     #
-    to_remark = {'articleid': param['articleid'], 'editorid': param['editor1id']}
+    to_remark = {'articleid': param['articleid'], 'editorid': param['editor1id'], 'decision': 'checking'}
     res_tmp = requests.post(url + '/Review/', json.dumps(to_remark))
-    print(res_tmp)
-    to_remark = {'articleid': param['articleid'], 'editorid': param['editor2id']}
+    to_remark = {'articleid': param['articleid'], 'editorid': param['editor2id'], 'decision': 'checking'}
     res_tmp = requests.post(url + '/Review/', json.dumps(to_remark))
-    print(res_tmp)
     # article
     article_res_raw = requests.get(url + '/Article/' + str(param['articleid']))
     article_res = json.loads(article_res_raw.text)
@@ -730,7 +737,7 @@ def do_articles_all():
                     'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
     dict_supervisor = ['id', 'status', 'remark']
-    dict_editor = ['id', 'stat', 'trust', 'remark']
+    dict_editor = ['id', 'decision', 'trust', 'remark']
     # get all resource
     articles_res_raw = requests.get(url + '/Article/')
     supervisor_res_raw = requests.get(url + '/Supervisor_article/')
@@ -750,7 +757,6 @@ def do_articles_all():
     editor_info = json.loads(editor_res_raw.text)
     if len(editor_info) > 0:
         editor_info = editor_info['Review']
-        print(editor_info)
     else:
         editor_info = []
     author_info = json.loads(author_res_raw.text)
