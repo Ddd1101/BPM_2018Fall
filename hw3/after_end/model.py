@@ -13,11 +13,20 @@ def do_get_assign_list():
     author_list_raw = requests.get(url + '/User/')
     editor_article_list_raw = requests.get(url + '/Editor_article/')
     article_list = json.loads(article_list_raw.text)
-    article_list = article_list['Aticle']
+    if len(article_list) > 0:
+        article_list = article_list['Article']
+    else:
+        article_list = []
     author_list = json.loads(author_list_raw.text)
-    author_list = author_list['User']
+    if len(author_list) > 0:
+        author_list = author_list['User']
+    else:
+        author_list = []
     editor_article_list = json.loads(editor_article_list_raw.text)
-    editor_article_list = editor_article_list['Editor_article']
+    if len(editor_article_list) > 0:
+        editor_article_list = editor_article_list['Editor_article']
+    else:
+        editor_article_list = []
     rt_list = []
     for each in article_list:
         articleid = each['id']
@@ -26,7 +35,7 @@ def do_get_assign_list():
             if articleid == item['articleid']:
                 tmp += 1
         if tmp < 2:
-            authorid = 0
+            authorid = each['authorid']
             for item in author_list:
                 if authorid == item['id']:
                     each.update({'author': item['username']})
