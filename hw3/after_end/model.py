@@ -469,7 +469,7 @@ def do_article_submit(param):
             param_tag_article.update({'tag': key})
             rt = requests.post(url + '/Tag_article/', json.dumps(param_tag_article))
             if key not in tag_list:
-                requests.post(url+'/Tag/',json.dumps({'tag',key}))
+                requests.post(url + '/Tag/', json.dumps({'tag':key}))
         response_2 = json.dumps(response_1)
         response_2 = json.loads(response_2)
         response_2.update({'taglist': taglist})
