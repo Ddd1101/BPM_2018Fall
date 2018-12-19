@@ -9,7 +9,7 @@ url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
 
 def do_get_assign_list():
-    article_list_raw = requests.get(url + '/Article/')
+    article_list_raw = requests.get(url + '/Article/?Aticle.stat=assigning')
     author_list_raw = requests.get(url + '/User/')
     editor_article_list_raw = requests.get(url + '/Review/')
     article_list = json.loads(article_list_raw.text)
@@ -136,13 +136,13 @@ def do_review_supervisor(param):
         res[each] = param[each]
     reviewid = res.pop('id')
     res = requests.put(url + '/Supervisor_article/' + str(reviewid), json.dumps(res))
-    #change article status
-    aritcle_info_raw =requests.get(url+'/Aricle/'+str(param['articleid']))
+    # change article status
+    aritcle_info_raw = requests.get(url + '/Aricle/' + str(param['articleid']))
     article_info = json.loads(aritcle_info_raw.text)
     article_info.pop('type')
-    article_info.update({'stat':param['decision']})
+    article_info.update({'stat': param['decision']})
     articleid = article_info.pop('id')
-    requests.put(url+'/Artilce/'+str(articleid),json.dumps(article_info))
+    requests.put(url + '/Artilce/' + str(articleid), json.dumps(article_info))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
     else:
