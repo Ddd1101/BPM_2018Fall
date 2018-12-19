@@ -11,7 +11,7 @@ url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 def do_get_assign_list():
     article_list_raw = requests.get(url + '/Article/')
     author_list_raw = requests.get(url + '/User/')
-    editor_article_list_raw = requests.get(url + '/Editor_article/')
+    editor_article_list_raw = requests.get(url + '/Review/')
     article_list = json.loads(article_list_raw.text)
     if len(article_list) > 0:
         article_list = article_list['Article']
@@ -24,7 +24,7 @@ def do_get_assign_list():
         author_list = []
     editor_article_list = json.loads(editor_article_list_raw.text)
     if len(editor_article_list) > 0:
-        editor_article_list = editor_article_list['Editor_article']
+        editor_article_list = editor_article_list['Review']
     else:
         editor_article_list = []
     rt_list = []
@@ -265,6 +265,9 @@ def do_avaliable_editor():
     res = res['Editor']
     rt = {'editors': None}
     rt_ = []
+    for each in res:
+        if each['id'] == 1544853927169:
+            res.pop(each)
     for each in res:
         if 'maxreview' in each:
             if each['maxreview'] < 30:
