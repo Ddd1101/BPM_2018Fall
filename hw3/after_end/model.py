@@ -9,7 +9,7 @@ url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
 
 def do_get_assign_list():
-    article_list_raw = requests.get(url + '/Article/?Aticle.stat=assigning')
+    article_list_raw = requests.get(url + '/Article/?Article.stat=assigning')
     author_list_raw = requests.get(url + '/User/')
     editor_article_list_raw = requests.get(url + '/Review/')
     article_list = json.loads(article_list_raw.text)
