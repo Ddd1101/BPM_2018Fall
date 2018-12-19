@@ -198,7 +198,7 @@ def do_get_review_list_1(param):
     articleid_list1 = json.loads(articleid_list1.text)
     articleid_list1 = articleid_list1['Review']
     tag_article_list = requests.get(url + '/Tag_article/')
-    tag_article_list = json.loads(tag_article_list)
+    tag_article_list = json.loads(tag_article_list.text)
     if len(tag_article_list) > 0:
         tag_article_list = tag_article_list['Tag_article']
     else:
@@ -211,11 +211,11 @@ def do_get_review_list_1(param):
     rt_list = []
     for each in article_list:
         if each['id'] in articleid_list:
-            taglist =[]
+            taglist = []
             for item in tag_article_list:
-                if each['id'] == item['articleid']:
+                if str(each['id']) == str(item['articleid']):
                     taglist.append(item['tag'])
-            each.update({'taglist':taglist})
+            each.update({'taglist': taglist})
             each.pop('createat')
             each.pop('updateat')
             if each['stat'] == 'checking':
