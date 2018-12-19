@@ -414,6 +414,16 @@ def do_profile_get(param):
 # 2018/12/10 9.16am add taglist module by:gxhou
 def do_article_submit(param):
     dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'authorid']
+    tag_list_raw = requests.get(url + '/Tag/')
+    tag_list_json = json.loads(tag_list_raw.text)
+    if len(tag_list_json) > 0:
+        tag_list_json = tag_list_json['Tag']
+    else:
+        tag_list_json = []
+    tag_list = []
+    for each in tag_list_json:
+        tag_list.append(each['tag'])
+
     content = param['title']
     gfw = DFAFilter()
     # gfw.parse("keywords")
@@ -457,9 +467,9 @@ def do_article_submit(param):
             param_tag_article = json.dumps({'articleid': articleid})
             param_tag_article = json.loads(param_tag_article)
             param_tag_article.update({'tag': key})
-            print(url + '/Tag_article/', json.dumps(param_tag_article))
             rt = requests.post(url + '/Tag_article/', json.dumps(param_tag_article))
-            print(rt)
+            if key not in tag_list:
+                requests.post(url+'/Tag/',json.dumps({'tag',key}))
         response_2 = json.dumps(response_1)
         response_2 = json.loads(response_2)
         response_2.update({'taglist': taglist})
