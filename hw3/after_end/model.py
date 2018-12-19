@@ -105,11 +105,6 @@ def do_review(param):
     res = requests.get(
         url + '/Review/?Review.editorid=' + str(param['editorid']) + '&Review.articleid=' + str(param['articleid']))
     res = json.loads(res.text)
-    if param['editorid'] == 1544853927169:
-        if param['decision'] == 'accept':
-            stat_res = chang_article_stat(param['articleid'], 'accept')
-        elif param['decisison'] == 'reject':
-            stat_res = chang_article_stat(param['articleid'], 'reject')
     if len(res) == 0:
         res = requests.post(url + '/Review/', json.dumps(param))
         if res.ok:
@@ -131,7 +126,21 @@ def do_review(param):
 
 
 def do_review_supervisor(param):
-    return 0
+    dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']
+    res = requests.get(
+        url + '/Supervisor_article/?Supervisor_article.editorid=' + str(
+            param['editorid']) + '&Supervisor_article.articleid=' + str(param['articleid']))
+    res = json.loads(res.text)
+    res = res['Review'][0]
+    for each in dict_review:
+        res[each] = param[each]
+    reviewid = res.pop('id')
+    res = requests.put(url + '/Supervisor_article/' + str(reviewid), json.dumps(res))
+    if res.ok:
+        rt = json.dumps({'success': {'statuscode': 200}})
+    else:
+        rt = json.dumps({'error': {'statuscode': res.status_code}})
+    return rt
 
 
 # for supervisor
@@ -453,7 +462,7 @@ def do_article_submit(param):
     response_1 = json.loads(response_1.text)
     response_1.pop('type')
     articleid = response_1.pop('id')
-    requests.post(url + '/Supervisor_article/', json.dumps({'supervisorid':1544853927169,'articleid':articleid}))
+    requests.post(url + '/Supervisor_article/', json.dumps({'supervisorid': 1544853927169, 'articleid': articleid}))
     stat_res = chang_article_stat(articleid, 'assigning')
 
     for each in dict_:
@@ -510,9 +519,9 @@ def do_article_delete(param):
 def do_articles_get(param):
     if 'tag' in param:
         return do_article_get_by_tag(param)
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'status', 'author', 'taglist', 'editor']
+    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'stat', 'author', 'taglist', 'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
-    dict_supervisor = ['id', 'status', 'remark']
+    dict_supervisor = ['id', 'decision', 'remark']
     dict_editor = ['id', 'status', 'trust', 'remark']
     req_state = url + '/Article/'
     it = 0

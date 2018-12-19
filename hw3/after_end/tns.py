@@ -47,7 +47,11 @@ class review:
         req_bytes = web.data()
         req_str = str(req_bytes, encoding="utf-8")
         req = json.loads(req_str)
-        rt = model.do_review(req['review'])
+        req = req['review']
+        if req['editorid'] == 1544853927169:
+            rt = model.do_review_supervisor(req)
+        else:
+            rt = model.do_review(req)
         return rt
 
 
