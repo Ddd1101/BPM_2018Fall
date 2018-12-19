@@ -231,7 +231,7 @@ def do_get_review_list_1(param):
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
-        if each['decision'] != None:
+        if 'decision' not in each:
             articleid_list.append(each['articleid'])
     # pack rt article list
     rt_list = []
