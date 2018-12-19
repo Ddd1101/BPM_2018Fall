@@ -219,7 +219,7 @@ def do_get_review_list_1(param):
     author_list = requests.get(url + '/User/')
     author_list = json.loads(author_list.text)
     author_list = author_list['User']
-    articleid_list1 = requests.get(url + '/Review/?editor1id=' + param)
+    articleid_list1 = requests.get(url + '/Review/?editorid=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
     articleid_list1 = articleid_list1['Review']
     tag_article_list = requests.get(url + '/Tag_article/')
@@ -231,7 +231,7 @@ def do_get_review_list_1(param):
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
-        if 'decision' not in each:
+        if 'trust' not in each:
             articleid_list.append(each['articleid'])
     # pack rt article list
     rt_list = []
