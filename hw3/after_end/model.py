@@ -93,8 +93,14 @@ def do_delete_tag_article(param):
 
 def do_review(param):
     dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']
-    res = requests.get(url + '/Review/?editorid=' + str(param['editorid']) + '&articleid=' + str(param['articleid']))
+    res = requests.get(
+        url + '/Review/?Review.editorid=' + str(param['editorid']) + '&Review.articleid=' + str(param['articleid']))
     res = json.loads(res.text)
+    if param['editorid'] == 1544853927169:
+        if param['decision'] == 'accept':
+            stat_res = chang_article_stat(param['articleid'], 'accept')
+        elif param['decisison'] == 'reject':
+            stat_res = chang_article_stat(param['articleid'], 'reject')
     if len(res) == 0:
         res = requests.post(url + '/Review/', json.dumps(param))
         if res.ok:
@@ -304,6 +310,8 @@ def do_assign(param):
     editor2_info_raw = requests.get(url + '/Editor/' + str(param['editor2id']))
     editor2_info = json.loads(editor2_info_raw.text)
     editor2_info.pop('type')
+    # change article status
+    stat_res = chang_article_stat(param['articleid'], 'checking')
     if 'maxreview' in editor2_info:
         editor2_info['maxreview'] = editor2_info['maxreview'] + 1
     else:
@@ -421,6 +429,7 @@ def do_article_submit(param):
     response_1 = json.loads(response_1.text)
     response_1.pop('type')
     articleid = response_1.pop('id')
+    stat_res = chang_article_stat(articleid, 'assigning')
 
     for each in dict_:
         if each in response_1:
@@ -694,6 +703,7 @@ def do_article_status(articleid):
 
 def do_add_tag_to_article(param):
     req = param['article']
+    articleid = 0
     if 'articleid' in req:
         articleid = req['articleid']
     elif 'id' in req:
@@ -848,3 +858,13 @@ def do_comment_commit(param):
 
 def do_comment_delete(param):
     res = requests.delete(url + '/Comment/' + str(param['id']))
+
+
+def chang_article_stat(articleid, stat):
+    article_res_raw = requests.get(url + '/Article/' + str(articleid))
+    article_res = json.loads(article_res_raw.text)
+    article_res.pop('type')
+    article_res.update({'stat': stat})
+    article_res.pop('id')
+    rt = requests.put(url + '/Article/' + str(articleid), article_res)
+    return rt.status_code
