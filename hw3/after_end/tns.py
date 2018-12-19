@@ -333,7 +333,7 @@ class tags:
         req_str = str(req_bytes, encoding="utf-8")
         req_raw = json.loads(req_str)
         req = req_raw['tag']
-        rt =model.do_add_article_tag(req)
+        rt = model.do_add_article_tag(req)
 
 
 class taglist:

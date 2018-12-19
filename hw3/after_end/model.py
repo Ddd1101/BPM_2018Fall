@@ -453,6 +453,7 @@ def do_article_submit(param):
     response_1 = json.loads(response_1.text)
     response_1.pop('type')
     articleid = response_1.pop('id')
+    requests.post(url + '/Supervisor_article/', json.dumps({'supervisorid':1544853927169,'articleid':articleid}))
     stat_res = chang_article_stat(articleid, 'assigning')
 
     for each in dict_:
@@ -815,7 +816,6 @@ def do_articles_all():
                 for itor in dict_supervisor:
                     if itor not in item:
                         item.update({itor: None})
-                item.pop('articleid')
                 each['editor'].update({'supervisor': item})
         # author
         for item in author_info:
