@@ -136,6 +136,13 @@ def do_review_supervisor(param):
         res[each] = param[each]
     reviewid = res.pop('id')
     res = requests.put(url + '/Supervisor_article/' + str(reviewid), json.dumps(res))
+    #change article status
+    aritcle_info_raw =requests.get(url+'/Aricle/'+str(param['articleid']))
+    article_info = json.loads(aritcle_info_raw.text)
+    article_info.pop('type')
+    article_info.update({'stat':param['decision']})
+    articleid = article_info.pop('id')
+    requests.put(url+'/Artilce/'+str(articleid),json.dumps(article_info))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
     else:
