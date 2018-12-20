@@ -22,7 +22,7 @@ class NaiveFilter():
         self.keywords = set([])
 
     def parse(self, path):
-        for keyword in open(path, encoding='bytes'):
+        for keyword in open(path, encoding='utf-8'):
             self.keywords.add(keyword.strip().decode('utf-8').lower())
 
     def filter(self, message, repl="*"):
@@ -123,7 +123,7 @@ class DFAFilter():
             level[self.delimit] = 0
 
     def parse(self, path):
-        with open(path) as f:
+        with open(path, encoding='bytes') as f:
             for keyword in f:
                 self.add(keyword.strip())
 
