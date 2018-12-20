@@ -934,10 +934,10 @@ def do_articles_all():
                 each.update({'author': item})
         each.pop('authorid')
         # filter
-        content = each['body']
-        gfw = DFAFilter()
-        gfw.parse("keywords")
-        each['body'] = gfw.filter(content, "*")
+        #content = each['body']
+        #gfw = DFAFilter()
+        #gfw.parse("keywords")
+        #each['body'] = gfw.filter(content, "*")
     rt = json.dumps({'articles': articles_info})
     rt = json.loads(rt)
     rt.update({'articlescount': len(articles_info)})

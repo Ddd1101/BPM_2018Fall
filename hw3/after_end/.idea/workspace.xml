@@ -11,7 +11,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/after_end$filter.coverage" NAME="filter Coverage Results" MODIFIED="1543459032690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../../PyCharm_Workplace/textfilter" />
-    <SUITE FILE_PATH="coverage/after_end$tns.coverage" NAME="tns Coverage Results" MODIFIED="1545277422310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/after_end$tns.coverage" NAME="tns Coverage Results" MODIFIED="1545277644613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/after_end$stake_gui.coverage" NAME="stake_gui Coverage Results" MODIFIED="1544154639476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../../PyCharm_Workplace/Stake_Analysis" />
   </component>
   <component name="DatabaseView">
@@ -30,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="129">
-      <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="model.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="159" column="29" selection-start-line="159" selection-start-column="29" selection-end-line="159" selection-end-column="29" />
+            <state relative-caret-position="315">
+              <caret line="933" column="45" lean-forward="true" selection-start-line="933" selection-start-column="45" selection-end-line="933" selection-end-column="45" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -42,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="filter.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="filter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+            <state relative-caret-position="203">
+              <caret line="30" column="47" lean-forward="true" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
               <folding>
                 <element signature="e#45#80#0" expanded="true" />
               </folding>
@@ -86,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>editor_arti</find>
       <find>get_assign</find>
       <find>do_get_assign_list</find>
       <find>chiefeditor</find>
@@ -99,14 +98,14 @@
       <find>do_get_</find>
       <find>editor</find>
       <find>editor:</find>
-      <find />
+      <find>for edi</find>
       <find>editorlis</find>
-      <find />
+      <find>for sup</find>
       <find>assigning</find>
       <find>'trust'</find>
       <find>do_assign</find>
       <find>review</find>
-      <find />
+      <find>'trust' not</find>
       <find>assign:</find>
       <find>do_review_supervisor</find>
       <find>get_review</find>
@@ -116,6 +115,7 @@
       <find>_all(</find>
       <find>status</find>
       <find>_all</find>
+      <find>open</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -132,8 +132,8 @@
         <option value="$PROJECT_DIR$/../../../../../PyCharm_Workplace/textfilter/filter.py" />
         <option value="$PROJECT_DIR$/keywords" />
         <option value="$PROJECT_DIR$/tns.py" />
-        <option value="$PROJECT_DIR$/model.py" />
         <option value="$PROJECT_DIR$/filter.py" />
+        <option value="$PROJECT_DIR$/model.py" />
       </list>
     </option>
   </component>
@@ -288,7 +288,7 @@
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.32892057" />
-      <window_info anchor="bottom" id="Run" order="3" visible="true" weight="0.30142567" />
+      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.30142567" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.32983193" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49898168" visible="true" weight="0.087326944" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
@@ -733,22 +733,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model.py">
+    <entry file="file://$PROJECT_DIR$/filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="159" column="29" selection-start-line="159" selection-start-column="29" selection-end-line="159" selection-end-column="29" />
+        <state relative-caret-position="203">
+          <caret line="30" column="47" lean-forward="true" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#45#80#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/filter.py">
+    <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+        <state relative-caret-position="315">
+          <caret line="933" column="45" lean-forward="true" selection-start-line="933" selection-start-column="45" selection-end-line="933" selection-end-column="45" />
           <folding>
-            <element signature="e#45#80#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

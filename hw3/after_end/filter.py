@@ -8,7 +8,6 @@ __date__ = '2012.01.05'
 
 
 class NaiveFilter():
-
     '''Filter Messages from keywords
 
     very simple filter implementation
@@ -23,7 +22,7 @@ class NaiveFilter():
         self.keywords = set([])
 
     def parse(self, path):
-        for keyword in open(path):
+        for keyword in open(path, encoding='bytes'):
             self.keywords.add(keyword.strip().decode('utf-8').lower())
 
     def filter(self, message, repl="*"):
@@ -34,7 +33,6 @@ class NaiveFilter():
 
 
 class BSFilter:
-
     '''Filter Messages from keywords
 
     Use Back Sorted Mapping to reduce replacement times
@@ -87,7 +85,6 @@ class BSFilter:
 
 
 class DFAFilter():
-
     '''Filter Messages from keywords
 
     Use DFA to keep algorithm perform constantly
