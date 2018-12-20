@@ -537,8 +537,8 @@ def do_article_submit(param):
     for each in tag_list_json:
         tag_list.append(each['tag'])
 
-    content = param['title']
-    gfw = DFAFilter()
+    # content = param['title']
+    # gfw = DFAFilter()
     # gfw.parse("keywords")
     # res = gfw.filter(content, "*")
     # param['title'] = res
@@ -780,7 +780,6 @@ def do_article_get_by_tag(param):
                 if item_of_article_dict not in each:
                     each[item_of_article_dict] = None
             each.update({'editor': {'supervisor': None, 'editor1': None, 'editor2': None}})
-            each.update({'status': 'checking'})
             # taglist
             taglist = []
             for item in tag_list:
@@ -894,7 +893,6 @@ def do_articles_all():
             if item_of_article_dict not in each:
                 each[item_of_article_dict] = None
         each.update({'editor': {'supervisor': None, 'editor1': None, 'editor2': None}})
-        each.update({'status': 'checking'})
         # taglist
         taglist = []
         for item in tag_info:
@@ -935,6 +933,11 @@ def do_articles_all():
                     item.pop('password')
                 each.update({'author': item})
         each.pop('authorid')
+        # filter
+        content = each['body']
+        gfw = DFAFilter()
+        gfw.parse("keywords")
+        each['body'] = gfw.filter(content, "*")
     rt = json.dumps({'articles': articles_info})
     rt = json.loads(rt)
     rt.update({'articlescount': len(articles_info)})

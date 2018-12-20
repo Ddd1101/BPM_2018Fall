@@ -272,7 +272,6 @@ class article:
         if 'articleid' in req_raw:
             id = req_raw.pop('articleid')
             req_raw.update({'id': id})
-
         if '*' in req_raw:
             rt = model.do_articles_all()
             return rt

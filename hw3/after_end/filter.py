@@ -18,7 +18,7 @@ class NaiveFilter():
             self.keywords.add(keyword.strip().decode('utf-8').lower())
 
     def filter(self, message, repl="*"):
-        message = unicode(message).lower()
+        message = str(message).lower()
         for kw in self.keywords:
             message = message.replace(kw, repl)
         return message
