@@ -208,7 +208,7 @@ def do_get_review_list():
         # tag
         taglist = []
         for item in tag_article_list:
-            if each['articleid'] == item['articleid']:
+            if str(each['id']) == str(item['articleid']):
                 taglist.append(item['tag'])
         each.update({'taglist': taglist})
         # editor_review

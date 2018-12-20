@@ -11,7 +11,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/after_end$filter.coverage" NAME="filter Coverage Results" MODIFIED="1543459032690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../../PyCharm_Workplace/textfilter" />
-    <SUITE FILE_PATH="coverage/after_end$tns.coverage" NAME="tns Coverage Results" MODIFIED="1545286419130" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/after_end$tns.coverage" NAME="tns Coverage Results" MODIFIED="1545288916646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/after_end$stake_gui.coverage" NAME="stake_gui Coverage Results" MODIFIED="1544154639476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../../PyCharm_Workplace/Stake_Analysis" />
   </component>
   <component name="DatabaseView">
@@ -33,8 +33,8 @@
       <file leaf-file-name="model.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="599">
-              <caret line="735" column="51" selection-start-line="735" selection-start-column="51" selection-end-line="735" selection-end-column="51" />
+            <state relative-caret-position="173">
+              <caret line="193" column="24" lean-forward="true" selection-start-line="193" selection-start-column="24" selection-end-line="193" selection-end-column="24" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -45,11 +45,8 @@
       <file leaf-file-name="filter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="142" column="43" lean-forward="true" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
-              <folding>
-                <element signature="e#45#80#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2679">
+              <caret line="142" column="43" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -57,7 +54,7 @@
       <file leaf-file-name="tns.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tns.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="539">
+            <state relative-caret-position="-115">
               <caret line="358" column="33" selection-start-line="358" selection-start-column="19" selection-end-line="358" selection-end-column="33" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -98,14 +95,14 @@
       <find>do_get_</find>
       <find>editor</find>
       <find>editor:</find>
-      <find />
+      <find>for edi</find>
       <find>editorlis</find>
-      <find />
+      <find>for sup</find>
       <find>assigning</find>
       <find>'trust'</find>
       <find>do_assign</find>
       <find>review</find>
-      <find />
+      <find>'trust' not</find>
       <find>assign:</find>
       <find>do_review_supervisor</find>
       <find>get_review</find>
@@ -157,6 +154,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,7 +166,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -290,7 +287,7 @@
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.32892057" />
       <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.30142567" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.32983193" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49898168" visible="true" weight="0.087326944" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49898168" visible="true" weight="0.08785942" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32960597" />
       <window_info anchor="right" id="SciView" order="4" weight="0.32960597" />
@@ -299,11 +296,11 @@
       <window_info anchor="bottom" id="Debug" order="4" weight="0.39810926" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="2" />
       <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="2" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="0" weight="0.3299389" />
     </layout>
   </component>
@@ -725,17 +722,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="142" column="43" lean-forward="true" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
-          <folding>
-            <element signature="e#45#80#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2679">
+          <caret line="142" column="43" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tns.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
+        <state relative-caret-position="-115">
           <caret line="358" column="33" selection-start-line="358" selection-start-column="19" selection-end-line="358" selection-end-column="33" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
@@ -745,8 +739,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
-          <caret line="735" column="51" selection-start-line="735" selection-start-column="51" selection-end-line="735" selection-end-column="51" />
+        <state relative-caret-position="173">
+          <caret line="193" column="24" lean-forward="true" selection-start-line="193" selection-start-column="24" selection-end-line="193" selection-end-column="24" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
