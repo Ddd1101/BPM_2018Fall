@@ -123,7 +123,7 @@ class DFAFilter():
             level[self.delimit] = 0
 
     def parse(self, path):
-        with open(path, encoding='bytes') as f:
+        with open(path, encoding='utf-8') as f:
             for keyword in f:
                 self.add(keyword.strip())
 
