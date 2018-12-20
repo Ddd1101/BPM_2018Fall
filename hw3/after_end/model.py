@@ -126,23 +126,27 @@ def do_review(param):
 
 
 def do_review_supervisor(param):
-    dict_review = ['editorid', 'articleid', 'trust', 'remark', 'decision']
+    dict_review = ['articleid', 'trust', 'remark', 'decision']
     res = requests.get(
-        url + '/Supervisor_article/?Supervisor_article.editorid=' + str(
-            param['editorid']) + '&Supervisor_article.articleid=' + str(param['articleid']))
+        url + '/Supervisor_article/?Supervisor_article.articleid=' + str(param['articleid']))
     res = json.loads(res.text)
-    res = res['Review'][0]
+    res = res['Supervisor_article'][0]
     for each in dict_review:
+        if each not in res:
+            res.update({each: None})
+    for each in param:
         res[each] = param[each]
     reviewid = res.pop('id')
+    res.pop('trust')
+    res.pop('editorid')
     res = requests.put(url + '/Supervisor_article/' + str(reviewid), json.dumps(res))
     # change article status
-    aritcle_info_raw = requests.get(url + '/Aricle/' + str(param['articleid']))
+    aritcle_info_raw = requests.get(url + '/Article/' + str(param['articleid']))
     article_info = json.loads(aritcle_info_raw.text)
     article_info.pop('type')
     article_info.update({'stat': param['decision']})
     articleid = article_info.pop('id')
-    requests.put(url + '/Artilce/' + str(articleid), json.dumps(article_info))
+    rt = requests.put(url + '/Article/' + str(articleid), json.dumps(article_info))
     if res.ok:
         rt = json.dumps({'success': {'statuscode': 200}})
     else:
@@ -150,8 +154,73 @@ def do_review_supervisor(param):
     return rt
 
 
+def do_get_review_list():
+    article_list = requests.get(url + '/Article/?Article.stat=checking')
+    article_list = json.loads(article_list.text)
+    if len(article_list) > 0:
+        article_list = article_list['Article']
+    else:
+        article_list = []
+    review_list = requests.get(url + '/Review/')
+    review_list = json.loads(review_list.text)
+    if len(review_list):
+        review_list = review_list['Review']
+    else:
+        review_list = []
+    author_list = requests.get(url + '/User/')
+    author_list = json.loads(author_list.text)
+    if len(author_list) > 0:
+        author_list = author_list['User']
+    else:
+        author_list = []
+    articleid_list = []
+    tag_article_list = requests.get(url + '/Tag_article/')
+    tag_article_list = json.loads(tag_article_list.text)
+    if len(tag_article_list) > 0:
+        tag_article_list = tag_article_list['Tag_article']
+    else:
+        tag_article_list = []
+    rt_list = []
+    for each in review_list:
+        if each['articleid'] not in articleid_list:
+            articleid_list.append(each['articleid'])
+    for each in articleid_list:
+        num = 0
+        for item in review_list:
+            if (item['articleid'] == each) and ('trust' in item):
+                num += 1
+        if num == 2:
+            for item in article_list:
+                # print(item)
+                if item['id'] == each:
+                    rt_list.append(item)
+    for each in rt_list:
+        # authorname
+        for item in author_list:
+            if each['authorid'] == item['id']:
+                each.update({'authorname': item['username']})
+        # create/update time
+        each.pop('createat')
+        each.pop('updateat')
+        # tag
+        taglist = []
+        for item in tag_article_list:
+            if each['articleid'] == item['articleid']:
+                taglist.append(item['tag'])
+        each.update({'taglist': taglist})
+        # editor_review
+        it = 1
+        for item in review_list:
+            # print(each)
+            if item['articleid'] == each['id']:
+                each.update({('editor' + str(it)): item})
+                it += 1
+    rt = json.dumps({'statuscode': 200, 'reviewlist': rt_list})
+    return rt
+
+
 # for supervisor
-def do_get_review_list(param):
+def do_get_review_list_2(param):
     # get all info needed
     article_list = requests.get(url + '/Article/')
     article_list = json.loads(article_list.text)
@@ -165,10 +234,10 @@ def do_get_review_list(param):
         author_list = author_list['User']
     else:
         author_list = []
-    articleid_list1 = requests.get(url + '/Review/?Review.editorid=' + param)
-    articleid_list1 = json.loads(articleid_list1.text)
-    if len(articleid_list1) > 0:
-        articleid_list1 = articleid_list1['Review']
+    articleid_list = requests.get(url + '/Review/?Review.editorid=' + param)
+    articleid_list = json.loads(articleid_list.text)
+    if len(articleid_list) > 0:
+        articleid_list1 = articleid_list['Review']
     else:
         articleid_list1 = []
     tag_article_list = requests.get(url + '/Tag_article/')
@@ -193,7 +262,7 @@ def do_get_review_list(param):
             each.pop('createat')
             each.pop('updateat')
             review_raw = requests.get(url + '/Review/?Review.articleid=' + str(each['id']))
-            review = json.loads(review_raw)
+            review = json.loads(review_raw.text)
             supervisor_article_raw = requests.get(url + '/Supervisor_article/')
             supervisor_article_json = json.loads(supervisor_article_raw.text)
             if len(supervisor_article_json) > 0:
@@ -234,7 +303,7 @@ def do_get_review_list_1(param):
         author_list = author_list['User']
     else:
         author_list = []
-    articleid_list1 = requests.get(url + '/Review/?editorid=' + param)
+    articleid_list1 = requests.get(url + '/Review/?Review.editorid=' + param)
     articleid_list1 = json.loads(articleid_list1.text)
     if len(articleid_list1) > 0:
         articleid_list1 = articleid_list1['Review']
@@ -249,9 +318,7 @@ def do_get_review_list_1(param):
     # pack articleid
     articleid_list = []
     for each in articleid_list1:
-        print(each)
         if 'trust' not in each:
-            print("1")
             articleid_list.append(each['articleid'])
     # pack rt article list
     rt_list = []
@@ -290,7 +357,6 @@ def do_avaliable_editor():
     for each in res_raw:
         if each['id'] != 1544853927169:
             res.append(each)
-    print(res)
     for each in res:
         if 'maxreview' in each:
             if each['maxreview'] < 30:
@@ -351,7 +417,7 @@ def do_assign(param):
     article_res.pop('type')
     article_res.update({'stat': 'checking'})
     article_res.pop('id')
-    article_rt = requests.put(url + '/Article/' + str(param['articleid']), json.dumps(article_res))#
+    article_rt = requests.put(url + '/Article/' + str(param['articleid']), json.dumps(article_res))  #
     # num of review ++
     dict_editor = ['id', 'email', 'editorname', 'password', 'maxreview']
     editor1_info_raw = requests.get(url + '/Editor/' + str(param['editor1id']))
@@ -490,13 +556,13 @@ def do_article_submit(param):
     if 'taglist' in param:
         has_tag = True
         taglist = param.pop('taglist')
+    param.update({'stat': 'assigning'})
     _param = json.dumps(param)
     response_1 = requests.post(url + '/Article/', _param)
     response_1 = json.loads(response_1.text)
     response_1.pop('type')
     articleid = response_1.pop('id')
     requests.post(url + '/Supervisor_article/', json.dumps({'supervisorid': 1544853927169, 'articleid': articleid}))
-    stat_res = chang_article_stat(articleid, 'assigning')
 
     for each in dict_:
         if each in response_1:
@@ -661,7 +727,7 @@ def do_article_get_by_tag(param):
     dict_article = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'stat', 'author', 'taglist',
                     'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
-    dict_supervisor = ['id', 'status', 'remark']
+    dict_supervisor = ['id', 'decision', 'remark']
     dict_editor = ['id', 'decision', 'trust', 'remark']
     # get all list
     tag_article_list_raw = requests.get(url + '/Tag_article/')
@@ -887,7 +953,6 @@ def do_aticle_list(param):
             req_state = req_state + "&Article." + key + "=" + param[key]
     res_raw = requests.get(req_state)
     res = json.loads(res_raw.text)
-    print(res)
     it = 0
     res['articles'] = res['Article']
     res.pop('Article')

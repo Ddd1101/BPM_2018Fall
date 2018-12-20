@@ -24,11 +24,23 @@ urls = (
     '/api/editor/reviewlist', 'editor',
     '/api/editor/review', 'review',
     '/api/editor/assignlist', 'assign',
-    '/api/chiefeditor/editors', 'editorlist'
+    '/api/chiefeditor/editors', 'editorlist',
+    '/delete', 'delete'
 )
 
 url = 'http://119.23.241.119:8080/Entity/U3306a6d35762f/TNS'
 
+
+class delete:
+    def GET(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header('content-type', 'application/json')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        list_raw = requests.get(url + '/Tag/')
+        list = json.loads(list_raw.text)
+        list = list['Tag']
+        for each in list:
+            requests.delete(url+'/Tag/'+str(each['id']))
 
 class assign:
     def GET(self):
@@ -72,7 +84,7 @@ class editor:
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
         if req_raw['editorid'] == str(1544853927169):
-            rt = model.do_get_review_list(req_raw['editorid'])
+            rt = model.do_get_review_list()
         else:
             rt = model.do_get_review_list_1(req_raw['editorid'])
         return rt
@@ -247,7 +259,7 @@ class article:
         web.header('content-type', 'application/json')
         web.header('Access-Control-Allow-Credentials', 'true')
         req_raw = web.input()
-        req_state = url + '/Article/' + req_raw['articleid']
+        req_state = url + '/Article/' + str(req_raw['articleid'])
         rt = requests.delete(req_state)
         return json.loads(rt.text)
 
