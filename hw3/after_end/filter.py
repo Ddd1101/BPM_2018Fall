@@ -2,10 +2,17 @@
 # -*- coding:utf-8 -*-
 from collections import defaultdict
 import re
+import importlib
+import sys
 
 __all__ = ['NaiveFilter', 'BSFilter', 'DFAFilter']
 __author__ = 'observer'
 __date__ = '2012.01.05'
+
+default_encoding = 'utf-8'
+if sys.getdefaultencoding() != default_encoding:
+    importlib.reload(sys)
+    sys.setdefaultencoding(default_encoding)
 
 
 class NaiveFilter():
