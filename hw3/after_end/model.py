@@ -618,109 +618,120 @@ def do_article_delete(param):
 def do_articles_get(param):
     if 'tag' in param:
         return do_article_get_by_tag(param)
-    dict_ = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'stat', 'author', 'taglist', 'editor']
+    dict_article = ['id', 'title', 'description', 'body', 'createat', 'updateat', 'stat', 'author', 'taglist',
+                    'editor']
     dict_author = ['email', 'id', 'username', 'bio', 'image']
     dict_supervisor = ['id', 'decision', 'remark']
-    dict_editor = ['id', 'status', 'trust', 'remark']
-    req_state = url + '/Article/'
-    it = 0
+    dict_editor = ['id', 'decision', 'trust', 'remark']
+    # get all list
+    tag_article_list_raw = requests.get(url + '/Tag_article/')
+    tag_article_list = json.loads(tag_article_list_raw.text)
+    if len(tag_article_list) > 0:
+        tag_article_list = tag_article_list['Tag_article']
+    else:
+        tag_article_list = []
+    state = url + '/Article/'
+    param_num = 0
+    param = json.dumps(param)
+    param = json.loads(param)
     if 'articleid' in param:
         id_tmp = param.pop('articleid')
         param.update({'id': id_tmp})
-    if 'username' in param:
-        username = param.pop('username')
-        author_info_raw = requests.get(url + '/User/?User.username=' + username)
-        author_info = json.loads(author_info_raw.text)
-        param['authorid'] = str(author_info['User'][0]['id'])
     for each in param:
-        if it == 0:
-            req_state += ('?Article.' + each + '=' + param[each])
-            it += 1
+        if param_num == 0:
+            state += ('?Article.' + each + '=' + str(param[each]))
+            param_num += 1
         else:
-            req_state += ('&Article.' + each + '=' + param[each])
-    rt_raw = requests.get(req_state)
-    res = json.loads(rt_raw.text)
-    it = 0
-    res['articles'] = res['Article']
-    res.pop('Article')
-    for each in res['articles']:
-        it = it + 1
-    res.update({'articlescount': it})
-    sort_var = res['articles']
-    sort_var.sort(key=lambda x: x['createat'])
-    for each in sort_var:
-        # item_time
-        time_tmp = float(each['createat'])
-        each['createat'] = time.asctime(time.localtime(time_tmp))
-        time_tmp = float(each['updateat'])
-        each['updateat'] = time.asctime(time.localtime(time_tmp))
-        # item author
-        authorid = each['authorid']
-        author_info_res = requests.get(url + '/User/' + str(authorid))
-        each.pop('authorid')
-        author_info = json.loads(author_info_res.text)
-        author_info.pop('password')
-        author_info.pop('type')
-        for itor in dict_author:
-            if itor not in author_info:
-                author_info.update({itor: None})
-        each.update({'author': author_info})
-        # item supervisor
-        each.update({'editor': None})
-        supervisor_info_res = requests.get(url + '/Supervisor_article/?Supervisor_article.articleid=' + str(each['id']))
-        supervisor_info = json.loads(supervisor_info_res.text)
-        if len(supervisor_info) == 0:
-            each['editor'] = json.dumps({'supervisor': None})
-        else:
-            supervisor_info = supervisor_info['Supervisor_article'][0]
-            for itor in dict_supervisor:
-                if itor not in supervisor_info:
-                    supervisor_info.update({itor: None})
-                    each['editor'] = json.dumps({'supervisor': supervisor_info})
-        # item editor
-        editor_info_res = requests.get(url + '/Editor_article/?articleid=' + str(each['id']))
-        editor_info = json.loads(editor_info_res.text)
-        each['editor'] = json.loads(each['editor'])
-        item_editor = each['editor']
-        item_editor.update({'editor1': None})
-        item_editor.update({'editor2': None})
-        if len(editor_info) != 0:
+            state += ('&Article.' + each + '=' + str(param[each]))
+    article_list_raw = requests.get(state)
+    article_list = json.loads(article_list_raw.text)
+    if len(article_list) > 0:
+        article_list = article_list['Article']
+    else:
+        article_list = []
+    author_list_raw = requests.get(url + '/User/')
+    author_list = json.loads(author_list_raw.text)
+    if len(author_list) > 0:
+        author_list = author_list['User']
+    else:
+        author_list = []
+    supervisor_list_raw = requests.get(url + '/Supervisor_article/')
+    supervisor_list = json.loads(supervisor_list_raw.text)
+    if len(supervisor_list) > 0:
+        supervisor_list = supervisor_list['Supervisor_article']
+    else:
+        supervisor_list = []
+    editor_list_raw = requests.get(url + '/Review/')
+    editor_list = json.loads(editor_list_raw.text)
+    if len(editor_list) > 0:
+        editor_list = editor_list['Review']
+    else:
+        editor_list = []
+    tag_list_raw = requests.get(url + '/Tag_article/')
+    tag_list = json.loads(tag_list_raw.text)
+    if len(tag_list) > 0:
+        tag_list = tag_list['Tag_article']
+    else:
+        tag_list = []
+    # find by tag
+    articleid_list = []
+    for each in article_list:
+        articleid_list.append(each['id'])
+    rt_article_list = []
+    for each in article_list:
+        if each['id'] in articleid_list:
+            # full fill article items
+            for item_of_article_dict in dict_article:
+                if item_of_article_dict not in each:
+                    each[item_of_article_dict] = None
+            each.update({'editor': {'supervisor': None, 'editor1': None, 'editor2': None}})
+            # taglist
+            taglist = []
+            for item in tag_list:
+                if item['articleid'] == str(each['id']):
+                    taglist.append(item['tag'])
+                if len(taglist) > 0:
+                    each.update({'taglist': taglist})
+            if len(taglist) > 0:
+                each['taglist'] = taglist
+            # time
+            time_tmp = float(each['createat'])
+            each['createat'] = time.asctime(time.localtime(time_tmp))
+            time_tmp = float(each['updateat'])
+            each['updateat'] = time.asctime(time.localtime(time_tmp))
+            # editor
             it = 1
-            for itor in editor_info['Editor_article']:
-                for item in dict_editor:
-                    if item not in itor:
-                        itor.update({item: None})
-                        if itor == 'decision':
-                            itor.update({item: 'checking'})
-                each['editor'].update({('editor' + it): itor})
-                it += 1
-        # item status
-        if 'status' not in each:
-            each.update({'status': False})
-        else:
-            if each['status'] == 'True':
-                each['status'] = True
-            else:
-                each['status'] = False
-        for item in dict_:
-            if item not in each:
-                each[item] = None
-        # item tag
-        tag_info_res = requests.get(url + '/Tag_article/?Tag_article.articleid=' + str(each['id']))
-        tag_info = json.loads(tag_info_res.text)
-        if len(tag_info) == 0:
-            each.update({'taglist': None})
-        else:
-            taglist = {}
-            for itor in tag_info:
-                tag_info = json.dumps(tag_info[itor])
-                tag_info = json.loads(tag_info)
-                tag_dict = []
-                for i in tag_info:
-                    tag_dict.append(i.pop('tag'))
-                each.update({'taglist': tag_dict})
-    res = json.dumps(res)
-    return res
+            for item in editor_list:
+                if item['articleid'] == each['id']:
+                    for itor in dict_editor:
+                        if itor not in item:
+                            item.update({itor: None})
+                    item.pop('articleid')
+                    each['editor'].update({('editor' + str(it)): item})
+                    it += 1
+            # supervisor
+            for item in supervisor_list:
+                if item['articleid'] == each['id']:
+                    for itor in dict_supervisor:
+                        if itor not in item:
+                            item.update({itor: None})
+                    item.pop('articleid')
+                    each['editor'].update({'supervisor': item})
+            # author
+            for item in author_list:
+                if item['id'] == each['authorid']:
+                    for itor in dict_author:
+                        if itor not in item:
+                            item.update({itor: None})
+                    if 'password' in item:
+                        item.pop('password')
+                    each.update({'author': item})
+            each.pop('authorid')
+            rt_article_list.append(each)
+    rt = json.dumps({'articles': rt_article_list})
+    rt = json.loads(rt)
+    rt.update({'articlescount': len(rt_article_list)})
+    return json.dumps(rt)
 
 
 def do_article_get_by_tag(param):
@@ -754,10 +765,10 @@ def do_article_get_by_tag(param):
         supervisor_list = supervisor_list['Supervisor_article']
     else:
         supervisor_list = []
-    editor_list_raw = requests.get(url + '/Editor_article/')
+    editor_list_raw = requests.get(url + '/Review/')
     editor_list = json.loads(editor_list_raw.text)
     if len(editor_list) > 0:
-        editor_list = editor_list['Editor_article']
+        editor_list = editor_list['Review']
     else:
         editor_list = []
     tag_list_raw = requests.get(url + '/Tag_article/')
@@ -802,7 +813,7 @@ def do_article_get_by_tag(param):
                         if itor not in item:
                             item.update({itor: None})
                     item.pop('articleid')
-                    each['editor'].update({('editor' + it): item})
+                    each['editor'].update({('editor' + str(it)): item})
                     it += 1
             # supervisor
             for item in supervisor_list:
