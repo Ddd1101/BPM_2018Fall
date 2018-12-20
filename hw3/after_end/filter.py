@@ -67,7 +67,7 @@ class BSFilter:
                         self.bsdict[char].add(index)
 
     def parse(self, path):
-        with open(path, "r") as f:
+        with open(path, encoding='bytes') as f:
             for keyword in f:
                 self.add(keyword.strip())
 
