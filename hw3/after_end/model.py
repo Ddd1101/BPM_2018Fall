@@ -730,6 +730,10 @@ def do_articles_get(param):
                         item.pop('password')
                     each.update({'author': item})
             each.pop('authorid')
+            content = each['body']
+            gfw = DFAFilter()
+            gfw.parse("keywords")
+            each['body'] = gfw.filter(content, "*")
             rt_article_list.append(each)
     rt = json.dumps({'articles': rt_article_list})
     rt = json.loads(rt)
@@ -836,6 +840,10 @@ def do_article_get_by_tag(param):
                         item.pop('password')
                     each.update({'author': item})
             each.pop('authorid')
+            content = each['body']
+            gfw = DFAFilter()
+            gfw.parse("keywords")
+            each['body'] = gfw.filter(content, "*")
             rt_article_list.append(each)
     rt = json.dumps({'articles': rt_article_list})
     rt = json.loads(rt)
