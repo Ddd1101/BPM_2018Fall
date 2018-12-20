@@ -46,7 +46,10 @@ def do_get_assign_list():
 def do_get_taglist():
     res_raw = requests.get(url + '/Tag/')
     res = json.loads(res_raw.text)
-    res = res['Tag']
+    if len(res) > 0:
+        res = res['Tag']
+    else:
+        res = []
     rt = []
     for each in res:
         rt.append(each["tag"])
